@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const PORT = 5000;
+const buzzRoutes = require('./Database/Buzz/buzzRoutes');
 
 const app = express();
 
@@ -16,15 +17,16 @@ let headers = {
 
 app.use(cors(headers));
 
-require('./passport/google-strategy')(passport);
+require('./Database/User/passport/google-strategy')(passport);
 
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', require('./routes'));
-app.use('/auth', require('./routes/auth-routes'));
+app.use(buzzRoutes)
+app.use('/', require('./Database/User/routes/index'));
+app.use('/auth', require('./Database/User/routes/auth-routes'));
 
 
 mongoose.connect("mongodb://localhost:27017/ttnd_app", {

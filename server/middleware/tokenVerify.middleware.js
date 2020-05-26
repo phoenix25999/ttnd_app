@@ -1,4 +1,4 @@
-const keys = require('../keys');
+const keys = require('../Database/User/keys');
 const jwt = require('jsonwebtoken');
 
 const tokenVerify = (req, res, next) => {

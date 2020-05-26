@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import {withRouter} from 'react-router-dom';
+import {withRouter, NavLink, BrowserRouter, Switch, Route} from 'react-router-dom';
+import Buzz from '../Buzz/Buzz';
+import Complaints from '../Complaints/Complaint';
 import Logo from '../../assets/logo.png';
 import Head from '../../assets/head.jpg';
 
@@ -33,16 +35,30 @@ class Dashboard extends Component{
 
     render(){
         return(
-            <div className={styles.Dashboard}>
-                <div> 
-                    <img src={Logo} alt='ttn logo' />
-                    <img src={Head} alt='main'/>
+            <BrowserRouter>
+                <div className={styles.Dashboard}>
+                    <div> 
+                        <img src={Logo} alt='ttn logo' />
+                        <button onClick={this.logoutHandler}>Logout</button>
+                        <img src={Head} alt='main'/>
+                    </div>
+                    <h1>Hello {this.state.name}</h1>
+                    <div className={styles.Content}>
+                        <nav>
+                            <ul>
+                                <li><NavLink to='/buzz'>Buzz</NavLink></li>
+                                <li><NavLink to='/complaints'>Complaints</NavLink></li>
+                            </ul>
+                        </nav>
+                        <div>
+                            <Switch>
+                                <Route path='/buzz' component={Buzz} />
+                                <Route path='/complaints' component={Complaints} />
+                            </Switch>
+                        </div>
+                    </div>    
                 </div>
-                <h1>Hello {this.state.name}</h1>
-                <h1>Buzz...</h1>
-
-                <button onClick={this.logoutHandler}>Logout</button>
-            </div>
+            </BrowserRouter>
         )
     }
 }

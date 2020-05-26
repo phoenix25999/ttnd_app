@@ -1,0 +1,74 @@
+.NewComplaint{
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 4px #ccc;
+  background-color: white;
+  font-size: 0.9rem;
+}
+
+.Header{
+  display: flex;
+  align-items: center;
+  background-color: #ddd;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+}
+
+.FormRow{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.TextAreaRow{
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.ImageUploadRow{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 0 1rem;
+}
+
+.ImageButton{
+  font-size: 2rem;
+  color: #aaa;
+}
+
+.ImageButton:hover{
+  color: rgb(126, 122, 122);
+  cursor: pointer;
+}
+
+.ImageName{
+  margin: 0 0.5rem;
+  color: darkslategray;
+}
+
+.SubmitRow{
+  display: flex;
+  margin: 1rem 0;
+  padding: 0 1rem;
+  flex-direction: row-reverse;
+}
+
+.SubmitButton{
+  padding: 1rem 2.5rem;
+  background-color: rgb(224, 219, 219);
+  color: rgb(255, 115, 0);
+  font-size: 0.9rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.SubmitButton:hover{
+  background-color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}

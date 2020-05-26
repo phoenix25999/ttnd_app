@@ -1,0 +1,72 @@
+.NewBuzz{
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #aaa;
+  box-shadow: 0 0 5px #ccc;
+}
+
+.Header{
+  display: flex;
+  align-items: center;
+  background-color: #ddd;
+  font-weight: bold;
+  padding: 0.6rem 0.2rem;
+}
+
+.Form{
+  display: block;
+  width: 100%;
+  padding: 0.3rem;
+  margin-bottom: 0;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.FormFooter{
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  border-top: 0.5px solid #aaa;
+  padding: 0.3rem 1rem;
+  align-items: center;
+}
+
+.FormOptions{
+  display: flex;
+  align-items: center;
+}
+
+.Category{
+  background: none;
+  min-height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.ImageButton{
+  font-size: 2rem;
+  color: #aaa;
+}
+
+.ImageButton:hover{
+  color: rgb(126, 122, 122);
+  cursor: pointer;
+}
+
+.ImageName{
+  margin: 0 0.5rem;
+  color: darkslategray;
+}
+
+.SubmitButton {
+  color: rgb(255, 115, 0);
+  font-size: 2rem;
+  transform: rotate(45deg);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.SubmitButton:hover{
+  color: orangered;
+}

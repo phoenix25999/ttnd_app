@@ -1,0 +1,25 @@
+.Input{
+  flex-basis: calc(100%/2 - 1rem);
+}
+
+.InputElement{
+  width: 100%;
+  padding: 8px 6px;
+  outline: none;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.Label{
+  margin: 0.5rem 0;
+  display: block;
+  color: #aaa;
+}
+
+.TextArea{
+  height: 20rem;
+}
+
+.Option{
+  line-height: 2rem;    
+}
