@@ -2,7 +2,7 @@ const buzzService = require('./buzzService');
 
 exports.addBuzz = async (req, res) => {
   let newBuzz = {
-    description: req.body.description,
+    description: req.body.desc,
     category: req.body.category
   };
   try {

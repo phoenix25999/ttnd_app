@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import {withRouter, NavLink, BrowserRouter, Switch, Route} from 'react-router-dom';
+import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
+import TopBar from '../UI/TopBar/TopBar';
+import Banner from '../UI/Banner/Banner';
+import Container from '../UI/Container/Container';
+import SideNav from '../UI/SideNav/SideNav';
 import Buzz from '../Buzz/Buzz';
 import Complaints from '../Complaints/Complaint';
-import Logo from '../../assets/logo.png';
-import Head from '../../assets/head.jpg';
 
 import styles from './Dashboard.module.css';
 
@@ -27,36 +29,27 @@ class Dashboard extends Component{
             .then(res=>this.setState({name: res.data.name}));
     }
 
-    logoutHandler = async() => {
-        const response = await axios.get('http://localhost:5000/auth/logout');
-        this.props.history.push('/');
-        alert(response.data);
-    }
-
     render(){
         return(
             <BrowserRouter>
                 <div className={styles.Dashboard}>
-                    <div> 
-                        <img src={Logo} alt='ttn logo' />
-                        <button onClick={this.logoutHandler}>Logout</button>
-                        <img src={Head} alt='main'/>
-                    </div>
-                    <h1>Hello {this.state.name}</h1>
-                    <div className={styles.Content}>
-                        <nav>
-                            <ul>
-                                <li><NavLink to='/buzz'>Buzz</NavLink></li>
-                                <li><NavLink to='/complaints'>Complaints</NavLink></li>
-                            </ul>
-                        </nav>
-                        <div>
-                            <Switch>
-                                <Route path='/buzz' component={Buzz} />
-                                <Route path='/complaints' component={Complaints} />
-                            </Switch>
+                    <TopBar history={this.props.history}>{this.state.name}</TopBar>
+                    <Banner className={styles.BannerImage} />
+
+                    <Container>
+                        <div className={styles.Nav}>
+                            <nav>
+                                <SideNav />
+                            </nav>
+
+                            <div>
+                                <Switch>
+                                    <Route path='/buzz' component={Buzz} />
+                                    <Route path='/complaints' component={Complaints} />
+                                </Switch>
+                            </div>
                         </div>
-                    </div>    
+                    </Container>       
                 </div>
             </BrowserRouter>
         )

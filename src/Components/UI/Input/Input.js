@@ -11,6 +11,7 @@ const Input = props => {
             type="text"
             className={inputClasses.join(' ')} 
             value={props.value}
+            onChange={props.changed}
             />;
         break;
     case 'select':
@@ -19,7 +20,8 @@ const Input = props => {
             className={inputClasses.join(' ')}
             style={{backgroundColor: "white"}} 
             value={props.value}
-            defaultValue="">
+            defaultValue=""
+            onChange={props.changed}>
             <option defaultValue="DEFAULT" disabled hidden/>
             {props.options.map(option => (
               <option key={option.value} value={option.value} className={classes.Option}>{option.displayValue}</option>
@@ -31,12 +33,14 @@ const Input = props => {
         inputElement = <textarea 
             className={inputClasses.join(' ')} 
             value={props.value}
+            onChange={props.changed}
             ></textarea>
         break;
     default :
         inputElement = <input 
             className={inputClasses.join(' ')} 
-            value={props.value}/>;
+            value={props.value}
+            onChange={props.changed}/>;
   }
 
   return (

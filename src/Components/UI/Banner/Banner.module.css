@@ -1,0 +1,16 @@
+.Banner{
+    background: url('../../../assets/head.jpg') center center/cover no-repeat;
+}
+
+.Banner h1{
+    color: #fff;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.Overlay{
+    background: rgba(0,0,0,0.5);
+    height: 300px;
+    padding: 0 80px;
+}

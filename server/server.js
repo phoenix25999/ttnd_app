@@ -5,6 +5,7 @@ const cors = require('cors');
 const passport = require('passport');
 const PORT = 5000;
 const buzzRoutes = require('./Database/Buzz/buzzRoutes');
+const complaintRoutes = require('./Database/Complaints/complaintRoutes');
 
 const app = express();
 
@@ -24,7 +25,8 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(buzzRoutes)
+app.use(buzzRoutes);
+app.use(complaintRoutes);
 app.use('/', require('./Database/User/routes/index'));
 app.use('/auth', require('./Database/User/routes/auth-routes'));
 
