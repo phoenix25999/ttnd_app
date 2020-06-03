@@ -14,12 +14,14 @@ router.get(
     passport.authenticate('google'),
     (req, res) => {
       const tokenPayload = {
-        userName: res.req.user.displayName
+        userName: res.req.user.displayName,
+        email: res.req.user.email
       }
       const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
       const tokenData = {
         token: token,
-        name: tokenPayload.userName
+        name: tokenPayload.userName,
+        email: tokenPayload.email
       }
       res.redirect(url.format({
         pathname: 'http://localhost:3000/dashboard',

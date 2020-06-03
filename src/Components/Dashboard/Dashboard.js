@@ -14,7 +14,8 @@ import styles from './Dashboard.module.css';
 class Dashboard extends Component{
 
     state = {
-        name: ''
+        name: '',
+        email: ''
     }
 
     componentDidMount(){
@@ -26,7 +27,7 @@ class Dashboard extends Component{
         axios.get('http://localhost:5000', {
             headers: {'authorization': `bearer ${sessionStorage.getItem('token')}`}
         })
-            .then(res=>this.setState({name: res.data.name}));
+            .then(res=>this.setState({name: res.data.name, email: res.data.email}));
     }
 
     render(){
@@ -44,7 +45,7 @@ class Dashboard extends Component{
 
                             <div>
                                 <Switch>
-                                    <Route path='/buzz' component={Buzz} />
+                                    <Route path='/buzz'><Buzz email={this.state.email} /></Route>
                                     <Route path='/complaints' component={Complaints} />
                                 </Switch>
                             </div>

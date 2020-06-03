@@ -1,9 +1,12 @@
 const buzzService = require('./buzzService');
 
 exports.addBuzz = async (req, res) => {
+  console.log(req.body);
   let newBuzz = {
     description: req.body.desc,
-    category: req.body.category
+    category: req.body.category,
+    createdBy: req.body.email,
+    image: req.body.image
   };
   try {
     const buzz = await buzzService.addBuzz(newBuzz);

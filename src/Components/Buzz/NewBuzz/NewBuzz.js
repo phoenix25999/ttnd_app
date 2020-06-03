@@ -5,12 +5,6 @@ import { RiImageAddLine } from "react-icons/ri";
 import classes from './NewBuzz.module.css';
 import axios from 'axios';
 
-// const NewBuzz = () => {
-//   const [imageName, setImageName] = useState('');
-
-//   const imageSelectHandler = (e) => {
-//     setImageName(e.target.files[0].name);
-//   }
 class NewBuzz extends Component{
 
   state = {
@@ -18,7 +12,14 @@ class NewBuzz extends Component{
       desc:'',
       category:'',
       image:''
-    }
+    },
+    imageName:''
+  }
+
+  handleFile = (e) => {
+    let content = e.target.result;
+    //console.log(e.target.result);
+    this.setState({imagePath: content});
   }
 
   changeHandler = (event, inputIdentifier)=>{
@@ -31,13 +32,23 @@ class NewBuzz extends Component{
     }
 
     else{
-      updatedBuzzForm[inputIdentifier] = event.target.files[0].name;
+      let fileData = new FileReader();
+      fileData.onloadend = (e) => {
+        let content = e.target.result;
+        updatedBuzzForm[inputIdentifier] = content;
+      };
+      fileData.readAsDataURL(event.target.files[0]);
+      this.setState({imageName: event.target.files[0].name})
     }
     this.setState({buzzForm: updatedBuzzForm});
   }
 
   createBuzz = () => {
-    axios.post('http://localhost:5000/buzz', this.state.buzzForm)
+    const buzzData = {
+      ...this.state.buzzForm,
+      email: this.props.email
+    }
+    axios.post('http://localhost:5000/buzz', buzzData)
       .then(res=>console.log(res));
   }
 
@@ -80,7 +91,7 @@ class NewBuzz extends Component{
                   hidden
                   onChange={(e)=>this.changeHandler(e,'image')}
                 />
-                <p className={classes.ImageName}>{this.state.buzzForm.image}</p>
+                <p className={classes.ImageName}>{this.state.imageName}</p>
               </div>
             </div>
             <button className={classes.SubmitButton} onClick={this.createBuzz} title='Create Buzz'>

@@ -1,17 +1,22 @@
-import React, { useEffect } from "react";
-import classes from "./Buzz.module.css";
-import NewBuzz from "./NewBuzz/NewBuzz";
+import React, { Component } from 'react';
+import classes from './Buzz.module.css';
+import NewBuzz from './NewBuzz/NewBuzz';
+import ShowBuzz from './ShowBuzz/ShowBuzz';
 
-const Buzz = () => {
-  useEffect(() => {
+class Buzz extends Component{
+  componentDidMount(){
     window.document.title = 'Buzz';
-  }, []);
-  return (
-    <div className={classes.Buzz}>
-      <NewBuzz />
-      <div className={classes.RecentBuzz}>RecentBuzz</div>
-    </div>
-  );
+  }
+
+  render(){
+    return (
+      <div className={classes.Buzz}>
+        <NewBuzz email={this.props.email}/>
+        <ShowBuzz/>
+      </div>
+    );
+  }
+  
 };
 
 export default Buzz;

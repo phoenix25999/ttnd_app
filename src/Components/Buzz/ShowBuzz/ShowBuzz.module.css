@@ -1,0 +1,62 @@
+.ShowBuzz h4{
+    background: #ddd;
+    padding: 10px;
+}
+
+.ShowBuzz button{
+    border: none;
+    background: none;
+    color: #808080;
+    outline: none;
+}
+
+.ShowBuzz button:hover{
+    color: #ff0019;
+    cursor: pointer;
+}
+
+.BuzzDetails{
+    display: flex;
+    background: #fff;
+}
+
+.Date{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.Date p {
+    font-size: 25px;
+}
+
+.BuzzContent{
+    padding: 10px;
+}
+
+.BuzzContent p:first-child{
+    font-size: 15px;
+    color: #808080;
+    padding-bottom: 5px;
+}
+
+.BuzzContent h3{
+    font-weight: 500;
+}
+
+.BuzzContent p:last-child{
+    font-size: 15px;
+    color: #3d3d3d;
+}
+
+.Image{
+    height: 200px;
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.Image img{
+    height: 100%;
+    width: 100%;
+}
