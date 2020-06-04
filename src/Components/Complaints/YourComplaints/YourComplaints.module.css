@@ -1,0 +1,51 @@
+.YourComplaints{
+    border-radius: 5px;
+    box-shadow: 0 0 4px #ccc;
+    background: #ccc;
+    margin-bottom: 50px;
+}
+
+.YourComplaints h4{
+    padding: 10px 16px;
+}
+
+.YourComplaints table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.YourComplaints table thead{
+    background: #fff;
+}
+.YourComplaints table tbody{
+    color: #616060;
+}
+
+.YourComplaints table tbody tr:nth-child(odd){
+    background: #fff;
+}
+
+.YourComplaints table tbody tr:nth-child(even){
+    background: #f1f1f1
+}
+
+.YourComplaints table td, .YourComplaints table th{
+    text-align: center;
+    padding: 10px 0;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.Open{
+    color: #ff0019;
+}
+
+.Resolved{
+    color: #047031;
+}
+
+.InProgress{
+    color: #1d0866;
+}

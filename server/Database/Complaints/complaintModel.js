@@ -4,7 +4,7 @@ const complaintSchema = new mongoose.Schema({
     department: {
         type:String,
         required: true,
-        enum: ['Hardware', 'Infrastructure', 'Others']
+        enum: ['Hardware', 'Infra', 'Others']
     },
     title: {
         type: String,
@@ -21,6 +21,11 @@ const complaintSchema = new mongoose.Schema({
     concern:{
         type: String,
         required:true
+    },
+    status: {
+        type: String,
+        enum: ['Open', 'In Progress', 'Resolved'],
+        default: 'Open'
     }
 })
 

@@ -24,3 +24,16 @@ exports.getAllComplaint = async (req, res) => {
     res.status(400).send(err);
   }
 };
+
+exports.updateStatus = async (req, res) => {
+  let updatedStatus = {
+    id: req.body.id,
+    status: req.body.updatedStatus
+  };
+  try {
+    const statusInfo = await complaintService.updateStatus(updatedStatus);
+    res.send(statusInfo);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+}

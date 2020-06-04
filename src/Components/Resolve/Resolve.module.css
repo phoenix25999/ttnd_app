@@ -1,0 +1,58 @@
+.Resolve{
+    border-radius: 5px;
+    box-shadow: 0 0 4px #ccc;
+    background: #ccc;
+    margin-bottom: 50px;
+}
+
+.Resolve h4{
+    padding: 10px 16px;
+}
+
+.Resolve table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.Resolve table thead{
+    background: #fff;
+}
+.Resolve table tbody{
+    color: #616060;
+}
+
+.Resolve table tbody tr:nth-child(odd){
+    background: #fff;
+}
+
+.Resolve table tbody tr:nth-child(even){
+    background: #f1f1f1
+}
+
+.Resolve table td, .Resolve table th{
+    padding: 10px 0;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.Resolve select{
+    background: none;
+    border: none;
+    outline: none;
+    width: 70px;
+}
+
+.Open{
+    color: #ff0019;
+}
+
+.Resolved{
+    color: #047031;
+}
+
+.InProgress{
+    color: #1d0866;
+}

@@ -4,6 +4,7 @@
   box-shadow: 0 0 4px #ccc;
   background-color: white;
   font-size: 0.9rem;
+  margin-bottom: 30px;
 }
 
 .Header{
@@ -58,9 +59,9 @@
 }
 
 .SubmitButton{
-  padding: 1rem 2.5rem;
-  background-color: rgb(224, 219, 219);
-  color: rgb(255, 115, 0);
+  padding: 10px 30px;
+  background-color: #e0dbdb;
+  color:#ff0019;
   font-size: 0.9rem;
   border-radius: 3px;
   border: 1px solid #ccc;

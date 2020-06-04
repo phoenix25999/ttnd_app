@@ -16,12 +16,6 @@ class NewBuzz extends Component{
     imageName:''
   }
 
-  handleFile = (e) => {
-    let content = e.target.result;
-    //console.log(e.target.result);
-    this.setState({imagePath: content});
-  }
-
   changeHandler = (event, inputIdentifier)=>{
     const updatedBuzzForm = {
       ...this.state.buzzForm
@@ -43,13 +37,16 @@ class NewBuzz extends Component{
     this.setState({buzzForm: updatedBuzzForm});
   }
 
-  createBuzz = () => {
+  createBuzz = (event) => {
+    event.preventDefault();
     const buzzData = {
       ...this.state.buzzForm,
       email: this.props.email
     }
     axios.post('http://localhost:5000/buzz', buzzData)
-      .then(res=>console.log(res));
+      .then(res=>{
+        this.setState({buzzForm: {}, imageName:''});
+      });
   }
 
   render() {
@@ -59,18 +56,20 @@ class NewBuzz extends Component{
             <FaPencilAlt style={{ margin: "0 0.3rem" }} />
             Create Buzz
           </div>
+          <form onSubmit={this.createBuzz}>
           <div>
             <textarea
               id='desc'
               className={classes.Form}
               placeholder="Share your thoughts...."
               onChange={(e)=>this.changeHandler(e,'desc')}
+              value={this.state.buzzForm.desc || ''}
             ></textarea>
           </div>
           <div className={classes.FormFooter}>
             <div className={classes.FormOptions}>
               <div>
-                <select className={classes.Category} defaultValue={"Category"}onChange={(e)=>this.changeHandler(e,'category')}>
+                <select className={classes.Category} onChange={(e)=>this.changeHandler(e,'category')} value={this.state.buzzForm.category || 'Category'}>
                   <option defaultValue="DEFAULT" disabled >
                     Category
                   </option>
@@ -94,10 +93,11 @@ class NewBuzz extends Component{
                 <p className={classes.ImageName}>{this.state.imageName}</p>
               </div>
             </div>
-            <button className={classes.SubmitButton} onClick={this.createBuzz} title='Create Buzz'>
+            <button className={classes.SubmitButton} title='Create Buzz'>
               <TiLocationArrow /> 
             </button>
           </div>
+          </form>
         </div>
     )
   }

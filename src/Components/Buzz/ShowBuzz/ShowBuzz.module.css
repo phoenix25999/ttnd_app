@@ -1,19 +1,48 @@
+.ShowBuzz{
+    background: #fff;
+    border: 1px solid #aaa;
+    box-shadow: 0 0 5px #ccc;
+}
+
 .ShowBuzz h4{
     background: #ddd;
     padding: 10px;
 }
 
-.ShowBuzz button{
+.ShowBuzz > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.Action{
+    align-self: flex-end;
+    display: flex;
+}
+
+.Action button{
     border: none;
     background: none;
     color: #808080;
     outline: none;
+    padding: 15px; 
 }
 
-.ShowBuzz button:hover{
+.Action button span{
+    padding-right: 7px;
+}
+
+.Action button:hover{
     color: #ff0019;
     cursor: pointer;
 }
+
+.Action button:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
 
 .BuzzDetails{
     display: flex;
@@ -39,10 +68,6 @@
     font-size: 15px;
     color: #808080;
     padding-bottom: 5px;
-}
-
-.BuzzContent h3{
-    font-weight: 500;
 }
 
 .BuzzContent p:last-child{

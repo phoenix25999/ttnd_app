@@ -8,6 +8,7 @@ import Container from '../UI/Container/Container';
 import SideNav from '../UI/SideNav/SideNav';
 import Buzz from '../Buzz/Buzz';
 import Complaints from '../Complaints/Complaint';
+import Resolve from '../Resolve/Resolve';
 
 import styles from './Dashboard.module.css';
 
@@ -45,8 +46,9 @@ class Dashboard extends Component{
 
                             <div>
                                 <Switch>
-                                    <Route path='/buzz'><Buzz email={this.state.email} /></Route>
-                                    <Route path='/complaints' component={Complaints} />
+                                    <Route path='/dashboard/buzz'><Buzz email={this.state.email} /></Route>
+                                    <Route path='/dashboard/complaints' component={Complaints} />
+                                    <Route path='/dashboard/resolve' component={Resolve} />
                                 </Switch>
                             </div>
                         </div>

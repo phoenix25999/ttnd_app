@@ -40,7 +40,9 @@ class NewComplaint extends Component{
   reportComplaint = (event) => {
     event.preventDefault();
     axios.post('http://localhost:5000/complaint', this.state.complaintForm)
-      .then(res=>console.log(res));
+      .then(res=>{
+        this.setState({complaintForm: {}})
+      });
   }
 
   render(){
@@ -48,7 +50,7 @@ class NewComplaint extends Component{
       <div className={classes.NewComplaint}>
         <div className={classes.Header}>Complaint Box</div>
   
-        <form onSubmit={this.reportComplaint}>
+        <form onSubmit={this.reportComplaint} id='form'>
           <div className={classes.ComplaintBox}>
             <div className={classes.FormRow}>
               <Input
@@ -56,15 +58,16 @@ class NewComplaint extends Component{
                 options={this.state.options}
                 label="Select Department"
                 changed={(e)=>this.inputChangeHandler(e,'department')}
+                value={this.state.complaintForm.department || ''}
               />
-              <Input elementType="input" label="Issue Title" changed={(e)=>this.inputChangeHandler(e,'title')}/>
+              <Input elementType="input" label="Issue Title" changed={(e)=>this.inputChangeHandler(e,'title')} value={this.state.complaintForm.title || ''}/>
             </div>
             <div className={classes.FormRow}>
-              <Input elementType="input" label="Your Name" changed={(e)=>this.inputChangeHandler(e,'name')}/>
-              <Input elementType="input" label="Email ID" changed={(e)=>this.inputChangeHandler(e,'email')}/>
+              <Input elementType="input" label="Your Name" changed={(e)=>this.inputChangeHandler(e,'name')} value={this.state.complaintForm.name || ''}/>
+              <Input elementType="input" label="Email ID" changed={(e)=>this.inputChangeHandler(e,'email')} value={this.state.complaintForm.email || ''}/>
             </div>
             <div className={classes.TextAreaRow}>
-              <Input elementType="textarea" label="Your Concern" changed={(e)=>this.inputChangeHandler(e,'concern')}/>
+              <Input elementType="textarea" label="Your Concern" changed={(e)=>this.inputChangeHandler(e,'concern')} value={this.state.complaintForm.concern || ''}/>
             </div>
             <div className={classes.ImageUploadRow}>
               <label htmlFor="image">

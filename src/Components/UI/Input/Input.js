@@ -20,7 +20,6 @@ const Input = props => {
             className={inputClasses.join(' ')}
             style={{backgroundColor: "white"}} 
             value={props.value}
-            defaultValue=""
             onChange={props.changed}>
             <option defaultValue="DEFAULT" disabled hidden/>
             {props.options.map(option => (
