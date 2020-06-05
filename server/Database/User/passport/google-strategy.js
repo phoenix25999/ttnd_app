@@ -12,11 +12,11 @@ module.exports = (passport) => {
                 User.findOne({email:profile.email})
                 .then(user=> {
                     if(!user){
-                        new User({
+                        User.create({
                             name: profile._json.name,
-                            email: profile._json.email
-                        }).save()
-                            .then(newUser=> {
+                            email: profile._json.email,
+                            role: 'employee'
+                        }).then(newUser=> {
                                 console.log(`New User Created  ${newUser}`);
                             });
                     }

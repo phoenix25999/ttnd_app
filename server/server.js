@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const PORT = 5000;
+const userRoutes = require('./Database/User/routes/index');
 const buzzRoutes = require('./Database/Buzz/buzzRoutes');
 const complaintRoutes = require('./Database/Complaints/complaintRoutes');
 
@@ -26,9 +27,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(userRoutes);
 app.use(buzzRoutes);
 app.use(complaintRoutes);
-app.use('/', require('./Database/User/routes/index'));
 app.use('/auth', require('./Database/User/routes/auth-routes'));
 
 

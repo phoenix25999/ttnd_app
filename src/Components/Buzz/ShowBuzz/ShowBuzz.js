@@ -10,10 +10,6 @@ class ShowBuzz extends Component{
         likes: 0
     }
 
-    likeHandler = () => {
-        this.setState({likes:1});
-    }
-
     componentDidMount(){
         axios.get('http://localhost:5000/buzz')
             .then(res=>{
@@ -27,6 +23,24 @@ class ShowBuzz extends Component{
                 console.log(this.state.buzz);
             });
         }
+
+        setStateAsync(state) {
+            return new Promise((resolve) => {
+              this.setState(state, resolve)
+            });
+        }
+
+        likeHandler = async (id)=>{
+            this.state.likes===0? await this.setStateAsync({likes:1}): await this.setStateAsync({likes:0});
+            let likeInfo = {
+                id: id,
+                likes: this.state.likes
+            };
+            console.log(likeInfo);
+            axios.post(`http://localhost:5000/buzz/like`, likeInfo)
+                .then(res=>console.log(res));
+        }
+
 
     render(){
 
@@ -49,8 +63,8 @@ class ShowBuzz extends Component{
                         </div>
                     </div>
                     <div className={styles.Action}>
-                        <button onClick={this.likeHandler}><span>{this.state.likes}</span><FaThumbsUp/></button>
-                        <button onClick={this.likeHandler}><span>{this.state.likes}</span><FaThumbsDown/></button>
+                        <button onClick={()=>this.likeHandler(buzz._id)}><span>{buzz.likes}</span><FaThumbsUp/></button>
+                        <button ><span>0</span><FaThumbsDown/></button>
                     </div>
                 </div>
             );

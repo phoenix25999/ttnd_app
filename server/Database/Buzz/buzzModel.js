@@ -17,6 +17,10 @@ const buzzSchema = new mongoose.Schema({
     createdOn: {
         type: Date,
         default: new Date()
+    },
+    likes: {
+        type: Number,
+        default: 0
     }
 })
 

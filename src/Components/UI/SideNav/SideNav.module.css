@@ -3,11 +3,11 @@
     list-style: none;
     margin: 0;
     box-shadow: 0 0 10px #ccc;
-    border: 1px solid #ccc;
+    
 }
 
-.SideNav li:first-child{
-    border-bottom: 2px solid #ccc;
+.SideNav li{
+    border: 1px solid #ccc;
 }
 
 .SideNav a{

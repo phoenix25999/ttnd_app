@@ -45,6 +45,22 @@
     width: 70px;
 }
 
+.Resolve button{
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.Resolve button:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.Resolve select{
+    font-size: 14px;
+}
+
 .Open{
     color: #ff0019;
 }

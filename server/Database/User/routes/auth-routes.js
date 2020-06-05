@@ -24,7 +24,7 @@ router.get(
         email: tokenPayload.email
       }
       res.redirect(url.format({
-        pathname: 'http://localhost:3000/dashboard',
+        pathname: 'http://localhost:3000/dashboard/buzz',
         query: tokenData
       }));
     }

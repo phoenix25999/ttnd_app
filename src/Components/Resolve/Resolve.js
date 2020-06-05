@@ -72,7 +72,7 @@ class YourComplaints extends Component{
                             <option value='Resolved'>Resolved</option>
                         </select>
                     </td>
-                    <button onClick={this.updateStatus}>Submit</button>
+                    <td><button onClick={this.updateStatus}>Update</button></td>
                 </tr>
             )
         })
