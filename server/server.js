@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const passport = require('passport');
 const PORT = 5000;
+const authRoutes = require('./Database/User/routes/auth-routes');
 const userRoutes = require('./Database/User/routes/index');
 const buzzRoutes = require('./Database/Buzz/buzzRoutes');
 const complaintRoutes = require('./Database/Complaints/complaintRoutes');
@@ -19,18 +20,17 @@ let headers = {
 
 app.use(cors(headers));
 
-require('./Database/User/passport/google-strategy')(passport);
-
 app.use(bodyParser.json({ limit: '10mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
+require('./Database/User/passport/google-strategy')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(authRoutes);
 app.use(userRoutes);
 app.use(buzzRoutes);
 app.use(complaintRoutes);
-app.use('/auth', require('./Database/User/routes/auth-routes'));
+
 
 
 mongoose.connect("mongodb://localhost:27017/ttnd_app", {

@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken');
 const url = require('url');
 const keys = require('../keys');
 
-router.get('/google',
+router.get('/auth/google',
   passport.authenticate('google', { scope: 
       [ 'profile', 'email' ] }
 ));
 
 router.get(
-    '/google/redirect',
+    '/auth/google/redirect',
     passport.authenticate('google'),
     (req, res) => {
       const tokenPayload = {
@@ -30,7 +30,7 @@ router.get(
     }
   );
 
-router.get('/logout', (req, res)=>{
+router.get('/auth/logout', (req, res)=>{
     req.logOut();
     res.send('Logged Out Successfully');
 });

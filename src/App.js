@@ -1,8 +1,8 @@
 import React from 'react';
 import {Route, Switch, BrowserRouter} from 'react-router-dom';
 
-import Home from './Components/Home/Home';
-import Dashboard from './Components/Dashboard/Dashboard';
+import Home from './Containers/Home/Home';
+import Dashboard from './Containers/Dashboard/Dashboard';
 
 import './App.css';
 

@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
 import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
-import TopBar from '../UI/TopBar/TopBar';
-import Banner from '../UI/Banner/Banner';
-import Container from '../UI/Container/Container';
-import SideNav from '../UI/SideNav/SideNav';
-import Buzz from '../Buzz/Buzz';
-import Complaints from '../Complaints/Complaint';
-import Resolve from '../Resolve/Resolve';
+import TopBar from '../../Components/UI/TopBar/TopBar';
+import Banner from '../../Components/UI/Banner/Banner';
+import Container from '../../hoc/Container/Container';
+import SideNav from '../../Components/UI/SideNav/SideNav';
+import Buzz from './Buzz/Buzz';
+import Complaints from './Complaints/Complaint';
+import Resolve from './Resolve/Resolve';
 import {FiLogOut} from 'react-icons/fi';
 
 import styles from './Dashboard.module.css';
@@ -51,8 +51,6 @@ class Dashboard extends Component{
     logoutHandler = async() => {
         const response = await axios.get('http://localhost:5000/auth/logout');
         this.props.history.push('/');
-        console.log(document.cookie);
-        sessionStorage.getItem('token')
         sessionStorage.removeItem('token');
         alert(response.data);
     }

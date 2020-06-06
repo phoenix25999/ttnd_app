@@ -1,5 +1,5 @@
 import React from 'react';
-import Container from '../Container/Container';
+import Container from '../../../hoc/Container/Container';
 import Logo from '../../../assets/logo.png';
 import styles from './TopBar.module.css';
 
