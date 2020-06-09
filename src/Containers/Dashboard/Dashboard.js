@@ -41,7 +41,7 @@ class Dashboard extends Component{
                 this.setState({name: res.data.name, email: res.data.email});
                 axios.get('http://localhost:5000/user/role/'+res.data.email)
                     .then(res=>{
-                        this.setState({role: res.data[0].role})
+                        this.setState({role: res.data[0].role});
                     });
             }
             })

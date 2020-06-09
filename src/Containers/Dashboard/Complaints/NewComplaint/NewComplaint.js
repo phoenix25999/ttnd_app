@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../../../store/actions/index';
 import classes from './NewComplaint.module.css';
 import Input from '../../../../Components/UI/Input/Input';
 import { RiImageAddLine } from 'react-icons/ri';
@@ -13,8 +15,9 @@ class NewComplaint extends Component{
       name: '',
       email: '',
       concern: '',
-      image:''
+      attachment:''
     },
+    imageName:'',
     options: [
       { value: "Hardware", displayValue: "Hardware" },
       { value: "Infra", displayValue: "Infra" },
@@ -27,12 +30,18 @@ class NewComplaint extends Component{
       ...this.state.complaintForm
     }
 
-    if(inputIdentifier!=='image'){
+    if(inputIdentifier!=='attachment'){
     updatedComplaintForm[inputIdentifier] = event.target.value;
     }
 
     else{
-      updatedComplaintForm[inputIdentifier] = event.target.files[0].name;
+      let fileData = new FileReader();
+      fileData.onloadend = (e) => {
+        let content = e.target.result;
+        updatedComplaintForm[inputIdentifier] = content;
+      };
+      fileData.readAsDataURL(event.target.files[0]);
+      this.setState({imageName: event.target.files[0].name})
     }
     this.setState({complaintForm: updatedComplaintForm});
   }
@@ -41,8 +50,10 @@ class NewComplaint extends Component{
     event.preventDefault();
     axios.post('http://localhost:5000/complaint', this.state.complaintForm)
       .then(res=>{
-        this.setState({complaintForm: {}})
+        this.setState({complaintForm: {}, imageName: ''});
+        this.props.fetchComplaints();
       });
+      
   }
 
   render(){
@@ -82,10 +93,10 @@ class NewComplaint extends Component{
                 className={classes.ImageInput}
                 accept="image/*"
                 hidden
-                onChange={(e)=>this.inputChangeHandler(e,'image')}
+                onChange={(e)=>this.inputChangeHandler(e,'attachment')}
               />
               <p className={classes.ImageName}>
-                {!this.state.complaintForm.image ? "Attachment" : this.state.complaintForm.image}
+                {!this.state.imageName ? "Attachment" : this.state.imageName}
               </p>
             </div>
             <div className={classes.SubmitRow}>
@@ -99,4 +110,10 @@ class NewComplaint extends Component{
   } 
 };
 
-export default NewComplaint;
+const mapDispatchToProps = dispatch => {
+  return{
+      fetchComplaints: () => dispatch( actions.fetchComplaints() )
+  };
+};
+
+export default connect( null, mapDispatchToProps )( NewComplaint );

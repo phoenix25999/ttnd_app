@@ -1,7 +1,6 @@
 const buzzService = require('./buzzService');
 
 exports.addBuzz = async (req, res) => {
-  console.log(req.body);
   let newBuzz = {
     description: req.body.desc,
     category: req.body.category,
@@ -26,16 +25,19 @@ exports.getAllBuzz = async (req, res) => {
 };
 
 exports.updateLikes = async (req, res) => {
-  let likesCount = req.body.likes ? 1 : -1;
-  
-  let updatedLikes = {
-    id: req.body.id,
-    likes: likesCount
-  };
-
   try {
-    const likeInfo = await buzzService.updateLikes(updatedLikes);
+    const likeInfo = await buzzService.updateLikes(req.body);
     res.send(likeInfo);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+}
+
+exports.updateDislikes = async (req, res) => {
+  
+  try {
+    const dislikeInfo = await buzzService.updateDislikes(req.body);
+    res.send(dislikeInfo);
   } catch (err) {
     res.status(400).send(err);
   }

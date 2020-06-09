@@ -11,24 +11,26 @@ router.get('/auth/google',
 
 router.get(
     '/auth/google/redirect',
-    passport.authenticate('google'),
+    passport.authenticate('google',
+    {failureRedirect: '/google/redirect/failure'}),
     (req, res) => {
-      const tokenPayload = {
-        userName: res.req.user.displayName,
-        email: res.req.user.email
-      }
-      const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
-      const tokenData = {
-        token: token,
-        name: tokenPayload.userName,
-        email: tokenPayload.email
-      }
-      res.redirect(url.format({
-        pathname: 'http://localhost:3000/dashboard/buzz',
-        query: tokenData
-      }));
-    }
-  );
+          const tokenPayload = {
+            userName: res.req.user.displayName,
+            email: res.req.user.email
+          }
+          const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
+          const tokenData = {
+            token: token,
+            name: tokenPayload.userName,
+            email: tokenPayload.email
+          }
+          res.redirect(url.format({
+            pathname: 'http://localhost:3000/dashboard/buzz',
+            query: tokenData
+          }));
+        }
+);
+
 
 router.get('/auth/logout', (req, res)=>{
     req.logOut();

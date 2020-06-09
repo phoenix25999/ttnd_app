@@ -19,8 +19,12 @@ const buzzSchema = new mongoose.Schema({
         default: new Date()
     },
     likes: {
-        type: Number,
-        default: 0
+        type: Array,
+        default: []
+    },
+    dislikes: {
+        type: Array,
+        default: []
     }
 })
 

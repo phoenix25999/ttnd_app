@@ -22,7 +22,6 @@
 .Action button{
     border: none;
     background: none;
-    color: #808080;
     outline: none;
     padding: 15px; 
 }
@@ -41,8 +40,6 @@
     align-items: center;
     justify-content: space-between;
 }
-
-
 
 .BuzzDetails{
     display: flex;

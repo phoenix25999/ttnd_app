@@ -23,3 +23,17 @@
 .SideNav a:hover, .SideNav a.active{
     color: #d13f1b;
 }
+
+@media(max-width: 600px){
+    .SideNav{
+        display: flex;
+        text-align: center;
+        margin-bottom: 20px;
+        justify-content: center;
+        box-shadow: none;
+    }
+    .SideNav li{
+        flex-basis: 33.33%;
+        box-shadow: 0 0 7px #ccc;
+    }
+}

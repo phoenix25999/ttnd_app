@@ -6,7 +6,8 @@ exports.addComplaint = async (req, res) => {
     title: req.body.title,
     name: req.body.name,
     email: req.body.email,
-    concern: req.body.concern
+    concern: req.body.concern,
+    attachment: req.body.attachment
   };
   try {
     const complaint = await complaintService.addComplaint(newComplaint);

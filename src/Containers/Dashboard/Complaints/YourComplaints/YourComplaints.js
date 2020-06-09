@@ -1,26 +1,12 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 
 class YourComplaints extends Component{
 
-    state = {
-        complaints: []
-    }
-
     componentDidMount(){
-        axios.get('http://localhost:5000/complaint')
-            .then(res=>{
-                let complaintsArray = [];
-                for(let i in res.data){
-                    complaintsArray.push({
-                        id: res.data[i]._id,
-                        department: res.data[i].department,
-                        status: res.data[i].status
-                    });
-                }
-                this.setState({complaints: complaintsArray});
-            })
+        this.props.fetchComplaints();
     }
 
     checkStatus = (status) => {
@@ -42,18 +28,20 @@ class YourComplaints extends Component{
     }
 
     render(){
-
-        let complaintsData = this.state.complaints.map(complaint=> {
+        let complaintsData = [];
+        if(this.props.complaintsData){
+            complaintsData = this.props.complaintsData.map(complaint=> {
             let statusClass = this.checkStatus(complaint.status)
             return(
-                <tr key={complaint.id}>
+                <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint.id}</td>
+                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
                     <td>Ashish Mishra</td>
                     <td className={statusClass}>{complaint.status}</td>
                 </tr>
             )
         })
+        }
 
         return(
             <div className={styles.YourComplaints}>
@@ -76,4 +64,16 @@ class YourComplaints extends Component{
     };
 };
 
-export default YourComplaints;
+const mapStateToProps = state => {
+    return{
+        complaintsData: state.complaints.complaintsData
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return{
+        fetchComplaints: () => dispatch( actions.fetchComplaints() )
+    };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )( YourComplaints );

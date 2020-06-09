@@ -26,6 +26,9 @@ const complaintSchema = new mongoose.Schema({
         type: String,
         enum: ['Open', 'In Progress', 'Resolved'],
         default: 'Open'
+    },
+    attachment: {
+        type: String
     }
 })
 

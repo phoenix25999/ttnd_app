@@ -12,7 +12,7 @@ class Buzz extends Component{
     return (
       <div className={classes.Buzz}>
         <NewBuzz email={this.props.email}/>
-        <ShowBuzz/>
+        <ShowBuzz email={this.props.email}/>
       </div>
     );
   }

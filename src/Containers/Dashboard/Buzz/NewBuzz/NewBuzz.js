@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FaPencilAlt } from "react-icons/fa";
 import { TiLocationArrow } from "react-icons/ti";
 import { RiImageAddLine } from "react-icons/ri";
 import classes from './NewBuzz.module.css';
 import axios from 'axios';
+import * as actions from '../../../../store/actions/index';
 
 class NewBuzz extends Component{
 
@@ -46,7 +48,8 @@ class NewBuzz extends Component{
     axios.post('http://localhost:5000/buzz', buzzData)
       .then(res=>{
         this.setState({buzzForm: {}, imageName:''});
-      });
+        this.props.fetchBuzz();
+      }); 
   }
 
   render() {
@@ -103,4 +106,10 @@ class NewBuzz extends Component{
   }
 }
 
-export default NewBuzz;
+const mapDispatchToProps = dispatch => {
+  return{
+      fetchBuzz: () => dispatch( actions.fetchBuzz() )
+  };
+}
+
+export default connect( null, mapDispatchToProps )( NewBuzz );

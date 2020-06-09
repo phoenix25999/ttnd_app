@@ -11,6 +11,7 @@ body{
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+    
 }
 
 .Nav nav{
@@ -19,4 +20,10 @@ body{
 
 .Nav >div{
     flex-basis: 65%;
+}
+
+@media(max-width: 600px){
+    .Nav{
+        flex-direction: column;
+    }
 }

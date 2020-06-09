@@ -1,50 +1,54 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import styles from './ShowBuzz.module.css';
 import axios from 'axios';
+import * as actions from '../../../../store/actions/index';
 
 
 class ShowBuzz extends Component{
     state = {
-        buzz: [],
-        likes: 0
+        buzz: []
     }
 
     componentDidMount(){
-        axios.get('http://localhost:5000/buzz')
-            .then(res=>{
-                let buzzArray = [];
-                for(let i in res.data){
-                    buzzArray.push({
-                        ...res.data[i]
-                    });
+        this.props.fetchBuzz();
+        }
+
+        likeHandler = async (id, dislikedBy)=>{
+                let likeInfo = {
+                    id: id,
+                    likes: this.props.email,
+                    alreadyDisliked: false
+                };
+                if(dislikedBy.includes(this.props.email)){
+                    likeInfo.alreadyDisliked=true;
                 }
-                this.setState({buzz: buzzArray});
-                console.log(this.state.buzz);
-            });
+                axios.post('http://localhost:5000/buzz/like', likeInfo)
+                    .then(res=>console.log(res));
+                this.props.fetchBuzz();
         }
 
-        setStateAsync(state) {
-            return new Promise((resolve) => {
-              this.setState(state, resolve)
-            });
-        }
+        dislikeHandler = async (id, likedBy)=>{
 
-        likeHandler = async (id)=>{
-            this.state.likes===0? await this.setStateAsync({likes:1}): await this.setStateAsync({likes:0});
-            let likeInfo = {
+            let dislikeInfo = {
                 id: id,
-                likes: this.state.likes
+                dislikes: this.props.email,
+                alreadyLiked: false
             };
-            console.log(likeInfo);
-            axios.post(`http://localhost:5000/buzz/like`, likeInfo)
+            if(likedBy.includes(this.props.email)){
+                dislikeInfo.alreadyLiked=true;
+            }
+            axios.post('http://localhost:5000/buzz/dislike', dislikeInfo)
                 .then(res=>console.log(res));
+            this.props.fetchBuzz();
+            
         }
-
 
     render(){
-
-        let buzzData = this.state.buzz.map(buzz=>{
+        let buzzData = [];
+        if(this.props.buzzData){
+          buzzData = this.props.buzzData.map(buzz=>{
             return(
                 <div key={buzz._id}>
                     <div className={styles.BuzzDetails}>
@@ -63,12 +67,22 @@ class ShowBuzz extends Component{
                         </div>
                     </div>
                     <div className={styles.Action}>
-                        <button onClick={()=>this.likeHandler(buzz._id)}><span>{buzz.likes}</span><FaThumbsUp/></button>
-                        <button ><span>0</span><FaThumbsDown/></button>
+                        <button onClick={()=>this.likeHandler(buzz._id, buzz.dislikes)}
+                         disabled={buzz.likes.includes(this.props.email)?true:false}
+                         style={{color:`${buzz.likes.includes(this.props.email)?`#ff0019`:`#808080`}`}}
+                         >
+                            <span>{buzz.likes.length}</span><FaThumbsUp/>
+                        </button>
+                        <button onClick={()=>this.dislikeHandler(buzz._id,buzz.likes)}
+                        disabled={buzz.dislikes.includes(this.props.email)?true:false}
+                        style={{color:`${buzz.dislikes.includes(this.props.email)?`#ff0019`:`#808080`}`}}>
+                            <span>{buzz.dislikes.length}</span><FaThumbsDown/>
+                        </button>
                     </div>
                 </div>
             );
         })
+        }
 
         return(
             <div className={styles.ShowBuzz}>
@@ -80,4 +94,16 @@ class ShowBuzz extends Component{
     };
 };
 
-export default ShowBuzz;
+const mapStateToProps = state => {
+    return{
+        buzzData: state.buzz.buzzData
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        fetchBuzz: () => dispatch( actions.fetchBuzz() )
+    };
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )( ShowBuzz );

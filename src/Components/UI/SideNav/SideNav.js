@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styles from './SideNav.module.css';
 
 const sideNav = (props) => {
+    
     return(
         <ul className={styles.SideNav}>
             <li><NavLink to='/dashboard/buzz' activeClassName={styles.active}>Buzz</NavLink></li>
