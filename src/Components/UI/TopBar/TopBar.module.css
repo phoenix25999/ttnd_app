@@ -34,3 +34,18 @@
     text-decoration: underline;
 }
 
+.DrawerToggle{
+    display: none;
+}
+
+
+@media(max-width:600px){
+    .Logout button, .Logout span{
+        display: none;
+    }
+
+    .DrawerToggle{
+        display: block;
+    }
+
+}

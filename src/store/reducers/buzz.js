@@ -11,6 +11,7 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 buzzData: [...action.buzzData]
             };
+            console.log(state);
             return state;
         default:
             return state;

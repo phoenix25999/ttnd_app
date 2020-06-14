@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import styles from './SideNav.module.css';
 
@@ -13,4 +14,10 @@ const sideNav = (props) => {
     );
 };
 
-export default sideNav;
+const mapStateToProps = state => {
+    return{
+        role: state.user.role
+    };
+};
+
+export default connect(mapStateToProps)(sideNav);

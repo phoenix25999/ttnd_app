@@ -10,6 +10,8 @@ class YourComplaints extends Component{
     }
 
     componentDidMount(){
+        window.document.title='Resolve';
+        
         axios.get('http://localhost:5000/complaint')
             .then(res=>{
                 let complaintsArray = [];

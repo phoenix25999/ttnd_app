@@ -1,0 +1,50 @@
+.SideDrawer{
+    padding-top: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    height: 100%;
+    width: 280px;
+    max-width: 70%;
+    background: #fff;
+    transition: transform 0.3s ease-out;
+}
+
+.Logo{
+    height: 5rem;
+    width: 7rem;
+    display: block;
+    margin-bottom: 20px;
+    margin-left: 5px;
+}
+.Logout{
+    color: #d13f1b;
+    font-size: 20px;
+}
+
+.Logout button{
+    background: transparent;
+    border: none;
+    color: #d13f1b;
+    font-size: 20px;
+}
+
+.Logout span, .Logout button{
+    border-bottom: 1px solid #d13f1b;
+    margin: 10px;
+}
+
+@media(min-width: 600px){
+    .SideDrawer{
+        display: none;
+    }
+}
+
+.Open{
+    transform: translateX(0);
+}
+
+.Close{
+    transform: translateX(-100%);
+}

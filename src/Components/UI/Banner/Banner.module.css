@@ -4,13 +4,22 @@
 
 .Banner h1{
     color: #fff;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    /* position: relative; */
+    /* top: 50%;
+    transform: translateY(-50%); */
 }
 
 .Overlay{
     background: rgba(0,0,0,0.5);
     height: 300px;
     padding: 0 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media(max-width:600px){
+    .Overlay{
+        padding: 0 20px;
+    }
 }

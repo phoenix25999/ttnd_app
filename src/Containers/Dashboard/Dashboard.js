@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
 import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import TopBar from '../../Components/UI/TopBar/TopBar';
 import Banner from '../../Components/UI/Banner/Banner';
 import Container from '../../hoc/Container/Container';
@@ -9,18 +10,12 @@ import SideNav from '../../Components/UI/SideNav/SideNav';
 import Buzz from './Buzz/Buzz';
 import Complaints from './Complaints/Complaint';
 import Resolve from './Resolve/Resolve';
-import {FiLogOut} from 'react-icons/fi';
+import * as actions from '../../store/actions/index';
+
 
 import styles from './Dashboard.module.css';
 
 class Dashboard extends Component{
-
-    state = {
-        name: '',
-        email: '',
-        role: '',
-        valid: true
-    }
 
     componentDidMount(){
         let token = {};
@@ -29,23 +24,10 @@ class Dashboard extends Component{
         if (Object.keys(token).length > 1) {
         sessionStorage.setItem("token", token.token);
         }
-        
-        axios.get('http://localhost:5000', {
-            headers: {'authorization': `bearer ${sessionStorage.getItem('token')}`}
-        })
-            .then(res=>{
-                if(res.data.status===false){
-                    this.setState({valid: false});
-                }
-                else{
-                this.setState({name: res.data.name, email: res.data.email});
-                axios.get('http://localhost:5000/user/role/'+res.data.email)
-                    .then(res=>{
-                        this.setState({role: res.data[0].role});
-                    });
-            }
-            })
-            .catch(err=>console.log(err));
+
+        this.props.fetchUser(sessionStorage.getItem('token'));
+
+        this.props.fetchUserRole(this.props.email);
     }
 
     logoutHandler = async() => {
@@ -58,36 +40,31 @@ class Dashboard extends Component{
     render(){
          let routes=(
             <Switch>
-                <Route path='/dashboard/buzz'><Buzz email={this.state.email} /></Route>
+                <Route path='/dashboard/buzz' component={Buzz} />
                 <Route path='/dashboard/complaints' component={Complaints} />
                 <Route path='/dashboard/resolve' component={Resolve} />
             </Switch>
         );
-        if(this.state.role==='employee'){
+        if(this.props.role==='employee'){
             routes=(
                 <Switch>
-                    <Route path='/dashboard/buzz'><Buzz email={this.state.email} /></Route>
+                    <Route path='/dashboard/buzz' component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
                 </Switch>
             )
         }
         return(
             <BrowserRouter>    
-                {this.state.valid ? 
+                {this.props.valid ? 
                 
                 <div className={styles.Dashboard}>
-                    <TopBar history={this.props.history}>
-                        <button onClick={this.logoutHandler}>
-                            Logout <FiLogOut style={{marginLeft:'5px'}}/>
-                        </button>
-                        {this.state.name}
-                    </TopBar>
+                    <TopBar logout={this.logoutHandler}/>
                     <Banner className={styles.BannerImage} />
 
                     <Container>
                         <div className={styles.Nav}>
                             <nav>
-                                <SideNav role={this.state.role} />
+                                <SideNav/>
                             </nav>
 
                             <div>
@@ -101,4 +78,19 @@ class Dashboard extends Component{
     }
 }
 
-export default withRouter(Dashboard);
+const mapStateToProps = state => {
+    return{
+        email: state.user.email,
+        valid: state.user.valid,
+        role: state.user.valid
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return{
+        fetchUser: (token)=> dispatch( actions.fetchUser(token) ),
+        fetchUserRole: (email)=> dispatch( actions.fetchUserRole(email) )
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));

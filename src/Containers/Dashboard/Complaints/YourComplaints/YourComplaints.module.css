@@ -3,6 +3,7 @@
     box-shadow: 0 0 4px #ccc;
     background: #ccc;
     margin-bottom: 50px;
+    width: 100%;
 }
 
 .YourComplaints h4{
@@ -48,4 +49,25 @@
 
 .InProgress{
     color: #1d0866;
+}
+
+@media(max-width:600px){
+    .YourComplaints table{
+        display: flex;
+        flex-direction: column;
+    }
+    .YourComplaints thead tr{
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .YourComplaints tbody tr{
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .YourComplaints tbody tr td{
+        width: 25%;
+        overflow: auto;
+        padding: 10px;
+    }
 }

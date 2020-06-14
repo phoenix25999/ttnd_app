@@ -2,6 +2,7 @@
     background: #fff;
     border: 1px solid #aaa;
     box-shadow: 0 0 5px #ccc;
+    margin-bottom: 50px;
 }
 
 .ShowBuzz h4{
@@ -54,7 +55,9 @@
 }
 
 .Date p {
-    font-size: 25px;
+    font-size: 22px;
+    color: #555555;
+    font-weight: 200;
 }
 
 .BuzzContent{
@@ -76,9 +79,22 @@
     height: 200px;
     border: 1px solid #ddd;
     padding: 5px;
+    margin-bottom: 5px;
 }
 
 .Image img{
     height: 100%;
     width: 100%;
 }
+
+@media(max-width:600px){
+
+    .BuzzDetails{
+        flex-direction: column;
+    }
+
+    .Date{
+        flex-direction: row;
+    }
+}
+

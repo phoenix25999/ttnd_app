@@ -59,7 +59,7 @@ class NewComplaint extends Component{
   render(){
     return (
       <div className={classes.NewComplaint}>
-        <div className={classes.Header}>Complaint Box</div>
+        <h4>Complaint Box</h4>
   
         <form onSubmit={this.reportComplaint} id='form'>
           <div className={classes.ComplaintBox}>

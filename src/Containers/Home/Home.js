@@ -4,6 +4,7 @@ import styles from './Home.module.css';
 import { FaGooglePlusG } from 'react-icons/fa';
 
 const home = () => {
+    window.document.title='TTND APP';
     return (
         <div className={styles.Home}>
             <div className={styles.BackgroundImage}></div>

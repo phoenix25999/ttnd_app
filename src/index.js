@@ -6,10 +6,12 @@ import thunk from 'redux-thunk';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import userReducer from './store/reducers/user';
 import buzzReducer from './store/reducers/buzz';
 import complaintsReducer from './store/reducers/complaints';
 
 const rootReducer = combineReducers({
+  user: userReducer,
   buzz: buzzReducer,
   complaints: complaintsReducer
 })

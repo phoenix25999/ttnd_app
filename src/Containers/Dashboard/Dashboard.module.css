@@ -26,4 +26,17 @@ body{
     .Nav{
         flex-direction: column;
     }
+
+    .UserName{
+        display: none;
+    }
+
+    .UserNameMobile{
+        position: absolute;
+        top: 45px;
+        left: 315px;
+        background: #fff;
+        padding: 10px;
+        z-index: 200;
+    }
 }

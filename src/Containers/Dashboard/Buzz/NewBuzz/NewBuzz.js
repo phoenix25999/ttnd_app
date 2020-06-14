@@ -57,7 +57,7 @@ class NewBuzz extends Component{
       <div className={classes.NewBuzz}>
           <div className={classes.Header}>
             <FaPencilAlt style={{ margin: "0 0.3rem" }} />
-            Create Buzz
+            <h4>Create Buzz</h4>
           </div>
           <form onSubmit={this.createBuzz}>
           <div>
@@ -106,10 +106,16 @@ class NewBuzz extends Component{
   }
 }
 
+const mapStateToProps = state => {
+  return{
+    email: state.user.email
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return{
       fetchBuzz: () => dispatch( actions.fetchBuzz() )
   };
 }
 
-export default connect( null, mapDispatchToProps )( NewBuzz );
+export default connect( mapStateToProps, mapDispatchToProps )( NewBuzz );

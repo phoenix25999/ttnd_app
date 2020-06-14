@@ -11,15 +11,11 @@
 }
 
 .Label{
-  margin: 0.5rem 0;
+  margin: 8px 0;
   display: block;
   color: #aaa;
 }
 
-.TextArea{
-  height: 20rem;
-}
-
 .Option{
-  line-height: 2rem;    
+  line-height: 32px;    
 }

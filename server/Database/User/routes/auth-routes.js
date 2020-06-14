@@ -12,8 +12,9 @@ router.get('/auth/google',
 router.get(
     '/auth/google/redirect',
     passport.authenticate('google',
-    {failureRedirect: '/google/redirect/failure'}),
+    {failureRedirect: '/auth/google/redirect/error'}),
     (req, res) => {
+      console.log(req);
           const tokenPayload = {
             userName: res.req.user.displayName,
             email: res.req.user.email

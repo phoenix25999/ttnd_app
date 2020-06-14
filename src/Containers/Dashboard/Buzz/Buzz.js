@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
-import classes from './Buzz.module.css';
+import React from 'react';
 import NewBuzz from './NewBuzz/NewBuzz';
 import ShowBuzz from './ShowBuzz/ShowBuzz';
 
-class Buzz extends Component{
-  componentDidMount(){
-    window.document.title = 'Buzz';
-  }
-
-  render(){
-    return (
-      <div className={classes.Buzz}>
-        <NewBuzz email={this.props.email}/>
-        <ShowBuzz email={this.props.email}/>
-      </div>
-    );
-  }
-  
-};
+const Buzz = () => {
+  window.document.title='Buzz';
+  return (
+    <div> 
+      <NewBuzz/>
+      <ShowBuzz/>
+    </div>
+  );
+}
 
 export default Buzz;
