@@ -1,4 +1,4 @@
-export { fetchUser, fetchUserRole } from './user';
+export { fetchUser } from './user';
 
 export { fetchBuzz } from './buzz';
 

@@ -13,7 +13,8 @@ const reducer = ( state = initialState, action ) => {
             state = {
                 ...state,
                 name: action.user.name,
-                email: action.user.email
+                email: action.user.email,
+                role: action.user.role
             };
             console.log(state);
             return state;
@@ -24,14 +25,7 @@ const reducer = ( state = initialState, action ) => {
                 valid: false
             };
             return state;
-        
-        case actionTypes.FETCH_USER_ROLE_SUCCESS:
-            state = {
-                ...state,
-                role: action.userRole
-            };
-            return state;
-        
+    
         default:
             return state;
     }

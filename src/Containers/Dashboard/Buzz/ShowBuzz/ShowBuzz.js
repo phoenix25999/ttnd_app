@@ -7,13 +7,10 @@ import * as actions from '../../../../store/actions/index';
 
 
 class ShowBuzz extends Component{
-    state = {
-        buzz: []
-    }
 
     componentDidMount(){
         this.props.fetchBuzz();
-        }
+    }
 
         likeHandler = async (id, dislikedBy)=>{
                 let likeInfo = {

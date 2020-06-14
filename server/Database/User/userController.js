@@ -9,3 +9,13 @@ exports.getUserRole = async (req, res) => {
     res.status(400).send(err);
   }
 }
+
+exports.getUserName = async (req, res) => {
+  let email = req.params.email;
+  try {
+    const userName = await userService.getUserName(email);
+    res.send(userName);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+}

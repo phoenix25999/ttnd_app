@@ -24,24 +24,18 @@ export const fetchUser = ( token ) => {
                     dispatch(fetchUserFailed());
                 }
                 else{
+                    
+                    axios.get('http://localhost:5000/user/role/' + res.data.email)
+                        .then(response=>{
+                        let userData = {
+                            ...res.data,
+                            ...response.data[0]
+                        }
+                        dispatch(fetchUserSuccess(userData));
+            });
+                    
                 dispatch(fetchUserSuccess(res.data));
             }
             })
-    }
-}
-
-export const fetchUserRoleSuccess = ( userRole ) => {
-    return {
-        type: actionTypes.FETCH_USER_SUCCESS,
-        userRole: userRole
-    };
-}
-
-export const fetchUserRole = (email) => {
-    return dispatch => {
-        axios.get('http://localhost:5000/user/role/' + email)
-            .then(res=>{
-                dispatch(fetchUserRoleSuccess(res.data[0].role));
-            });
     }
 }

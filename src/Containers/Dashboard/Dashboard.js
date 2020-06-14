@@ -26,8 +26,6 @@ class Dashboard extends Component{
         }
 
         this.props.fetchUser(sessionStorage.getItem('token'));
-
-        this.props.fetchUserRole(this.props.email);
     }
 
     logoutHandler = async() => {
@@ -88,8 +86,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUser: (token)=> dispatch( actions.fetchUser(token) ),
-        fetchUserRole: (email)=> dispatch( actions.fetchUserRole(email) )
+        fetchUser: (token)=> dispatch( actions.fetchUser(token) )
     };
 };
 
