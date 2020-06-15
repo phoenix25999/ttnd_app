@@ -21,7 +21,7 @@ class ShowBuzz extends Component{
                 if(dislikedBy.includes(this.props.email)){
                     likeInfo.alreadyDisliked=true;
                 }
-                axios.post('http://localhost:5000/buzz/like', likeInfo)
+                axios.put('http://localhost:5000/buzz/like', likeInfo)
                     .then(res=>console.log(res));
                 this.props.fetchBuzz();
         }
@@ -36,7 +36,7 @@ class ShowBuzz extends Component{
             if(likedBy.includes(this.props.email)){
                 dislikeInfo.alreadyLiked=true;
             }
-            axios.post('http://localhost:5000/buzz/dislike', dislikeInfo)
+            axios.put('http://localhost:5000/buzz/dislike', dislikeInfo)
                 .then(res=>console.log(res));
             this.props.fetchBuzz();
             

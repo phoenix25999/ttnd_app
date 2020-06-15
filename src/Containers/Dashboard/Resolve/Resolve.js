@@ -53,7 +53,7 @@ class YourComplaints extends Component{
     }
 
     updateStatus = () => {
-        axios.post('http://localhost:5000/complaint/updateStatus', this.state.updateStatus)
+        axios.put('http://localhost:5000/complaint/updateStatus', this.state.updateStatus)
             .then(res=>console.log(res));
     }
 
