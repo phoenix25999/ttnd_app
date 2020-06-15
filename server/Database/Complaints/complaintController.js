@@ -26,6 +26,15 @@ exports.getAllComplaint = async (req, res) => {
   }
 };
 
+exports.getComplaintByUser = async (req, res) => {
+  try {
+    const userComplaint = await complaintService.getComplaintByUser(req.params.email);
+    res.send(userComplaint);
+  } catch(err) {
+    res.status(400).send(err);
+  }
+};
+
 exports.updateStatus = async (req, res) => {
   let updatedStatus = {
     id: req.body.id,

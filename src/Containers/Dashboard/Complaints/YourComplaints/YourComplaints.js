@@ -6,7 +6,7 @@ import styles from './YourComplaints.module.css';
 class YourComplaints extends Component{
 
     componentDidMount(){
-        this.props.fetchComplaints();
+        this.props.fetchComplaintsByUser(this.props.email);
     }
 
     checkStatus = (status) => {
@@ -66,13 +66,14 @@ class YourComplaints extends Component{
 
 const mapStateToProps = state => {
     return{
+        email: state.user.email,
         complaintsData: state.complaints.complaintsData
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComplaints: () => dispatch( actions.fetchComplaints() )
+        fetchComplaintsByUser: (email) => dispatch( actions.fetchComplaintsByUser(email) )
     };
 };
 

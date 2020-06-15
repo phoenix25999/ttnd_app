@@ -19,11 +19,10 @@ class Dashboard extends Component{
 
     componentDidMount(){
         let token = {};
-        console.log(this.props.location.search);
         token = queryString.parse(this.props.location.search);
         
         if (Object.keys(token).length > 1) {
-        sessionStorage.setItem("token", token.token);
+        sessionStorage.setItem('token', token.token);
         }
 
         this.props.fetchUser(sessionStorage.getItem('token'));

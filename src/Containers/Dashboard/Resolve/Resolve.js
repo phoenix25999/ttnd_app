@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../../store/actions/index';
 import axios from 'axios';
 import styles from './Resolve.module.css';
 
 class YourComplaints extends Component{
 
     state = {
-        complaints: [],
         updateStatus: {}
     }
 
     componentDidMount(){
         window.document.title='Resolve';
-        
-        axios.get('http://localhost:5000/complaint')
-            .then(res=>{
-                let complaintsArray = [];
-                for(let i in res.data){
-                    complaintsArray.push({
-                        id: res.data[i]._id,
-                        department: res.data[i].department,
-                        status: res.data[i].status
-                    });
-                }
-                this.setState({complaints: complaintsArray});
-            })
+    
+        this.props.fetchComplaints();
     }
 
     checkStatus = (status) => {
@@ -55,19 +45,20 @@ class YourComplaints extends Component{
     updateStatus = () => {
         axios.put('http://localhost:5000/complaint/updateStatus', this.state.updateStatus)
             .then(res=>console.log(res));
+        this.props.fetchComplaints();
     }
 
     render(){
 
-        let complaintsData = this.state.complaints.map(complaint=> {
+        let complaintsData = this.props.complaintsData.map(complaint=> {
             let statusClass = this.checkStatus(complaint.status)
             return(
-                <tr key={complaint.id}>
+                <tr key={complaint._id}>
                     <td>{complaint.department} </td>
                     <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint.id}</td>
                     <td>Ashish Mishra</td>
                     <td >
-                        <select className={statusClass} defaultValue={complaint.status} onChange={(e)=>this.changeHandler(e, complaint.id)}>
+                        <select className={statusClass} defaultValue={complaint.status} onChange={(e)=>this.changeHandler(e, complaint._id)}>
                         <option defaultValue="DEFAULT" disabled hidden >{complaint.status}</option>
                             <option value='Open'>Open</option>
                             <option value='In Progress'>In Progress</option>
@@ -101,4 +92,16 @@ class YourComplaints extends Component{
     };
 };
 
-export default YourComplaints;
+const mapStateToProps = state => {
+    return{
+        complaintsData: state.complaints.complaintsData
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return{
+        fetchComplaints: () => dispatch( actions.fetchComplaints() )
+    };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )( YourComplaints );

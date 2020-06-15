@@ -22,3 +22,20 @@ export const fetchComplaints = () => {
             });
     }
 }
+
+
+export const fetchComplaintsByUser = (email) => {
+    return dispatch => {
+        console.log(email);
+        axios.get('http://localhost:5000/complaint/'+email)
+            .then(res=>{
+                let complaintsArray = [];
+                for(let i in res.data){
+                    complaintsArray.push({
+                        ...res.data[i]
+                    })
+                }
+                dispatch( fetchComplaintsSuccess(complaintsArray) )
+            });
+    }
+}

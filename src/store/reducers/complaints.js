@@ -11,7 +11,6 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 complaintsData: [...action.complaintsData]
             };
-            console.log(state);
             return state;
         default:
             return state;
