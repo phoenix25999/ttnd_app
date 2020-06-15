@@ -11,9 +11,8 @@ router.get('/auth/google',
 
 router.get(
     '/auth/google/redirect',
-    passport.authenticate('google',
+    passport.authenticate('google'),
     (req, res) => {
-      console.log(req);
           const tokenPayload = {
             userName: res.req.user.displayName,
             email: res.req.user.email
@@ -29,7 +28,6 @@ router.get(
             query: tokenData
           }));
         }
-    )
 );
 
 
