@@ -55,7 +55,7 @@ class YourComplaints extends Component{
             return(
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint.id}</td>
+                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
                     <td>Ashish Mishra</td>
                     <td >
                         <select className={statusClass} defaultValue={complaint.status} onChange={(e)=>this.changeHandler(e, complaint._id)}>
