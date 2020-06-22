@@ -19,3 +19,7 @@
 .Option{
   line-height: 32px;    
 }
+
+.Invalid{
+  border: 1px solid #ff0000;
+}

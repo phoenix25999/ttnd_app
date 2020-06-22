@@ -8,7 +8,7 @@ exports.addComplaint = async (req, res) => {
     email: req.body.email,
     concern: req.body.concern,
     attachment: req.body.attachment
-  };
+  };console.log(newComplaint);
   try {
     const complaint = await complaintService.addComplaint(newComplaint);
     res.send(complaint);

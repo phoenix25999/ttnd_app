@@ -1,7 +1,9 @@
 const Complaint = require('./complaintModel');
 
 exports.addComplaint = (newComplaint) => {
-  const complaint = Complaint.create(newComplaint);
+  
+  const complaint = Complaint.insertMany(newComplaint);
+  console.log(complaint);
   return complaint;
 };
 

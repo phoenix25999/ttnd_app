@@ -5,10 +5,14 @@ const Input = props => {
   let inputElement = null;
   const inputClasses = [classes.InputElement];
 
-  switch(props.elementType){
-    case 'input' : 
+  if (props.invalid && props.touched) {
+    inputClasses.push(classes.Invalid);
+  }
+
+  switch( props.elementType ){
+    case 'input' :
         inputElement = <input 
-            type="text"
+            type='text'
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
@@ -33,6 +37,7 @@ const Input = props => {
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
+            style={props.buzz?{border: 'none'}:{}}
             ></textarea>
         break;
     default :
