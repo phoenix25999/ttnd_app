@@ -1,12 +1,13 @@
 import React from "react";
-import classes from './Input.module.css'
+import styles from './BuzzForm.module.css';
 
-const Input = props => {
+const BuzzForm = props => {
   let inputElement = null;
-  const inputClasses = [classes.InputElement];
+  const inputClasses = [props.className];
 
   if (props.invalid && props.touched) {
-    inputClasses.push(classes.Invalid);
+      console.log(props.invalid, props.touched);
+    inputClasses.push(styles.Invalid);
   }
 
   switch( props.elementType ){
@@ -25,9 +26,9 @@ const Input = props => {
             style={{backgroundColor: "white"}} 
             value={props.value}
             onChange={props.changed}>
-            <option defaultValue='' disabled hidden/>
+            <option value='Category' disabled>Category</option>
             {props.options.map(option => (
-              <option key={option.value} value={option.value} className={classes.Option}>{option.displayValue}</option>
+              <option key={option.value} value={option.value} >{option.displayValue}</option>
             ))}
           </select>
         );
@@ -37,7 +38,6 @@ const Input = props => {
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
-            style={props.buzz?{border: 'none'}:{}}
             ></textarea>
         break;
     default :
@@ -48,11 +48,10 @@ const Input = props => {
   }
 
   return (
-    <div className={classes.Input}>
-      <label className={classes.Label}>{props.label}</label>
+    <div >
       {inputElement}
     </div>
   );
 };
 
-export default Input;
+export default BuzzForm;

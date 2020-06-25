@@ -23,7 +23,7 @@ class NewComplaint extends Component{
         validation: {
           required: true
         },
-        valid: true
+        valid: false
       },
       title: {
         elementType: 'input',
@@ -68,11 +68,6 @@ class NewComplaint extends Component{
         touched: false
       },
       concern: {
-        elementType: 'input',
-        elementConfig: {
-            type: 'text',
-            placeholder: 'Your Name'
-        },
         value: '',
         validation: {
             required: true,
@@ -93,8 +88,7 @@ class NewComplaint extends Component{
         valid: true
       }
     },
-    formIsValid: false,
-    imageName:''
+    formIsValid: false
   }
 
   checkValidity(value, rules) {
@@ -141,13 +135,8 @@ class NewComplaint extends Component{
     }
 
     else{
-      let fileData = new FileReader();
-      fileData.onloadend = (e) => {
-        let content = e.target.result;
-       updatedFormElement.value = content;
-      };
-      fileData.readAsDataURL(event.target.files[0]);
-      this.setState({imageName: event.target.files[0].name})
+      updatedFormElement.value = event.target.files;
+      console.log(updatedFormElement.value);
       updatedFormElement.touched=true;
     }
 
@@ -164,13 +153,28 @@ class NewComplaint extends Component{
   reportComplaint = (event) => {
     event.preventDefault();
 
-    let formData = {};
-    for( let formElementIdentifier in this.state.complaintForm){
-      formData[formElementIdentifier] = this.state.complaintForm[formElementIdentifier].value;
-    }
-    console.log(formData);
-    axios.post('http://localhost:5000/complaint', formData)
+    const complaintData = new FormData();
+        complaintData.append('department',this.state.complaintForm.department.value);
+        complaintData.append('title',this.state.complaintForm.title.value);
+        complaintData.append('name',this.state.complaintForm.name.value);
+        complaintData.append('email',this.state.complaintForm.email.value);
+        complaintData.append('concern',this.state.complaintForm.concern.value);
+        for(let i in this.state.complaintForm.attachment.value){
+          if(this.state.complaintForm.attachment.value.hasOwnProperty(i) && i!=='length'){
+            complaintData.append('attachment',this.state.complaintForm.attachment.value[i]);
+          }
+        }
+        
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+        }
+      }
+
+    axios.post('http://localhost:5000/complaint', complaintData, config)
       .then(res=>{
+        console.log(res);
         const updatedComplaintForm = {
           ...this.state.complaintForm
         };
@@ -178,18 +182,25 @@ class NewComplaint extends Component{
         for(let formElementIdentifier in updatedComplaintForm){
           updatedComplaintForm[formElementIdentifier].value='';
         }
-        this.setState({complaintForm: updatedComplaintForm, imageName: ''});
+        this.setState({complaintForm: updatedComplaintForm});
         this.props.fetchComplaints();
       });    
       
   }
 
   render(){
+    let attachments = [];
+    for(let i in this.state.complaintForm.attachment.value){
+      //console.log(this.state.complaintForm.attachment.value)
+      if(this.state.complaintForm.attachment.value.hasOwnProperty(i)){
+      attachments.push(this.state.complaintForm.attachment.value[i].name);
+      }
+    }
     return (
       <div className={classes.NewComplaint}>
         <h4>Complaint Box</h4>
   
-        <form onSubmit={this.reportComplaint} id='form'>
+        <form onSubmit={this.reportComplaint} id='form' method="post" encType="multipart/form-data">
           <div className={classes.ComplaintBox}>
             <div className={classes.FormRow}>
               <Input
@@ -244,14 +255,16 @@ class NewComplaint extends Component{
               </label>
               <input
                 id='image'
+                name='attachment'
                 type='file'
                 className={classes.ImageInput}
                 accept='image/*'
                 hidden
                 onChange={(e)=>this.inputChangeHandler(e,'attachment')}
+                multiple
               />
               <p className={classes.ImageName}>
-                {!this.state.imageName ? 'Attachment' : this.state.imageName}
+                {!this.state.complaintForm.attachment.value? 'Attachment' : attachments.join(', ')}
               </p>
             </div>
             <div className={classes.SubmitRow}>

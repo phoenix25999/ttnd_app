@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { FaPencilAlt } from "react-icons/fa";
 import { TiLocationArrow } from "react-icons/ti";
 import { RiImageAddLine } from "react-icons/ri";
-import Input from '../../../../Components/UI/Input/Input';
 import classes from './NewBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
+import BuzzForm from './BuzzForm/BuzzForm';
 
 class NewBuzz extends Component{
 
@@ -14,25 +14,33 @@ class NewBuzz extends Component{
     buzzForm: {
       desc:{
         value: '',
-        validatiion:{
+        validation:{
           required: true,
-          minLength: 100
+          minLength: 10
         },
         valid: false,
         touched: false
       },
       category:{
-        value: '',
-        validatiion: {
+        options: [
+          {value: 'Activity', displayValue: 'Activity'},
+          {value: 'Lost & Found', displayValue: 'Lost & Found'},
+        ],
+        value: 'Activity',
+        validation: {
           required: true
         },
-        valid: false,
-        touched: false
+        valid: true,
+        touched: true
       },
-      image:''
+      image:{
+        value: '',
+        valid: true,
+        validation: {},
+        touched: true
+      }
     },
-    formIsValid: false,
-    imageName:''
+    formIsValid: false
   }
 
   checkValidity(value, rules) {
@@ -68,72 +76,96 @@ class NewBuzz extends Component{
     }
 
     else{
-      let fileData = new FileReader();
-      fileData.onloadend = (e) => {
-        let content = e.target.result;
-        updatedBuzzForm[inputIdentifier] = content;
-      };
-      fileData.readAsDataURL(event.target.files[0]);
-      this.setState({imageName: event.target.files[0].name})
+      updatedFormElement.value=event.target.files;
+      console.log(updatedFormElement.value);
     }
 
     let formIsValid = true;
 
     for (let inputIdentifier in updatedBuzzForm) {
+      
         formIsValid = updatedBuzzForm[inputIdentifier].valid && formIsValid;
+        
     }
 
+    updatedBuzzForm[inputIdentifier] = updatedFormElement;
     this.setState({buzzForm: updatedBuzzForm, formIsValid: formIsValid});
   }
 
   createBuzz = (event) => {
     event.preventDefault();
-    const buzzData = {
-      ...this.state.buzzForm,
-      email: this.props.email
-    }
-    axios.post('http://localhost:5000/buzz', buzzData)
+
+    const buzzData = new FormData();
+        buzzData.append('description',this.state.buzzForm.desc.value);
+        buzzData.append('category',this.state.buzzForm.category.value);
+        for(let i in this.state.buzzForm.image.value){
+          if(this.state.buzzForm.image.value.hasOwnProperty(i) && i!=='length'){
+            buzzData.append('myImage',this.state.buzzForm.image.value[i]);
+          }
+        }
+        
+        buzzData.append('email',this.props.email);
+        console.log(this.state.buzzForm.image.value);
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+        }
+    };
+
+    
+    axios.post('http://localhost:5000/buzz', buzzData, config)
       .then(res=>{
-        this.setState({buzzForm: {}, imageName:''});
+
+        
+        const updatedBuzzForm = {
+          ...this.state.buzzForm
+        };
+
+        for(let formElementIdentifier in updatedBuzzForm){
+          formElementIdentifier!=='image'? updatedBuzzForm[formElementIdentifier].value='':updatedBuzzForm[formElementIdentifier].value=[];
+        }
+        this.setState({buzzForm: updatedBuzzForm, imageName:''});
         this.props.fetchBuzz();
       }); 
   }
 
   render() {
+    let imageNames = [];
+    for(let i in this.state.buzzForm.image.value){
+      if(this.state.buzzForm.image.value.hasOwnProperty(i)){
+      imageNames.push(this.state.buzzForm.image.value[i].name);
+      }
+    }
     return (
       <div className={classes.NewBuzz}>
           <div className={classes.Header}>
             <FaPencilAlt style={{ margin: "0 0.3rem" }} />
             <h4>Create Buzz</h4>
           </div>
-          <form onSubmit={this.createBuzz}>
+          <form onSubmit={this.createBuzz} action='/multiple-upload' method="post" encType="multipart/form-data">
           <div>
-            {/* <textarea
-              id='desc'
+            <BuzzForm 
               className={classes.Form}
-              placeholder="Share your thoughts...."
-              onChange={(e)=>this.changeHandler(e,'desc')}
-              value={this.state.buzzForm.desc || ''}
-            ></textarea> */}
-            <Input 
               elementType='textarea' 
-              changed={(e)=>this.changeHandler(e,'concern')} 
+              changed={(e)=>this.changeHandler(e,'desc')} 
               value={this.state.buzzForm.desc.value || ''}
               invalid={!this.state.buzzForm.desc.valid}
               touched={this.state.buzzForm.desc.touched}
-              buzz
             />
           </div>
           <div className={classes.FormFooter}>
             <div className={classes.FormOptions}>
               <div>
-                <select className={classes.Category} onChange={(e)=>this.changeHandler(e,'category')} value={this.state.buzzForm.category || 'Category'}>
-                  <option defaultValue="DEFAULT" disabled >
-                    Category
-                  </option>
-                  <option value="Activity">Activity Buzz</option>
-                  <option value="Lost & Found">Lost & Found Buzz</option>
-                </select>
+              <BuzzForm 
+                className={classes.Category}
+                elementType='select' 
+                changed={(e)=>this.changeHandler(e,'category')} 
+                options={this.state.buzzForm.category.options}
+                value={this.state.buzzForm.category.value || ''}
+                invalid={!this.state.buzzForm.category.valid}
+                touched={this.state.buzzForm.category.touched}
+              />
               </div>
               <div style={{ display: 'flex', alignItems: 'center'}}>
                 <label htmlFor="image" >
@@ -141,17 +173,19 @@ class NewBuzz extends Component{
                   title="Add Image" />
                 </label>
                 <input
-                  id="image"
+                  id='image'
+                  name='myImage'
                   type="file"
                   className={classes.ImageInput}
                   accept="image/*"
                   hidden
                   onChange={(e)=>this.changeHandler(e,'image')}
+                  multiple
                 />
-                <p className={classes.ImageName}>{this.state.imageName}</p>
+                <p className={classes.ImageName}>{imageNames.join(', ')}</p>
               </div>
             </div>
-            <button className={classes.SubmitButton} title='Create Buzz'>
+            <button className={classes.SubmitButton} title='Create Buzz' disabled={!this.state.formIsValid}>
               <TiLocationArrow /> 
             </button>
           </div>

@@ -1,11 +1,15 @@
 const buzzService = require('./buzzService');
 
+
 exports.addBuzz = async (req, res) => {
+  console.log(req.body)
+  console.log(req.files);
+  let imagePath = req.files.map(image=>image.path);
   let newBuzz = {
-    description: req.body.desc,
+    description: req.body.description,
     category: req.body.category,
     createdBy: req.body.email,
-    image: req.body.image
+    image:  imagePath
   };
   try {
     const buzz = await buzzService.addBuzz(newBuzz);

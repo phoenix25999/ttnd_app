@@ -1,14 +1,15 @@
 const complaintService = require('./complaintService');
 
 exports.addComplaint = async (req, res) => {
+  let attachmentPath = req.files.map(image=>image.path);
   let newComplaint = {
     department: req.body.department,
     title: req.body.title,
     name: req.body.name,
     email: req.body.email,
     concern: req.body.concern,
-    attachment: req.body.attachment
-  };console.log(newComplaint);
+    attachment: attachmentPath
+  };
   try {
     const complaint = await complaintService.addComplaint(newComplaint);
     res.send(complaint);

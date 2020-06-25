@@ -28,7 +28,7 @@ const complaintSchema = new mongoose.Schema({
         default: 'Open'
     },
     attachment: {
-        type: String
+        type: Array
     }
 })
 

@@ -5,7 +5,6 @@ import styles from './ShowBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
 
-
 class ShowBuzz extends Component{
 
     componentDidMount(){
@@ -55,11 +54,13 @@ class ShowBuzz extends Component{
                         </div>
                         <div className={styles.BuzzContent}>
                             <p>{buzz.createdBy}</p>
-                            {buzz.image?<div className={styles.Image}>
-                            <img src={buzz.image} alt='buzz'/>
-                            </div>:''}
                             
-                            <p>{buzz.description}
+                            {buzz.image.length?<div className={styles.ImageBox}>{buzz.image.map(image=><div className={styles.Image}>
+                                <img src={require(`../../../../server/${image}`)} alt='buzz'/>
+                            </div>)}</div>:''}
+        
+                            
+                            <p className={styles.BuzzDescription}>{buzz.description}
                             </p>
                         </div>
                     </div>

@@ -15,6 +15,10 @@
     flex-direction: column;
 }
 
+.BuzzDescription{
+    overflow: auto;
+}
+
 .Action{
     align-self: flex-end;
     display: flex;
@@ -62,6 +66,7 @@
 
 .BuzzContent{
     padding: 10px;
+    width: 100%;
 }
 
 .BuzzContent p:first-child{
@@ -75,11 +80,16 @@
     color: #3d3d3d;
 }
 
+.ImageBox{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
 .Image{
-    height: 200px;
     border: 1px solid #ddd;
     padding: 5px;
-    margin-bottom: 5px;
+    margin: 0 15px 10px 0;
 }
 
 .Image img{
