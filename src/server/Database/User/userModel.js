@@ -7,7 +7,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'employee'],
         default: 'employee'
-    }
+    },
+    picture: String,
+    about: String
 })
 
 const userModel = mongoose.model('User', userSchema);

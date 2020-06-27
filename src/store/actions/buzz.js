@@ -22,3 +22,18 @@ export const fetchBuzz = () => {
             })
     }
 }
+
+export const fetchBuzzByUser = ( email ) => {
+    return dispatch => {
+        axios.get('http://localhost:5000/buzz/'+email)
+            .then(res=>{
+                let buzzArray = [];
+                for(let i in res.data){
+                    buzzArray.push({
+                        ...res.data[i]
+                    });
+                }
+                dispatch(fetchBuzzSuccess(buzzArray))
+            })
+    }
+}

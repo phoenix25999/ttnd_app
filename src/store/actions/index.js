@@ -1,5 +1,5 @@
 export { fetchUser } from './user';
 
-export { fetchBuzz } from './buzz';
+export { fetchBuzz, fetchBuzzByUser } from './buzz';
 
 export { fetchComplaints, fetchComplaintsByUser } from './complaints';

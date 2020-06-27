@@ -14,7 +14,8 @@ module.exports = (passport) => {
                     if(!user){
                         User.create({
                             name: profile._json.name,
-                            email: profile._json.email
+                            email: profile._json.email,
+                            picture: profile._json.picture
                         }).then(newUser=> {
                                 console.log(`New User Created  ${newUser}`);
                             });

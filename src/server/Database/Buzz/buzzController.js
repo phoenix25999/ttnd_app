@@ -28,6 +28,15 @@ exports.getAllBuzz = async (req, res) => {
   }
 };
 
+exports.getBuzzByUser = async (req, res) => {
+  try {
+    const allBuzz = await buzzService.getBuzzByUser(req.params.email);
+    res.send(allBuzz);
+  } catch(err) {
+    res.status(400).send(err);
+  }
+};
+
 exports.updateLikes = async (req, res) => {
   try {
     const likeInfo = await buzzService.updateLikes(req.body);

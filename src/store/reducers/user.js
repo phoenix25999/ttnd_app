@@ -3,8 +3,10 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     name: '',
     email: '',
-    valid: true,
-    role: ''
+    role: '',
+    picture: '',
+    about: '',
+    valid: true
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -14,9 +16,10 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 name: action.user.name,
                 email: action.user.email,
-                role: action.user.role
+                role: action.user.role,
+                picture: action.user.picture,
+                about: action.user.about
             };
-            console.log(state);
             return state;
         
         case actionTypes.FETCH_USER_FAILED:

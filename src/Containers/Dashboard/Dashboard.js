@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TopBar from '../../Components/UI/TopBar/TopBar';
 import Banner from '../../Components/UI/Banner/Banner';
@@ -46,13 +46,13 @@ class Dashboard extends Component{
         if(this.props.role==='employee'){
             routes=(
                 <Switch>
-                    <Route path='/dashboard/buzz' component={Buzz} />
+                    <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
                 </Switch>
             )
         }
         return(
-            <BrowserRouter>    
+            <div>    
                 {this.props.valid ? 
                 
                 <div className={styles.Dashboard}>
@@ -71,7 +71,7 @@ class Dashboard extends Component{
                         </div>
                     </Container>       
                 </div> : <h2>Invalid Login! Please Try Again</h2>}
-            </BrowserRouter>
+            </div>
         )
     }
 }

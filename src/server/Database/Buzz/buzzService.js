@@ -1,12 +1,19 @@
 const Buzz = require('./buzzModel');
+const User = require('../User/userModel');
 
 exports.addBuzz = (newBuzz) => {
+  User.find({email: 'dskjl'})?console.log(true):console.log(false);
   const buzz = Buzz.create(newBuzz);
   return buzz;
 };
 
 exports.getAllBuzz = async () => {
   const allBuzz = Buzz.find({});
+  return allBuzz;
+};
+
+exports.getBuzzByUser = async ( email ) => {
+  const allBuzz = Buzz.find({createdBy: email});
   return allBuzz;
 };
 

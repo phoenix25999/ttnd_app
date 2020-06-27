@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import SideDrawer from '../SideDrawer/SideDrawer';
 import Container from '../../../hoc/Container/Container';
 import Logo from '../../../assets/logo.png';
@@ -20,7 +21,7 @@ const TopBar = (props) => {
                     <button onClick={props.logout}>
                         Logout <FiLogOut style={{marginLeft:'5px'}}/>
                     </button>
-                    <span className={styles.UserName}>{props.name}</span>
+                    <NavLink to='/profile' className={styles.userName}>{props.name}</NavLink>
                     <FaBars className={styles.DrawerToggle} onClick={()=> setShowSideDrawer(!showSideDrawer)} />
                 </div>
                     

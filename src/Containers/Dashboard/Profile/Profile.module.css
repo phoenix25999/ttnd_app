@@ -1,0 +1,92 @@
+.Profile{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.Info{
+    text-align: center;
+    padding: 20px;
+    border-right: 1px solid #808080;
+    flex-basis: 40%;
+}
+
+.Info img{
+    height: 150px;
+    width: 150px;
+    border-radius: 100%;
+    box-shadow: 0 0 10px #808080;
+    margin-top: 30px;
+}
+
+.Info p:first-of-type{
+    color: #ff0019;
+    font-size: 25px;
+    margin: 30px 0;
+}
+
+.Info button{
+    padding: 10px 20px;
+    background: #ccc;
+    border: none;
+    font-size: 16px;
+    color: #ff0019;
+    margin-top: 40px;
+}
+
+.EditProfile{
+    width: 50%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.EditProfile label{
+    font-size: 15px;
+    color: #3d3d3d;
+}
+
+.EditProfile input{
+    width: 300px;
+    margin: 0 auto;
+    display: block;
+    padding: 5px;
+    margin: 5px 0 20px 0;
+    border: 1px solid #808080;
+}
+
+.EditProfile textarea{
+    display: block;
+    height: 100px;
+    width: 300px;
+    border: 1px solid #808080;
+    padding: 5px;
+    margin: 5px 0 20px 0;
+}
+
+.EditProfile button{
+    padding: 10px 20px;
+    background: #ccc;
+    border: none;
+    font-size: 16px;
+    color: #ff0019;
+    margin-top: 20px;
+}
+
+.ShowBuzz{
+    margin: 20px;
+    flex-basis: 50%;
+    background: #fff;
+    border: 1px solid #aaa;
+    box-shadow: 0 0 5px #ccc;
+    margin-bottom: 50px;
+}
+
+.ShowBuzz h4{
+    background: #ddd;
+    padding: 10px;
+}
+
+.ShowBuzz > div {
+    display: flex;
+    flex-direction: column;
+}

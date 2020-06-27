@@ -24,8 +24,7 @@ export const fetchUser = ( token ) => {
                     dispatch(fetchUserFailed());
                 }
                 else{
-                    
-                    axios.get('http://localhost:5000/user/role/' + res.data.email)
+                    axios.get('http://localhost:5000/user/' + res.data.email)
                         .then(response=>{
                         let userData = {
                             ...res.data,

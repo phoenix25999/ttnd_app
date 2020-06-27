@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+
 import styles from './ShowBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
+import BuzzView from '../../../../Components/UI/BuzzView/BuzzView';
 
 class ShowBuzz extends Component{
 
@@ -46,49 +47,19 @@ class ShowBuzz extends Component{
         if(this.props.buzzData){
           buzzData = this.props.buzzData.map(buzz=>{
             return(
-                <div key={buzz._id} style={{borderBottom: '1px solid #ccc'}}>
-                    <div className={styles.BuzzDetails}>
-                        <div className={styles.Date}>
-                            <p><em>{buzz.createdOn.slice(8,10)}/</em></p>
-                            <p><em>{buzz.createdOn.slice(5,7)}</em></p>
-                        </div>
-                        <div className={styles.BuzzContent}>
-                            <p>{buzz.createdBy}</p>
-                            
-                            {buzz.image.length?<div className={styles.ImageBox}>{buzz.image.map(image=><div className={styles.Image}>
-                                <img src={require(`../../../../server/${image}`)} alt='buzz'/>
-                            </div>)}</div>:''}
-        
-                            
-                            <p className={styles.BuzzDescription}>{buzz.description}
-                            </p>
-                        </div>
-                    </div>
-                    <div className={styles.Action}>
-                        <button onClick={()=>this.likeHandler(buzz._id, buzz.dislikes)}
-                         disabled={buzz.likes.includes(this.props.email)?true:false}
-                         style={{color:`${buzz.likes.includes(this.props.email)?`#ff0019`:`#808080`}`}}
-                         >
-                            <span>{buzz.likes.length}</span>
-                            <FaThumbsUp/>
-                        </button>
-                        <button onClick={()=>this.dislikeHandler(buzz._id,buzz.likes)}
-                        disabled={buzz.dislikes.includes(this.props.email)?true:false}
-                        style={{color:`${buzz.dislikes.includes(this.props.email)?`#ff0019`:`#808080`}`}}>
-                            <span>{buzz.dislikes.length}</span>
-                            <FaThumbsDown/>
-                        </button>
-                    </div>
-                </div>
+                <BuzzView 
+                    buzz={buzz} 
+                    email={this.props.email}
+                    likeHandler={()=>this.likeHandler(buzz._id, buzz.dislikes)}
+                    dislikeHandler={()=>this.dislikeHandler(buzz._id,buzz.likes)} />
             );
-        })
+        });
         }
 
         return(
             <div className={styles.ShowBuzz}>
                 <h4>Recent Buzz</h4>
-                {buzzData}
-                
+                {buzzData}    
             </div>
         );
     };
