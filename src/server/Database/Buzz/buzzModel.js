@@ -11,21 +11,21 @@ const buzzSchema = new mongoose.Schema({
         type: Array
     },
     createdBy: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     createdOn: {
         type: Date,
         default: new Date()
     },
-    likes: {
-        type: Array,
-        default: []
-    },
-    dislikes: {
-        type: Array,
-        default: []
-    }
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 })
 
 const buzzModel = mongoose.model('Buzz', buzzSchema);

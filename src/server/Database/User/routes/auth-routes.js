@@ -30,6 +30,19 @@ router.get(
         }
 );
 
+// router.get('/auth/google/redirect', passport.authenticate('google', {
+//   successRedirect: 'http://localhost:3000/dashboard/buzz',
+//   failureRedirect:'http://localhost:3000/dashboard'
+// }));
+
+router.get('/auth/user', (req, res) => {
+  console.log('sdalk');
+  res.status(200).json({
+    authenticated: true,
+    user: req.user,
+  })
+});
+
 
 router.get('/auth/logout', (req, res)=>{
     req.logOut();

@@ -26,6 +26,9 @@ class Dashboard extends Component{
         }
 
         this.props.fetchUser(sessionStorage.getItem('token'));
+
+        axios.get('http://localhost:5000/auth/user')
+            .then(res=>console.log(res.data));
     }
 
     logoutHandler = async() => {

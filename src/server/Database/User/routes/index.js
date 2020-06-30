@@ -6,7 +6,6 @@ router.get('/', tokenVerify, (req, res)=> {
     res.send({status: true, name: req.user.userName, email: req.user.email});
 });
 router.get('/user/:email', userController.getUserDetails);
-router.get('/user/:email', userController.getUserName);
 router.patch('/user/profile/:email', userController.updateProfile)
 
 module.exports = router;

@@ -8,6 +8,7 @@ const authRoutes = require('./Database/User/routes/auth-routes');
 const userRoutes = require('./Database/User/routes/index');
 const buzzRoutes = require('./Database/Buzz/buzzRoutes');
 const complaintRoutes = require('./Database/Complaints/complaintRoutes');
+const commentRoutes = require('./Database/Comments/commentRoutes');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(authRoutes);
 app.use(userRoutes);
 app.use(buzzRoutes);
 app.use(complaintRoutes);
+app.use(commentRoutes);
 
 
 

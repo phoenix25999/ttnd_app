@@ -104,7 +104,7 @@ class NewBuzz extends Component{
           }
         }
         
-        buzzData.append('email',this.props.email);
+        buzzData.append('userID',this.props.userID);
         console.log(this.state.buzzForm.image.value);
 
     const config = {
@@ -123,7 +123,7 @@ class NewBuzz extends Component{
         };
 
         for(let formElementIdentifier in updatedBuzzForm){
-          formElementIdentifier!=='image'? updatedBuzzForm[formElementIdentifier].value='':updatedBuzzForm[formElementIdentifier].value=[];
+          formElementIdentifier!=='category'? updatedBuzzForm[formElementIdentifier].value='':updatedBuzzForm[formElementIdentifier].value='Activity';
         }
         this.setState({buzzForm: updatedBuzzForm, imageName:''});
         this.props.fetchBuzz();
@@ -197,7 +197,8 @@ class NewBuzz extends Component{
 
 const mapStateToProps = state => {
   return{
-    email: state.user.email
+    userID: state.user.userData._id,
+    email: state.user.userData.email
   }
 }
 

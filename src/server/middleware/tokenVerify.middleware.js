@@ -9,6 +9,7 @@ const tokenVerify = (req, res, next) => {
   jwt.verify(token, keys.JWT.TOKEN_SECRET, (err, user) => {
     if (err) return res.send({status: false, message: 'Unknown Token. Please Login'});
     req.user = user;
+    console.log(req.user);
     next();
   })
 };

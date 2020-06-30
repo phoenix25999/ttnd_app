@@ -8,6 +8,10 @@ import BuzzView from '../../../../Components/UI/BuzzView/BuzzView';
 
 class ShowBuzz extends Component{
 
+    state = {
+        comment: ''
+    }
+
     componentDidMount(){
         this.props.fetchBuzz();
     }
@@ -15,10 +19,10 @@ class ShowBuzz extends Component{
         likeHandler = async (id, dislikedBy)=>{
                 let likeInfo = {
                     id: id,
-                    likes: this.props.email,
+                    likes: this.props.userID,
                     alreadyDisliked: false
                 };
-                if(dislikedBy.includes(this.props.email)){
+                if(dislikedBy.includes(this.props.userID)){
                     likeInfo.alreadyDisliked=true;
                 }
                 axios.put('http://localhost:5000/buzz/like', likeInfo)
@@ -30,10 +34,10 @@ class ShowBuzz extends Component{
 
             let dislikeInfo = {
                 id: id,
-                dislikes: this.props.email,
+                dislikes: this.props.userID,
                 alreadyLiked: false
             };
-            if(likedBy.includes(this.props.email)){
+            if(likedBy.includes(this.props.userID)){
                 dislikeInfo.alreadyLiked=true;
             }
             axios.put('http://localhost:5000/buzz/dislike', dislikeInfo)
@@ -42,16 +46,34 @@ class ShowBuzz extends Component{
             
         }
 
+        commentHandler = (event) => {
+            this.setState({comment: event.target.value});
+        } 
+
+        addComment = (buzzID) => {
+            let commentData = {
+                comment: this.state.comment,
+                userID: this.props.userID
+            }
+            axios.post(`http://localhost:5000/comment/${buzzID}`, commentData)
+                .then(res=>console.log(res));
+        }
+
+
+
     render(){
         let buzzData = [];
         if(this.props.buzzData){
           buzzData = this.props.buzzData.map(buzz=>{
             return(
                 <BuzzView 
+                    key={buzz._id}
                     buzz={buzz} 
-                    email={this.props.email}
+                    userID={this.props.userID}
                     likeHandler={()=>this.likeHandler(buzz._id, buzz.dislikes)}
-                    dislikeHandler={()=>this.dislikeHandler(buzz._id,buzz.likes)} />
+                    dislikeHandler={()=>this.dislikeHandler(buzz._id,buzz.likes)}
+                    changed={this.commentHandler}
+                    addComment={()=>this.addComment(buzz._id)} />
             );
         });
         }
@@ -68,13 +90,15 @@ class ShowBuzz extends Component{
 const mapStateToProps = state => {
     return{
         buzzData: state.buzz.buzzData,
-        email: state.user.email
+        email: state.user.userData.email,
+        userID: state.user.userData._id
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: () => dispatch( actions.fetchBuzz() )
+        fetchBuzz: () => dispatch( actions.fetchBuzz() ),
+        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }
 

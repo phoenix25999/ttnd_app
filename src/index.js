@@ -10,11 +10,13 @@ import * as serviceWorker from './serviceWorker';
 import userReducer from './store/reducers/user';
 import buzzReducer from './store/reducers/buzz';
 import complaintsReducer from './store/reducers/complaints';
+import commentsReducer from './store/reducers/comments';
 
 const rootReducer = combineReducers({
   user: userReducer,
   buzz: buzzReducer,
-  complaints: complaintsReducer
+  complaints: complaintsReducer,
+  comments: commentsReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(thunk))

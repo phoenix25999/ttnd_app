@@ -9,19 +9,20 @@ module.exports = (passport) => {
             callbackURL: '/auth/google/redirect'
         },
             (request, accessToken, refreshToken, profile, done) => {
-                User.findOne({email:profile.email})
-                .then(user=> {
-                    if(!user){
-                        User.create({
-                            name: profile._json.name,
-                            email: profile._json.email,
-                            picture: profile._json.picture
-                        }).then(newUser=> {
-                                console.log(`New User Created  ${newUser}`);
-                            });
+                User.findOne({ email: profile._json.email }).then((existingUser) => {
+                    if (existingUser) {
+                      done(null, existingUser);
+                    } else {
+                      const newUser = new User({
+                        email: profile._json.email,
+                        name: profile._json.name,
+                        profilePic: profile._json.picture
+                      });
+                      newUser.save().then((newUser) => {
+                        done(null, newUser);
+                      });
                     }
-                });
-                return done(null, profile);
+                  });
             }
         )
     );
@@ -31,8 +32,12 @@ module.exports = (passport) => {
       });
       
     passport.deserializeUser((id, done) => {
-        User.findById(id, function(err, user) {
-            done(err, user);
-        });
-    });
+        User.findById(id)
+      .then((user) => {
+        done(null, user);
+      })
+      .catch((e) => {
+        done(new Error("Failed to deserialize an user"));
+      });
+  });
 }

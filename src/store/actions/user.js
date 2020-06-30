@@ -27,9 +27,9 @@ export const fetchUser = ( token ) => {
                     axios.get('http://localhost:5000/user/' + res.data.email)
                         .then(response=>{
                         let userData = {
-                            ...res.data,
                             ...response.data[0]
                         }
+                        console.log(userData);
                         dispatch(fetchUserSuccess(userData));
             });
                     
