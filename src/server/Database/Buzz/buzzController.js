@@ -28,7 +28,7 @@ exports.getAllBuzz = async (req, res) => {
 
 exports.getBuzzByUser = async (req, res) => {
   try {
-    const allBuzz = await buzzService.getBuzzByUser(req.params.email);
+    const allBuzz = await buzzService.getBuzzByUser(req.params.userID);
     res.send(allBuzz);
   } catch(err) {
     res.status(400).send(err);

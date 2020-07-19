@@ -6,6 +6,7 @@ exports.addComment = async (newComment) => {
 }
 
 exports.getComments = async (buzzID) => {
-    const comment = await Comment.find({buzzId: buzzID});
+    const comment = await Comment.find({buzzId: buzzID})
+                    .populate("commentedBy", "name email picture");
     return comment;
 }

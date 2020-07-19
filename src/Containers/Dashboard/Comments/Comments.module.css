@@ -1,0 +1,45 @@
+.CommentBox{
+    display: flex;
+    padding: 20px 10px 0;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.CommentBox img{
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+.CommentBox > div{
+    background: #dbdbdb;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.NewComment{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 10px;
+    align-items: center;
+}
+
+.NewComment input{
+    width: 92%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+.NewComment button{
+    background: none;
+    border: none;
+    font-size: 37px;
+    padding: 8px 5px 0;
+    color: #808080;
+}
+
+.NewComment button:hover{
+    color: #ff0019;
+    cursor: pointer;
+}

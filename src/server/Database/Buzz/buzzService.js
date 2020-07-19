@@ -12,8 +12,8 @@ exports.getAllBuzz = async () => {
   return allBuzz;
 };
 
-exports.getBuzzByUser = async ( email ) => {
-  const allBuzz = Buzz.find({createdBy: email})
+exports.getBuzzByUser = async ( userID ) => {
+  const allBuzz = Buzz.find({createdBy: userID})
                   .populate('createdBy','name email');
   return allBuzz;
 };

@@ -1,16 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FaThumbsUp, FaThumbsDown, FaArrowRight } from 'react-icons/fa';
+import Comments from '../../../Containers/Dashboard/Comments/Comments';
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import * as actions from '../../../store/actions/index';
 
 import styles from './BuzzView.module.css';
 
 const BuzzView = (props) => {
 
-    const showComments = ( buzzID ) => {
-        props.fetchComments(buzzID);
-    }
-    
 
     return(
         <div key={props.buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
@@ -30,7 +27,7 @@ const BuzzView = (props) => {
                 </div>
             </div>
             <div className={styles.Action}>
-                <button onClick={()=>showComments(props.buzz._id)}>Comments</button>
+                <button>Comments</button>
 
                 <div className={styles.LikeDislike}>
                 <button onClick={props.likeHandler}
@@ -49,9 +46,8 @@ const BuzzView = (props) => {
                     <FaThumbsDown/>
                 </button>
                 </div>
-            </div>
-            <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={props.changed}/>
-            <button onClick={props.addComment}><FaArrowRight /></button>
+            </div>    
+                <Comments buzzID={props.buzz._id} />
         </div>
     )
 }

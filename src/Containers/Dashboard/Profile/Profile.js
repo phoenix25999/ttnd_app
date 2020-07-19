@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import TopBar from '../../../Components/UI/TopBar/TopBar';
 import Banner from '../../../Components/UI/Banner/Banner';
@@ -18,7 +19,16 @@ class Profile extends Component{
     }
 
     componentDidMount(){
-        this.props.fetchBuzzByUser(this.props.email);
+        let token = {};
+        token = queryString.parse(this.props.location.search);
+        
+        if (Object.keys(token).length > 1) {
+        localStorage.setItem('token', token.token);
+        }
+
+        this.props.fetchUser(localStorage.getItem('token'));
+        
+        this.props.fetchBuzzByUser(this.props.userData._id);
     }
 
     inputChangeHandler = (event) => {
@@ -30,7 +40,7 @@ class Profile extends Component{
         let load = {
             about: this.state.about
         }
-        axios.patch('http://localhost:5000/user/profile/'+this.props.email, load)
+        axios.patch('http://localhost:5000/user/profile/'+this.props.userData.email, load)
             .then(res=>console.log(res));
         this.setState({edit: false});
     }
@@ -41,7 +51,7 @@ class Profile extends Component{
         if(this.props.buzzData){
           buzzData = this.props.buzzData.map(buzz=>{
             return(
-                <BuzzView buzz={buzz} email={this.props.email} />
+                <BuzzView buzz={buzz} userID={this.props.userData._id} />
             );
         });
         }
@@ -53,20 +63,21 @@ class Profile extends Component{
                 <div className={styles.Profile}>
                     <div className={styles.Info}>
                         <h3>Profile</h3>
-                        <img src={this.props.picture} alt='profile-pic'/>
-                        <p>{this.props.name}</p>
+                        <img src={this.props.userData.picture} alt='profile-pic'/>
+                        <p>{this.props.userData.name}</p>
+                        {console.log(this.props.userData)}
                         <p>20 posts</p>
-                        <p>{this.props.about}</p>
+                        <p>{this.props.userData.about}</p>
                         
 
                     {this.state.edit?
                     <div className={styles.EditProfile}>
                         <form onSubmit={this.onSubmitHandler}>
                             <label>Name</label>
-                            <input type='text' value={this.props.name} disabled />
+                            <input type='text' value={this.props.userData.name} disabled />
 
                             <label>Email</label>
-                            <input type='email' value={this.props.email} disabled />
+                            <input type='email' value={this.props.userData.email} disabled />
 
                             <label>Tell everyone about yourself</label>
                             <textarea onChange={this.inputChangeHandler} />
@@ -88,17 +99,15 @@ class Profile extends Component{
 
 const mapStateToProps = state => {
     return{
-        name: state.user.name,
-        email: state.user.email,
-        picture: state.user.picture,
-        about: state.user.about,
+        userData: state.user.userData,
         buzzData: state.buzz.buzzData
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzzByUser: (email) => dispatch(actions.fetchBuzzByUser(email))
+        fetchUser: (token)=> dispatch( actions.fetchUser(token) ),
+        fetchBuzzByUser: (userID) => dispatch(actions.fetchBuzzByUser(userID))
     };
 };
 

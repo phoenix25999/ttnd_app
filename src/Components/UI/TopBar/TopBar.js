@@ -21,7 +21,9 @@ const TopBar = (props) => {
                     <button onClick={props.logout}>
                         Logout <FiLogOut style={{marginLeft:'5px'}}/>
                     </button>
+                    
                     <NavLink to='/profile' className={styles.userName}>{props.name}</NavLink>
+                    <NavLink to='/dashboard' className={styles.userName}>Dashboard</NavLink>
                     <FaBars className={styles.DrawerToggle} onClick={()=> setShowSideDrawer(!showSideDrawer)} />
                 </div>
                     
@@ -34,7 +36,7 @@ const TopBar = (props) => {
 
 const mapStateToProps = state => {
     return{
-        name: state.user.name 
+        name: state.user.userData.name 
     }
 }
 
