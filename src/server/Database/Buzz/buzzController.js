@@ -1,14 +1,29 @@
 const buzzService = require('./buzzService');
+const cloudinary = require('cloudinary');
 
 
 exports.addBuzz = async (req, res) => {
-  let imagePath = req.files.map(image=>image.path);
+  //let imagePath = req.files.map(image=>image.path);
   let newBuzz = {
     description: req.body.description,
     category: req.body.category,
-    createdBy: req.body.userID,
-    image:  imagePath
+    createdBy: req.body.userID
   };
+
+  if(req.files.length){
+    let imagePath = [];
+    req.files.map(async image=>{
+      const result = await cloudinary.v2.uploader.upload(image.path);
+      imagePath.push(result.secure_url);
+      newBuzz = {
+        ...newBuzz,
+        image: imagePath
+      }
+    });
+  
+    
+  }
+
   try {
     const buzz = await buzzService.addBuzz(newBuzz);
     res.send(buzz);

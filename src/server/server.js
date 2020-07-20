@@ -12,11 +12,14 @@ const commentRoutes = require('./Database/Comments/commentRoutes');
 
 const app = express();
 
+
+require('./Cloudinary/config');
+
 let headers = {
-    origin: '*',
-    methods: 'OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE',
-    optionsSuccessStatus: 200,
-    exposedHeaders: ['Access-Control-Allow-Origin'],
+  origin: '*',
+  methods: 'OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE',
+  optionsSuccessStatus: 200,
+  exposedHeaders: ['Access-Control-Allow-Origin'],
 }
 
 app.use(cors(headers));
@@ -33,14 +36,13 @@ app.use(buzzRoutes);
 app.use(complaintRoutes);
 app.use(commentRoutes);
 
-
-
 mongoose.connect("mongodb://localhost:27017/ttnd_app", {
   useNewUrlParser: "true",
   useUnifiedTopology: "true"
 })
 .then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err));
+
 
 app.listen(PORT, ()=> {
     console.log(`Server is listening at ${PORT}`)

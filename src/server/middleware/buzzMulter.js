@@ -1,16 +1,12 @@
 const multer = require('multer');
-const path = require('path');
 
-const storage = multer.diskStorage({
-    destination: "./uploads",
-    filename: function(req, file, cb){
-       cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+module.exports = multer({
+  storage: multer.diskStorage({}),
+  fileFilter: (req, file, cb) => {
+    if(!file.mimetype.match(/jpg|jpeg|png|gif|svg|$i/)){
+      cb(new Error('File format not supported'), false);
     }
- });
- 
- const upload = multer({
-    storage: storage,
-    limits:{fileSize: 1000000},
- }).array('myImage', 10);
 
- module.exports = upload;
+    cb(null, true) // If mime type validation is successfull
+  }
+});
