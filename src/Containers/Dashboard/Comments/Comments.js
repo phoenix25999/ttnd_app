@@ -16,7 +16,6 @@ class Comments extends Component{
     }
 
     componentDidMount(){
-        console.log('comment');
         this.props.fetchComments(this.props.buzzID);
     }
     
@@ -29,14 +28,14 @@ class Comments extends Component{
             comment: this.state.comment,
             userID: this.props.userID
         }
+        console.log(this.props.buzzID);
         axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData)
-            .then(res=>console.log(res));
-        this.props.fetchComments(this.props.buzzID);
+            .then(res=>this.props.fetchComments(this.props.buzzID));
+        
     }
 
     render(){
-
-        
+        console.log(this.props.comments);
         // let commentsList = 
         //     this.props.comments.map(comment=>{
         //         console.log(comment);
@@ -63,7 +62,7 @@ class Comments extends Component{
                     <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={this.commentHandler}/>
                     <button onClick={this.addComment}><FaArrowAltCircleRight/></button>
                 </div>
-
+                    
             </div>
         );  
     }

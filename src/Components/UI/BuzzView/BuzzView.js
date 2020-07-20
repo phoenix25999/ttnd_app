@@ -7,7 +7,7 @@ import * as actions from '../../../store/actions/index';
 import styles from './BuzzView.module.css';
 
 const BuzzView = (props) => {
-
+    
 
     return(
         <div key={props.buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
@@ -47,6 +47,7 @@ const BuzzView = (props) => {
                 </button>
                 </div>
             </div>    
+                        
                 <Comments buzzID={props.buzz._id} />
         </div>
     )
