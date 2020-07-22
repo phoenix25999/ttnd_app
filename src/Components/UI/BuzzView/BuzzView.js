@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import Comments from '../../../Containers/Dashboard/Comments/Comments';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import * as actions from '../../../store/actions/index';
@@ -7,7 +8,24 @@ import * as actions from '../../../store/actions/index';
 import styles from './BuzzView.module.css';
 
 const BuzzView = (props) => {
+
+    const [comment, setComment] = useState('');
+
+    const commentHandler = (event) => {
+        setComment(event.target.value);
+    }
     
+    const addComment = () => {
+        let commentData = {
+            comment: comment,
+            userID: props.userID
+        }
+        axios.post(`http://localhost:5000/comment/${props.buzz._id}`, commentData)
+            .then(res=>props.fetchComments(props.buzz._id));
+        
+    }
+
+    useEffect(()=>{props.fetchComments(props.buzz._id)}, []);
 
     return(
         <div key={props.buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
@@ -48,13 +66,18 @@ const BuzzView = (props) => {
                 </div>
             </div>    
                         
-                <Comments buzzID={props.buzz._id} />
+                <Comments comments={props.comments} 
+                    buzzID={props.buzz._id}
+                    changed={commentHandler}
+                    addComment={addComment}
+                />
         </div>
     )
 }
 
 const mapStateToProps = state => {
     return{
+        userID: state.user.userData._id,
         comments: state.comments.commentsData
     };
 }
