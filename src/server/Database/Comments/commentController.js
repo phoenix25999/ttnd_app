@@ -17,9 +17,17 @@ exports.addComment = async (req, res) => {
 }
 
 exports.getComments = async (req, res) => {
-  console.log(req.params.buzzID);
   try{
     const comment = await commentService.getComments(req.params.buzzID);
+    res.status(201).send(comment);
+  } catch(err) {
+    res.status(400).send(err);
+  }
+}
+
+exports.getAllComments = async (req, res) => {
+  try{
+    const comment = await commentService.getAllComments();
     res.status(201).send(comment);
   } catch(err) {
     res.status(400).send(err);

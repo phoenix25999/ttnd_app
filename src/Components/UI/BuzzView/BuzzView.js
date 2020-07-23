@@ -84,7 +84,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
+        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) ),
+        fetchAllComments: () => dispatch( actions.fetchAllComments() )
     };
 }
 

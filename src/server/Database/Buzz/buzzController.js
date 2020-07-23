@@ -9,7 +9,31 @@ exports.addBuzz = async (req, res) => {
     createdBy: req.body.userID,
     image:  imagePath
   };
+<<<<<<< Updated upstream
   try {
+=======
+
+  if(req.files.length){
+    
+    let imagePath = [];
+    req.files.map(async image=>{
+      const result = await cloudinary.v2.uploader.upload(image.path);
+      console.log('Path of image 18');
+      imagePath.push(result.secure_url)
+      console.log(imagePath); // prints the path correctly
+      console.log('Path of image 21');
+      newBuzz = {
+        ...newBuzz,
+        image: imagePath
+      }
+    });  
+    
+  }
+
+  try {
+    console.log('Path 31');
+    console.log(newBuzz); //prints empty array in image field
+>>>>>>> Stashed changes
     const buzz = await buzzService.addBuzz(newBuzz);
     res.send(buzz);
   } catch (err) {

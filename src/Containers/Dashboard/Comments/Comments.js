@@ -12,58 +12,60 @@ import styles from './Comments.module.css';
 class Comments extends Component{
 
     state = {
-        comment: ''
+        comment: '',
+        showReplySection: false
     }
 
-    // componentDidMount(){
-    //     this.props.fetchComments(this.props.buzzID);
-    // }
-    
-    // commentHandler = (event) => {
-    //     this.setState({comment: event.target.value});
-    // } 
-    
-    // addComment = () => {
-    //     let commentData = {
-    //         comment: this.state.comment,
-    //         userID: this.props.userID
-    //     }
-    //     console.log(this.props.buzzID);
-    //     axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData)
-    //         .then(res=>this.props.fetchComments(this.props.buzzID));
-        
-    // }
+    replyHandler = () => {
+        this.setState({showReplySection: true});
+    }
 
     render(){
-        //console.log(this.props.comments);
-        // let commentsList = 
-        //     this.props.comments.map(comment=>{
-        //         console.log(comment);
-        //         return <div key={comment._id} className={styles.CommentBox}>
-        //             <img src={comment.commentedBy.picture} alt='profile-pic'/>
-        //             <div>
-        //                 <p>{comment.commentedBy.name}</p>
-        //                 <p>{comment.content}</p>
-        //             </div>
-        //         </div>})    
+        
+        let commentsArray = [];
+        for(let i in this.props.comments[this.props.buzzID]){
+            commentsArray.push({
+                ...this.props.comments[this.props.buzzID][i]
+            })
+        }
+
+        let commentsList = '';
+        if(commentsArray.length){
+            commentsList = (
+                commentsArray.map(comment=>{
+                    return (
+                    <div key={comment._id}>
+                        <div key={comment._id} className={styles.CommentBox}>
+                            <img src={comment.commentedBy.picture} alt='profile-pic'/>
+                            <div>
+                                <p>{comment.commentedBy.name}</p>
+                                <p>{comment.content}</p>
+                            </div>
+                        </div>
+                        <div className={styles.ReplySection}>
+                        <p onClick={this.replyHandler}>Reply</p>
+                        {this.state.showReplySection?
+                            <div className={styles.NewComment}>
+                                <input type='text' placeholder='Write a reply' className={styles.Comment} onChange={this.props.changed}/>
+                                <button onClick={this.props.addComment}><FaArrowAltCircleRight/></button>
+                            </div>: ''
+                        }
+                        </div>
+                    </div>)}) 
+    
+                    
+            )
+        }
 
         return(
             <div>
-                {this.props.comments.map(comment=>{
-                return (
-                comment.buzzId===this.props.buzzID?<div key={comment._id} className={styles.CommentBox}>
-                    <img src={comment.commentedBy.picture} alt='profile-pic'/>
-                    <div>
-                        <p>{comment.commentedBy.name}</p>
-                        <p>{comment.content}</p>
-                    </div>
-                </div>: '')}) }
+                
+            {commentsList}
 
                 <div className={styles.NewComment}>
                     <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={this.props.changed}/>
                     <button onClick={this.props.addComment}><FaArrowAltCircleRight/></button>
-                </div>
-                    
+                </div>  
             </div>
         );  
     }

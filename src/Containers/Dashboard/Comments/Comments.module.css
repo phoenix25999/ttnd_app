@@ -17,10 +17,19 @@
     margin-left: 10px;
 }
 
+.CommentBox > div p{
+    font-size: 12px;
+    padding: 2px;
+}
+
+.CommentBox > div p:last-child{
+    color: #808080;
+}
+
 .NewComment{
     display: flex;
     justify-content: space-between;
-    padding: 20px 10px;
+    padding: 10px 10px;
     align-items: center;
 }
 
@@ -42,4 +51,19 @@
 .NewComment button:hover{
     color: #ff0019;
     cursor: pointer;
+}
+
+.ReplySection{
+    width: 92%;
+    margin-left: 50px;
+}
+
+.ReplySection p{
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #808080;
+}
+
+.ReplySection .NewComment{
+    padding: 0;
 }

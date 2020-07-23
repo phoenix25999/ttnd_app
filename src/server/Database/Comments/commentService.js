@@ -13,3 +13,10 @@ exports.getComments = async (buzzID) => {
     console.log('Comments', JSON.stringify(comment));
     return comment;
 }
+
+exports.getAllComments = async () => {
+
+    const comment = await Comment.find({})
+                    .populate("commentedBy", "name email picture");
+    return comment;
+}
