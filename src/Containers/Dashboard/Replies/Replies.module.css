@@ -1,0 +1,26 @@
+.NewReply{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 10px;
+    align-items: center;
+}
+
+.NewReply input{
+    width: 92%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+.NewReply button{
+    background: none;
+    border: none;
+    font-size: 37px;
+    padding: 8px 5px 0;
+    color: #808080;
+}
+
+.NewReply button:hover{
+    color: #ff0019;
+    cursor: pointer;
+}

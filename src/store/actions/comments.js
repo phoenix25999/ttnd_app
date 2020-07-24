@@ -14,29 +14,35 @@ export const fetchComments = ( buzzID ) => {
         axios.get('http://localhost:5000/comment/'+buzzID)
             .then(res=>{
                 let commentsArray = [];
-                console.log(res.data);
                 for(let i in res.data){
                     commentsArray.push({
                         ...res.data[i]
                     });
                 }
                 dispatch(fetchCommentsSuccess(commentsArray, buzzID))
-            })
+            });
     }
 }
 
-export const fetchAllComments = ( buzzID ) => {
+export const fetchRepliesSuccess = ( repliesData ) => {
+    return {
+        type: actionTypes.FETCH_REPLIES_SUCCESS,
+        repliesData: repliesData
+    };
+}
+
+export const fetchReplies = ( commentID ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/comments')
+        axios.get(`http://localhost:5000/comment/${commentID}`)
             .then(res=>{
-                let commentsArray = [];
-                console.log(res.data);
+                let repliesArray = [];
                 for(let i in res.data){
-                    commentsArray.push({
+                    repliesArray.push({
                         ...res.data[i]
                     });
                 }
-                dispatch(fetchCommentsSuccess(commentsArray))
-            })
+                dispatch(fetchRepliesSuccess(repliesArray))
+            });
     }
 }
+

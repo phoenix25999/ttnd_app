@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
-//import axios from 'axios';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { FaArrowAltCircleRight, FaThinkPeaks } from 'react-icons/fa';
+import * as actions from '../../../store/actions/index';
 
-import { FaArrowAltCircleRight } from 'react-icons/fa';
-//import * as actions from '../../../store/actions/index';
+import Replies from '../Replies/Replies';
 
 import styles from './Comments.module.css';
 
@@ -18,6 +19,20 @@ class Comments extends Component{
 
     replyHandler = () => {
         this.setState({showReplySection: true});
+    }
+
+    commentHandler = (event) => {
+        this.setState({comment: event.target.value});
+    }
+    
+    addComment = ( ) => {
+        let commentData = {
+            comment: this.state.comment,
+            userID: this.props.userID
+        }
+        axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData)
+            .then(res=>this.props.fetchComments(this.props.buzzID));
+        
     }
 
     render(){
@@ -43,13 +58,14 @@ class Comments extends Component{
                             </div>
                         </div>
                         <div className={styles.ReplySection}>
-                        <p onClick={this.replyHandler}>Reply</p>
-                        {this.state.showReplySection?
-                            <div className={styles.NewComment}>
-                                <input type='text' placeholder='Write a reply' className={styles.Comment} onChange={this.props.changed}/>
-                                <button onClick={this.props.addComment}><FaArrowAltCircleRight/></button>
-                            </div>: ''
-                        }
+                            <p onClick={this.replyHandler}>Reply</p>
+                            {this.state.showReplySection?
+                                <Replies 
+                                    userID= {this.props.userID}
+                                    buzzID= {this.props.buzzID}
+                                    commentID = {comment._id}
+                                />: ''
+                            }
                         </div>
                     </div>)}) 
     
@@ -63,25 +79,25 @@ class Comments extends Component{
             {commentsList}
 
                 <div className={styles.NewComment}>
-                    <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={this.props.changed}/>
-                    <button onClick={this.props.addComment}><FaArrowAltCircleRight/></button>
+                    <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={this.commentHandler}/>
+                    <button onClick={()=>this.addComment('comment')}><FaArrowAltCircleRight/></button>
                 </div>  
             </div>
         );  
     }
 }
 
-// const mapStateToProps = state => {
-//     return{
-//         userID: state.user.userData._id,
-//         //comments: state.comments.commentsData
-//     };
-// }
+const mapStateToProps = state => {
+    return{
+        userID: state.user.userData._id,
+        //comments: state.comments.commentsData
+    };
+}
 
-// const mapDispatchToProps = dispatch => {
-//     return{
-//         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
-//     };
-// }
+const mapDispatchToProps = dispatch => {
+    return{
+        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
+    };
+}
 
-export default  Comments;
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);

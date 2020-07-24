@@ -25,9 +25,29 @@ exports.getComments = async (req, res) => {
   }
 }
 
-exports.getAllComments = async (req, res) => {
+exports.addReply = async (req, res) => {
+
+  const { buzzID, commentID } = req.params;
+
+  let newReply = {
+    content: req.body.reply,
+    buzzId: buzzID,
+    contentType: 'Reply',
+    commentedBy: req.body.userID,
+    parentComment: commentID
+  }
+
   try{
-    const comment = await commentService.getAllComments();
+      const addedReply = await commentService.addComment(newReply);
+      res.status(201).send(addedReply);
+  } catch(err) {
+      res.status(400).send(err);
+  }
+}
+
+exports.getReplies = async (req, res) => {
+  try{
+    const comment = await commentService.getReplies(req.params.buzzID);
     res.status(201).send(comment);
   } catch(err) {
     res.status(400).send(err);

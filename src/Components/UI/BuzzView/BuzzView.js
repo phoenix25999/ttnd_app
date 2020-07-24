@@ -11,19 +11,7 @@ const BuzzView = (props) => {
 
     const [comment, setComment] = useState('');
 
-    const commentHandler = (event) => {
-        setComment(event.target.value);
-    }
     
-    const addComment = () => {
-        let commentData = {
-            comment: comment,
-            userID: props.userID
-        }
-        axios.post(`http://localhost:5000/comment/${props.buzz._id}`, commentData)
-            .then(res=>props.fetchComments(props.buzz._id));
-        
-    }
 
     useEffect(()=>{props.fetchComments(props.buzz._id)}, []);
 
@@ -68,8 +56,6 @@ const BuzzView = (props) => {
                         
                 <Comments comments={props.comments} 
                     buzzID={props.buzz._id}
-                    changed={commentHandler}
-                    addComment={addComment}
                 />
         </div>
     )

@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    commentsData: {}
+    commentsData: {},
+    repliesData: []
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -15,7 +16,17 @@ const reducer = ( state = initialState, action ) => {
                     [action.buzzID]: action.commentsData
                 }
             };
-            console.log('reducer',state);
+            return state;
+
+        case actionTypes.FETCH_REPLIES_SUCCESS:
+            
+            state = {
+                ...state,
+                repliesData: [
+                    ...state.repliesData,
+                        [...action.repliesData]
+                ]
+            };
             return state;
         default:
             return state;

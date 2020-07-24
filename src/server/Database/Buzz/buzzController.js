@@ -1,4 +1,5 @@
 const buzzService = require('./buzzService');
+const cloudinary = require('cloudinary');
 
 
 exports.addBuzz = async (req, res) => {
@@ -9,9 +10,6 @@ exports.addBuzz = async (req, res) => {
     createdBy: req.body.userID,
     image:  imagePath
   };
-<<<<<<< Updated upstream
-  try {
-=======
 
   if(req.files.length){
     
@@ -33,7 +31,6 @@ exports.addBuzz = async (req, res) => {
   try {
     console.log('Path 31');
     console.log(newBuzz); //prints empty array in image field
->>>>>>> Stashed changes
     const buzz = await buzzService.addBuzz(newBuzz);
     res.send(buzz);
   } catch (err) {
