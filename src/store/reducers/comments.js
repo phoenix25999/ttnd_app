@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     commentsData: {},
-    repliesData: []
+    repliesData: {}
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -22,11 +22,12 @@ const reducer = ( state = initialState, action ) => {
             
             state = {
                 ...state,
-                repliesData: [
+                repliesData: {
                     ...state.repliesData,
-                        [...action.repliesData]
-                ]
+                    [action.commentID]: action.repliesData
+                }
             };
+            console.log(state);
             return state;
         default:
             return state;

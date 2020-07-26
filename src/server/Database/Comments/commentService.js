@@ -6,17 +6,16 @@ exports.addComment = async (newComment) => {
 }
 
 exports.getComments = async (buzzID) => {
-    const comment = await Comment.find({buzzId: buzzID})
+    const comment = await Comment.find({contentType: 'Comment', buzzId: buzzID})
                     .populate("commentedBy", "name email picture");
     
-    console.log('Comments', JSON.stringify(comment));
     return comment;
 }
 
 exports.getReplies = async (commentID) => {
-    const replies = await Comment.find({parentComment: commentID})
+    const replies = await Comment.find({contentType: 'Reply', parentComment: commentID})
                     .populate("commentedBy", "name email picture");
-    
+    console.log('Replies', replies);
     return replies;
 }
 

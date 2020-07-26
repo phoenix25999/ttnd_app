@@ -47,7 +47,7 @@ exports.addReply = async (req, res) => {
 
 exports.getReplies = async (req, res) => {
   try{
-    const comment = await commentService.getReplies(req.params.buzzID);
+    const comment = await commentService.getReplies(req.params.commentID);
     res.status(201).send(comment);
   } catch(err) {
     res.status(400).send(err);

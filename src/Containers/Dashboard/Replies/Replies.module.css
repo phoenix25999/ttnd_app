@@ -1,3 +1,36 @@
+.CommentBox{
+    display: flex;
+    padding: 20px 10px 0;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.CommentBox img{
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+}
+.CommentBox > div{
+    background: #dbdbdb;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.CommentBox > div p{
+    font-size: 12px;
+    padding: 2px;
+}
+
+.CommentBox > div p:first-child{
+    color: #000;
+}
+
+.CommentBox > div p:last-child{
+    color: #808080;
+}
+
+
 .NewReply{
     display: flex;
     justify-content: flex-end;

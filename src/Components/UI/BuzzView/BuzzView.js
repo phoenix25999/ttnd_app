@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import Comments from '../../../Containers/Dashboard/Comments/Comments';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import * as actions from '../../../store/actions/index';
@@ -8,10 +7,6 @@ import * as actions from '../../../store/actions/index';
 import styles from './BuzzView.module.css';
 
 const BuzzView = (props) => {
-
-    const [comment, setComment] = useState('');
-
-    
 
     useEffect(()=>{props.fetchComments(props.buzz._id)}, []);
 
@@ -70,8 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) ),
-        fetchAllComments: () => dispatch( actions.fetchAllComments() )
+        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }
 

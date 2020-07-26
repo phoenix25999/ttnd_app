@@ -24,24 +24,26 @@ export const fetchComments = ( buzzID ) => {
     }
 }
 
-export const fetchRepliesSuccess = ( repliesData ) => {
+export const fetchRepliesSuccess = ( repliesData, commentID ) => {
     return {
         type: actionTypes.FETCH_REPLIES_SUCCESS,
-        repliesData: repliesData
+        repliesData: repliesData,
+        commentID: commentID
     };
 }
 
 export const fetchReplies = ( commentID ) => {
     return dispatch => {
-        axios.get(`http://localhost:5000/comment/${commentID}`)
+        axios.get(`http://localhost:5000/commentReply/${commentID}`)
             .then(res=>{
+                console.log(res.data);
                 let repliesArray = [];
                 for(let i in res.data){
                     repliesArray.push({
                         ...res.data[i]
                     });
                 }
-                dispatch(fetchRepliesSuccess(repliesArray))
+                dispatch(fetchRepliesSuccess(repliesArray, commentID))
             });
     }
 }
