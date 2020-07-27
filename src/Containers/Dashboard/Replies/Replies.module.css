@@ -1,32 +1,38 @@
-.CommentBox{
+.Replies p:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    color: #000;
+}
+
+.ReplyBox{
     display: flex;
     padding: 20px 10px 0;
     margin-left: 10px;
     align-items: center;
 }
 
-.CommentBox img{
+.ReplyBox img{
     height: 30px;
     width: 30px;
     border-radius: 100%;
 }
-.CommentBox > div{
+.ReplyBox > div{
     background: #dbdbdb;
     padding: 5px 10px;
     border-radius: 10px;
     margin-left: 10px;
 }
 
-.CommentBox > div p{
+.ReplyBox > div p{
     font-size: 12px;
     padding: 2px;
 }
 
-.CommentBox > div p:first-child{
+.ReplyBox > div p:first-child{
     color: #000;
 }
 
-.CommentBox > div p:last-child{
+.ReplyBox > div p:last-child{
     color: #808080;
 }
 
@@ -38,10 +44,21 @@
     align-items: center;
 }
 
+.NewReply > div{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 15px;
+    align-items: center;
+    padding-right: 10px;
+}
+
 .NewReply input{
     width: 92%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: none;
+    outline: none;
     border-radius: 15px;
 }
 
@@ -55,5 +72,21 @@
 
 .NewReply button:hover{
     color: #ff0019;
+    cursor: pointer;
+}
+
+.NewReply span{
+    color: #808080;
+    padding: 0 5px;
+    font-size: 15px;
+}
+
+.ImageButton{
+    color: #808080;
+    font-size: 20px;
+}
+
+.ImageButton:hover{
+    color: #000;
     cursor: pointer;
 }

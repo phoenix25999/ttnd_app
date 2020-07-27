@@ -3,12 +3,11 @@ const cloudinary = require('cloudinary');
 
 
 exports.addBuzz = async (req, res) => {
-  let imagePath = req.files.map(image=>image.path);
+  //let imagePath = req.files.map(image=>image.path);
   let newBuzz = {
     description: req.body.description,
     category: req.body.category,
     createdBy: req.body.userID,
-    image:  imagePath
   };
 
   if(req.files.length){

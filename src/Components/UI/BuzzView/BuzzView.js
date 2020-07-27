@@ -8,49 +8,56 @@ import styles from './BuzzView.module.css';
 
 const BuzzView = (props) => {
 
-    useEffect(()=>{props.fetchComments(props.buzz._id)}, []);
+    const {
+        userID,
+        fetchComments,
+        comments,
+        buzz
+    } = props;
+
+    useEffect(()=>{fetchComments(buzz._id)}, [buzz._id, fetchComments]);
 
     return(
-        <div key={props.buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
+        <div key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
             <div className={styles.BuzzDetails}>
                 <div className={styles.Date}>
-                    <p><em>{props.buzz.createdOn.slice(8,10)}/</em></p>
-                    <p><em>{props.buzz.createdOn.slice(5,7)}</em></p>
+                    <p><em>{buzz.createdOn.slice(8,10)}/</em></p>
+                    <p><em>{buzz.createdOn.slice(5,7)}</em></p>
                 </div>
                 <div className={styles.BuzzContent}>
-                    <p>{props.buzz.createdBy.email}</p>
-                    <div className={styles.ImageBox}>{props.buzz.image.map(image=><div key={image}className={styles.Image}>
-                        <img src={require(`../../../server/${image}`)} alt='buzz'/>
+                    <p>{buzz.createdBy.email}</p>
+                    <div className={styles.ImageBox}>{buzz.image.map(image=><div key={image}className={styles.Image}>
+                        <img src={image} alt='buzz'/>
                     </div>)}</div>
         
                             
-                    <p className={styles.BuzzDescription}>{props.buzz.description}</p>
+                    <p className={styles.BuzzDescription}>{buzz.description}</p>
                 </div>
             </div>
             <div className={styles.Action}>
-                <button>Comments</button>
+                <button>{buzz.comments} Comments</button>
 
                 <div className={styles.LikeDislike}>
                 <button onClick={props.likeHandler}
-                    disabled={props.buzz.likes.includes(props.userID)?true:false}
-                    style={{color:`${props.buzz.likes.includes(props.userID)?`#ff0019`:`#808080`}`}}
+                    disabled={buzz.likes.includes(userID)?true:false}
+                    style={{color:`${buzz.likes.includes(userID)?`#ff0019`:`#808080`}`}}
                 >
-                    <span>{props.buzz.likes.length}</span>
+                    <span>{buzz.likes.length}</span>
                     <FaThumbsUp/>
                 </button>
                 <button onClick={props.dislikeHandler}
-                    disabled={props.buzz.dislikes.includes(props.userID)?true:false}
-                    style={{color:`${props.buzz.dislikes.includes(props.userID)?`#ff0019`:`#808080`}`}}
+                    disabled={buzz.dislikes.includes(userID)?true:false}
+                    style={{color:`${buzz.dislikes.includes(userID)?`#ff0019`:`#808080`}`}}
                 >
 
-                    <span>{props.buzz.dislikes.length}</span>
+                    <span>{buzz.dislikes.length}</span>
                     <FaThumbsDown/>
                 </button>
                 </div>
             </div>    
                         
-                <Comments comments={props.comments} 
-                    buzzID={props.buzz._id}
+                <Comments comments={comments} 
+                    buzzID={buzz._id}
                 />
         </div>
     )

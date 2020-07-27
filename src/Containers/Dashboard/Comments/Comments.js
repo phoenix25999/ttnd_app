@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 import Replies from '../Replies/Replies';
 
 import styles from './Comments.module.css';
+import { RiImageAddLine } from 'react-icons/ri';
 
 
 
@@ -14,29 +15,42 @@ class Comments extends Component{
 
     state = {
         comment: '',
-        showReplySection: false
+        image: ''
     }
 
-    replyHandler = () => {
-        this.setState({showReplySection: true});
-    }
-
-    commentHandler = (event) => {
+    commentHandler = (event, inputIdentifier) => {
+        if(inputIdentifier==='image'){
+            this.setState({image: event.target.files})
+        }
+        else{
         this.setState({comment: event.target.value});
+        }
     }
     
     addComment = ( ) => {
-        let commentData = {
-            comment: this.state.comment,
-            userID: this.props.userID
+
+        const commentData = new FormData();
+        commentData.append('comment',this.state.comment);
+        commentData.append('image',this.state.image[0]);
+        commentData.append('userID',this.props.userID);
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
         }
-        axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData)
-            .then(res=>this.props.fetchComments(this.props.buzzID));
+    }
+
+        axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData, config)
+            .then(res=>{
+                this.setState({comment: ''});
+                this.props.fetchComments(this.props.buzzID);
+                this.props.fetchBuzz();
+            });
         
     }
 
     render(){
-        
+
         let commentsArray = [];
         for(let i in this.props.comments[this.props.buzzID]){
             commentsArray.push({
@@ -55,17 +69,17 @@ class Comments extends Component{
                             <div>
                                 <p>{comment.commentedBy.name}</p>
                                 <p>{comment.content}</p>
+                                {comment.image?<img src={require(`../../../server/${comment.image}`)} alt='pic'/>: ''}
                             </div>
                         </div>
                         <div className={styles.ReplySection}>
-                            <p onClick={this.replyHandler}>Reply</p>
-                            {this.state.showReplySection?
+                            
                                 <Replies 
                                     userID= {this.props.userID}
                                     buzzID= {this.props.buzzID}
                                     commentID = {comment._id}
-                                />: ''
-                            }
+                                />
+                        
                         </div>
                     </div>)}) 
     
@@ -78,10 +92,30 @@ class Comments extends Component{
                 
             {commentsList}
 
-                <div className={styles.NewComment}>
-                    <input type='text' placeholder='Write a comment' className={styles.Comment} onChange={this.commentHandler}/>
-                    <button onClick={()=>this.addComment('comment')}><FaArrowAltCircleRight/></button>
-                </div>  
+                
+                    <form action="upload" method="post" encType="multipart/form-data" className={styles.NewComment}>
+                        <div>
+                            <input type='text' value={this.state.comment}placeholder='Write a comment' className={styles.Comment} onChange={(e)=>this.commentHandler(e, 'comment')}/>
+                            <div>
+                                <label htmlFor='commentsImage'>
+                                    <RiImageAddLine title='Add image' className={styles.ImageButton}/>
+                                </label>
+                                <input 
+                                    id='commentsImage' 
+                                    name='image' 
+                                    type='file' 
+                                    accept='image/*'
+                                    hidden 
+                                    onChange={(e)=>this.commentHandler(e, 'image')}
+                                />
+                            </div>
+                            <span>{this.state.image&&this.state.image[0].name}</span>
+
+                        </div>
+                        
+                        <button onClick={this.addComment}><FaArrowAltCircleRight/></button>
+                    </form>
+                  
             </div>
         );  
     }
@@ -89,14 +123,14 @@ class Comments extends Component{
 
 const mapStateToProps = state => {
     return{
-        userID: state.user.userData._id,
-        //comments: state.comments.commentsData
+        userID: state.user.userData._id
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
+        fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) ),
+        fetchBuzz: () => dispatch( actions.fetchBuzz() )
     };
 }
 

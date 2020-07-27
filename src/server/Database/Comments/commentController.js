@@ -1,17 +1,26 @@
 const commentService = require('./commentService');
 
 exports.addComment = async (req, res) => {
+  let imagePath ='';
+  if(req.file){
+    imagePath = req.file.path;
+  }
   let newComment = {
     content: req.body.comment,
     buzzId: req.params.buzzID,
     contentType: 'Comment',
-    commentedBy: req.body.userID
+    commentedBy: req.body.userID,
+    image: imagePath
   }
+
+  console.log(req.file);
 
   try{
       const addedComment = await commentService.addComment(newComment);
+      console.log(commentService.addedComment);
       res.status(201).send(addedComment);
   } catch(err) {
+    console.log(err)
       res.status(400).send(err);
   }
 }
@@ -26,7 +35,10 @@ exports.getComments = async (req, res) => {
 }
 
 exports.addReply = async (req, res) => {
-
+  let imagePath ='';
+  if(req.file){
+    imagePath = req.file.path;
+  }
   const { buzzID, commentID } = req.params;
 
   let newReply = {
@@ -34,7 +46,8 @@ exports.addReply = async (req, res) => {
     buzzId: buzzID,
     contentType: 'Reply',
     commentedBy: req.body.userID,
-    parentComment: commentID
+    parentComment: commentID,
+    image: imagePath
   }
 
   try{

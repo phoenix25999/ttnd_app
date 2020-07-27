@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowAltCircleRight } from 'react-icons/fa';
-
+import { RiImageAddLine } from 'react-icons/ri';
 import styles from './Replies.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -8,40 +8,66 @@ import * as actions from '../../../store/actions/index';
 
 const Replies = (props) => {
 
+    const[showReplySection, setShowReplySection] = useState(false);
     const[reply, setReply] = useState('');
+    const[image, setImage] = useState('');
 
-    useEffect(()=>props.fetchReplies(props.commentID), [])
+    const {
+        replies,
+        fetchReplies,
+        userID
+    } = props;
+
+    useEffect(()=>fetchReplies(props.commentID), [props.commentID, fetchReplies])
     
     
 
     const addReply = () => {
-        let replyData = {
-            reply: reply,
-            userID: props.userID
+        // let replyData = {
+        //     reply: reply,
+        //     userID: props.userID
+        // }
+
+        const replyData = new FormData();
+        replyData.append('reply',reply);
+        replyData.append('image',image[0]);
+        replyData.append('userID',userID);
+
+        const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+            }
         }
 
-        axios.post(`http://localhost:5000/commentReply/${props.buzzID}/${props.commentID}`, replyData)
-            .then(res=>console.log(res));
+        axios.post(`http://localhost:5000/commentReply/${props.buzzID}/${props.commentID}`, replyData, config)
+            .then(res=>{
+                setReply('');
+                props.fetchReplies(props.commentID);
+            });
     } 
 
     let repliesArray = [];
-        for(let i in props.replies[props.commentID]){
+    let count = 0;
+    
+        for(let i in replies[props.commentID]){
             repliesArray.push({
-                ...props.replies[props.commentID][i]
+                ...replies[props.commentID][i]
             })
         }
 
         let repliesList = '';
         if(repliesArray.length){
+            count= replies[props.commentID].length;
             repliesList = (
                 repliesArray.map(reply=>{
                     return (
                     <div key={reply._id}>
-                        <div key={reply._id} className={styles.CommentBox}>
+                        <div key={reply._id} className={styles.ReplyBox}>
                             <img src={reply.commentedBy.picture} alt='profile-pic'/>
                             <div>
                                 <p>{reply.commentedBy.name}</p>
                                 <p>{reply.content}</p>
+                                {reply.image?<img src={require(`../../../server/${reply.image}`)} alt='pic'/>: ''}
                             </div>
                         </div>
                     </div>)}) 
@@ -51,12 +77,35 @@ const Replies = (props) => {
         }
 
     return(
-        <div>
-            {repliesList}
-        <div className={styles.NewReply}>
-            <input type='text' placeholder='Write a reply' onChange={(event)=>setReply(event.target.value)}/>
-            <button onClick={addReply}><FaArrowAltCircleRight/></button>
-        </div>
+        <div className={styles.Replies}>
+            <p onClick={()=>setShowReplySection(!showReplySection)}>{count} {count>1?'Replies':'Reply'}</p>
+            {showReplySection?
+            [   
+                repliesList,
+                <form action="upload" method="post" encType="multipart/form-data" className={styles.NewReply}>
+                        <div>
+                        <input type='text' value={reply} placeholder='Write a reply' onChange={(event)=>setReply(event.target.value)}/>
+                            <div>
+                                <label htmlFor='replyImage'>
+                                    <RiImageAddLine title='Add image' className={styles.ImageButton}/>
+                                </label>
+                                <input 
+                                    id='replyImage' 
+                                    name='image' 
+                                    type='file' 
+                                    accept='image/*'
+                                    hidden 
+                                    onChange={(event)=>setImage(event.target.files)}
+                                />
+                            </div>
+                            <span>{image&&image[0].name}</span>
+
+                        </div>
+                        
+                        <button onClick={addReply}><FaArrowAltCircleRight/></button>
+                    </form>
+            ]
+       : '' }
         </div>
     );
 }
