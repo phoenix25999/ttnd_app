@@ -34,7 +34,7 @@ const TopBar = (props) => {
 
 const mapStateToProps = state => {
     return{
-        name: state.user.name 
+        name: state.user.userData.name 
     }
 }
 

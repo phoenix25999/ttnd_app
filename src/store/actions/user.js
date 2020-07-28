@@ -38,3 +38,24 @@ export const fetchUser = ( token ) => {
             })
     }
 }
+
+export const fetchAllUsersSuccess = ( users ) => {
+    return {
+        type: actionTypes.FETCH_ALL_USERS_SUCCESS,
+        users: users
+    };
+}
+
+export const fetchAllUsers = () => {
+    return dispatch => {
+        axios.get('http://localhost:5000/users')
+            .then(response=>{
+                let usersArray = [];
+                for(let i in response.data){
+                    usersArray.push({...response.data[i]});
+                }
+                
+                dispatch(fetchAllUsersSuccess(usersArray));
+            })
+    }
+}

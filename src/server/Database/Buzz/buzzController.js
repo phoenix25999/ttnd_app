@@ -1,6 +1,5 @@
 const buzzService = require('./buzzService');
 
-
 exports.addBuzz = async (req, res) => {
   let imagePath = req.files.map(image=>image.path);
   let newBuzz = {
@@ -9,6 +8,24 @@ exports.addBuzz = async (req, res) => {
     createdBy: req.body.userID,
     image:  imagePath
   };
+
+  // if(req.files.length){
+    
+  //   let imagePath = [];
+  //   req.files.map(async image=>{
+  //     const result = await cloudinary.v2.uploader.upload(image.path);
+  //     imagePath.push(result.secure_url)
+  //     console.log(imagePath);
+  //   });
+    
+  //   newBuzz = {
+  //     ...newBuzz,
+  //     image: imagePath
+  //   }
+  //   console.log(newBuzz);
+    
+  // }
+
   try {
     const buzz = await buzzService.addBuzz(newBuzz);
     res.send(buzz);
