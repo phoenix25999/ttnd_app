@@ -1,14 +1,14 @@
 const buzzService = require('./buzzService');
 const cloudinary = require('cloudinary');
 
-
 exports.addBuzz = async (req, res) => {
-  //let imagePath = req.files.map(image=>image.path);
+
   let newBuzz = {
     description: req.body.description,
     category: req.body.category,
     createdBy: req.body.userID,
   };
+
 
   if(req.files.length){
     

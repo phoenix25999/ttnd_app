@@ -14,6 +14,7 @@ import * as actions from '../../store/actions/index';
 
 
 import styles from './Dashboard.module.css';
+import SuperAdmin from './SuperAdmin/SuperAdmin';
 
 class Dashboard extends Component{
 
@@ -26,6 +27,7 @@ class Dashboard extends Component{
         }
 
         this.props.fetchUser(localStorage.getItem('token'));
+
     }
 
     logoutHandler = async() => {
@@ -49,7 +51,11 @@ class Dashboard extends Component{
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
+
+                    <Route path='/dashboard/users' component={SuperAdmin} />
                     <Redirect to="/dashboard/buzz" />
+
+                
                 </Switch>
             )
         }
@@ -80,9 +86,9 @@ class Dashboard extends Component{
 
 const mapStateToProps = state => {
     return{
-        email: state.user.email,
+        email: state.user.userData.email,
         valid: state.user.valid,
-        role: state.user.valid
+        role: state.user.userData.role
     }
 }
 

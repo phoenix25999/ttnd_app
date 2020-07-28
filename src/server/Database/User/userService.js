@@ -5,6 +5,11 @@ exports.getUserRole = async (email) => {
     return userRole;
 };
 
+exports.getAllUsersDetails = async () => {
+    const users = User.find({});
+    return users;
+};
+
 
 exports.updateProfile = async (email, about) => {
     const profile = User.updateOne({email: email}, {about: about});

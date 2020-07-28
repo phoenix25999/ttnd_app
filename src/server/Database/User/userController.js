@@ -10,6 +10,16 @@ exports.getUserDetails = async (req, res) => {
   }
 }
 
+exports.getAllUsersDetails = async (req, res) => {
+  
+  try {
+    const users = await userService.getAllUsersDetails();
+    res.send(users);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+}
+
 exports.getUserName = async (req, res) => {
   let email = req.params.email;
   try {
