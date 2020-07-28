@@ -4,4 +4,4 @@ export { fetchBuzz, fetchBuzzByUser } from './buzz';
 
 export { fetchComplaints, fetchComplaintsByUser } from './complaints';
 
-export { fetchComments }  from './comments';
+export { fetchComments, fetchReplies }  from './comments';

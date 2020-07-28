@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TopBar from '../../Components/UI/TopBar/TopBar';
 import Banner from '../../Components/UI/Banner/Banner';
@@ -23,17 +23,17 @@ class Dashboard extends Component{
         token = queryString.parse(this.props.location.search);
         
         if (Object.keys(token).length > 1) {
-        sessionStorage.setItem('token', token.token);
+        localStorage.setItem('token', token.token);
         }
 
-        this.props.fetchUser(sessionStorage.getItem('token'));
+        this.props.fetchUser(localStorage.getItem('token'));
 
     }
 
     logoutHandler = async() => {
         const response = await axios.get('http://localhost:5000/auth/logout');
         this.props.history.push('/');
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         alert(response.data);
     }
 
@@ -43,6 +43,7 @@ class Dashboard extends Component{
                 <Route path='/dashboard/buzz' component={Buzz} />
                 <Route path='/dashboard/complaints' component={Complaints} />
                 <Route path='/dashboard/resolve' component={Resolve} />
+                <Redirect to="/dashboard/buzz" />
             </Switch>
         );
         if(this.props.role==='employee'){
@@ -50,7 +51,11 @@ class Dashboard extends Component{
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
+
                     <Route path='/dashboard/users' component={SuperAdmin} />
+                    <Redirect to="/dashboard/buzz" />
+
+                
                 </Switch>
             )
         }

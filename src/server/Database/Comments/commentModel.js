@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
     content: {
-        type: String,
-        required: true
+        type: String
       },
       buzzId: { // Post on which the comment is added on
         type: mongoose.Schema.Types.ObjectId,
