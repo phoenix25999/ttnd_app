@@ -25,7 +25,11 @@ const buzzSchema = new mongoose.Schema({
     dislikes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }], 
+    comments: {
+        type: Number,
+        default: 0
+    }
 })
 
 const buzzModel = mongoose.model('Buzz', buzzSchema);

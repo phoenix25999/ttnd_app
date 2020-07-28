@@ -29,7 +29,15 @@
     margin-left: 30px;
 }
 
-.Logout button:hover{
+
+
+.Logout a{
+    text-decoration: none;
+    color: #d13f1b;
+    margin-left: 30px;
+}
+
+.Logout button:hover, .Logout a:hover{
     cursor: pointer;
     text-decoration: underline;
 }

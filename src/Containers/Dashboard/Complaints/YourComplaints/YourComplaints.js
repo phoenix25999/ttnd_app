@@ -66,7 +66,7 @@ class YourComplaints extends Component{
 
 const mapStateToProps = state => {
     return{
-        email: state.user.email,
+        email: state.user.userData.email,
         complaintsData: state.complaints.complaintsData
     };
 };

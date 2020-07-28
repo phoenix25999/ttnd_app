@@ -1,10 +1,11 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
-export const fetchCommentsSuccess = ( commentsData ) => {
+export const fetchCommentsSuccess = ( commentsData, buzzID ) => {
     return {
         type: actionTypes.FETCH_COMMENTS_SUCCESS,
-        commentsData: commentsData
+        commentsData: commentsData,
+        buzzID: buzzID
     };
 }
 
@@ -13,13 +14,37 @@ export const fetchComments = ( buzzID ) => {
         axios.get('http://localhost:5000/comment/'+buzzID)
             .then(res=>{
                 let commentsArray = [];
-                console.log(res.data);
                 for(let i in res.data){
                     commentsArray.push({
                         ...res.data[i]
                     });
                 }
-                dispatch(fetchCommentsSuccess(commentsArray))
-            })
+                dispatch(fetchCommentsSuccess(commentsArray, buzzID))
+            });
     }
 }
+
+export const fetchRepliesSuccess = ( repliesData, commentID ) => {
+    return {
+        type: actionTypes.FETCH_REPLIES_SUCCESS,
+        repliesData: repliesData,
+        commentID: commentID
+    };
+}
+
+export const fetchReplies = ( commentID ) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/commentReply/${commentID}`)
+            .then(res=>{
+                console.log(res.data);
+                let repliesArray = [];
+                for(let i in res.data){
+                    repliesArray.push({
+                        ...res.data[i]
+                    });
+                }
+                dispatch(fetchRepliesSuccess(repliesArray, commentID))
+            });
+    }
+}
+

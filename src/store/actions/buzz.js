@@ -23,9 +23,9 @@ export const fetchBuzz = () => {
     }
 }
 
-export const fetchBuzzByUser = ( email ) => {
+export const fetchBuzzByUser = ( userID ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/buzz/'+email)
+        axios.get('http://localhost:5000/buzz/'+userID)
             .then(res=>{
                 let buzzArray = [];
                 for(let i in res.data){

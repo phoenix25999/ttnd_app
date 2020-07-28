@@ -46,20 +46,6 @@ class ShowBuzz extends Component{
             
         }
 
-        commentHandler = (event) => {
-            this.setState({comment: event.target.value});
-        } 
-
-        addComment = (buzzID) => {
-            let commentData = {
-                comment: this.state.comment,
-                userID: this.props.userID
-            }
-            axios.post(`http://localhost:5000/comment/${buzzID}`, commentData)
-                .then(res=>console.log(res));
-        }
-
-
 
     render(){
         let buzzData = [];
@@ -72,8 +58,7 @@ class ShowBuzz extends Component{
                     userID={this.props.userID}
                     likeHandler={()=>this.likeHandler(buzz._id, buzz.dislikes)}
                     dislikeHandler={()=>this.dislikeHandler(buzz._id,buzz.likes)}
-                    changed={this.commentHandler}
-                    addComment={()=>this.addComment(buzz._id)} />
+                />
             );
         });
         }

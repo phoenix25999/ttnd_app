@@ -77,7 +77,6 @@ class NewBuzz extends Component{
 
     else{
       updatedFormElement.value=event.target.files;
-      console.log(updatedFormElement.value);
     }
 
     let formIsValid = true;
@@ -105,7 +104,6 @@ class NewBuzz extends Component{
         }
         
         buzzData.append('userID',this.props.userID);
-        console.log(this.state.buzzForm.image.value);
 
     const config = {
       headers: {
