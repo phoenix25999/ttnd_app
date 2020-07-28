@@ -52,7 +52,7 @@ class Dashboard extends Component{
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
                     <Route path='/dashboard/users' component={SuperAdmin} />
-                    {/* <Redirect to="/dashboard/buzz" /> */}
+                    <Redirect to="/dashboard/buzz" />
 
                 
                 </Switch>
