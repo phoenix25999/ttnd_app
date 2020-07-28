@@ -27,13 +27,16 @@ class Comments extends Component{
         }
     }
     
-    addComment = ( ) => {
+    addComment = ( event ) => {
+
+        event.preventDefault();
 
         const commentData = new FormData();
         commentData.append('comment',this.state.comment);
         commentData.append('image',this.state.image[0]);
         commentData.append('userID',this.props.userID);
 
+        console.log('commentData', commentData);
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
@@ -93,7 +96,7 @@ class Comments extends Component{
             {commentsList}
 
                 
-                    <form action="upload" method="post" encType="multipart/form-data" className={styles.NewComment}>
+                    <form action="upload" method="post" encType="multipart/form-data" className={styles.NewComment} onSubmit={this.addComment}>
                         <div>
                             <input type='text' value={this.state.comment}placeholder='Write a comment' className={styles.Comment} onChange={(e)=>this.commentHandler(e, 'comment')}/>
                             <div>
@@ -113,7 +116,7 @@ class Comments extends Component{
 
                         </div>
                         
-                        <button onClick={this.addComment}><FaArrowAltCircleRight/></button>
+                        <button><FaArrowAltCircleRight/></button>
                     </form>
                   
             </div>

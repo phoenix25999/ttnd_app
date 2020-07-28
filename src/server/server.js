@@ -23,6 +23,7 @@ app.use(cors(headers));
 
 app.use(bodyParser.json({ limit: '10mb' }));
 
+
 require('./Database/User/passport/google-strategy')(passport);
 app.use(passport.initialize());
 app.use(passport.session());

@@ -17,7 +17,7 @@ exports.addComment = async (req, res) => {
 
   try{
       const addedComment = await commentService.addComment(newComment);
-      console.log(commentService.addedComment);
+      console.log(addedComment);
       res.status(201).send(addedComment);
   } catch(err) {
     console.log(err)

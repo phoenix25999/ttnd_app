@@ -5,6 +5,7 @@ import styles from './Replies.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
+import { act } from 'react-dom/test-utils';
 
 const Replies = (props) => {
 
@@ -22,11 +23,9 @@ const Replies = (props) => {
     
     
 
-    const addReply = () => {
-        // let replyData = {
-        //     reply: reply,
-        //     userID: props.userID
-        // }
+    const addReply = ( event ) => {
+
+        event.preventDefault();
 
         const replyData = new FormData();
         replyData.append('reply',reply);
@@ -43,6 +42,7 @@ const Replies = (props) => {
             .then(res=>{
                 setReply('');
                 props.fetchReplies(props.commentID);
+                props.fetchBuzz();
             });
     } 
 
@@ -82,7 +82,7 @@ const Replies = (props) => {
             {showReplySection?
             [   
                 repliesList,
-                <form action="upload" method="post" encType="multipart/form-data" className={styles.NewReply}>
+                <form action="upload" method="post" encType="multipart/form-data" className={styles.NewReply} onSubmit={addReply} key={Date.now}>
                         <div>
                         <input type='text' value={reply} placeholder='Write a reply' onChange={(event)=>setReply(event.target.value)}/>
                             <div>
@@ -102,7 +102,7 @@ const Replies = (props) => {
 
                         </div>
                         
-                        <button onClick={addReply}><FaArrowAltCircleRight/></button>
+                        <button><FaArrowAltCircleRight/></button>
                     </form>
             ]
        : '' }
@@ -118,7 +118,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchReplies: (commentID) => dispatch(actions.fetchReplies(commentID))
+        fetchReplies: (commentID) => dispatch(actions.fetchReplies(commentID)),
+        fetchBuzz: () => dispatch(actions.fetchBuzz())
     }
 }
 

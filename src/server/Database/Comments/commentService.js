@@ -2,6 +2,7 @@ const Comment = require('./commentModel');
 const Buzz = require('../Buzz/buzzModel');
 
 exports.addComment = async (newComment) => {
+    console.log(newComment);
     const addComment = await Comment.create(newComment);
     let buzz = await Buzz.findById(newComment.buzzId);
     buzz.comments++;

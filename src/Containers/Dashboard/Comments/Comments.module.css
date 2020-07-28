@@ -22,8 +22,8 @@
     padding: 2px;
 }
 
-.CommentBox > div p:last-child{
-    color: #808080;
+.CommentBox > div p:last-of-type{
+    color: #414141;
 }
 
 .NewComment{
@@ -72,12 +72,6 @@
 
 .ReplySection{
     margin-left: 50px;
-}
-
-.ReplySection p{
-    padding: 5px 10px;
-    font-size: 12px;
-    color: #808080;
 }
 
 .ImageButton{
