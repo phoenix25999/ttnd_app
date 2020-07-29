@@ -1,5 +1,20 @@
 const userService = require('./userService');
 
+exports.addUser = async ( req, res ) => {
+  let newUser = {
+    name: req.body.firstname + ' ' + req.body.lastname,
+    email: req.body.email,
+    role: req.body.role
+  }
+
+  try{
+    const user = await userService.addUser(newUser);
+    res.send(user);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
 exports.getUserDetails = async (req, res) => {
   let email = req.params.email;
   try {
@@ -31,9 +46,28 @@ exports.getUserName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
+  let userDetails={};
+for(let i in req.body){
+  if(req.body[i]!=='' && req.body[i]!==' '){
+    userDetails = {
+      ...userDetails,
+      [i]: req.body[i]
+    };
+  }
+}
+
   try{
-    const profile = await userService.updateProfile(req.params.email, req.body.about);
+    const profile = await userService.updateProfile(req.params.userID, userDetails);
     res.send(profile);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.deleteUser = async (req, res) => {
+  try{
+    const deletedUser = await userService.deleteUser(req.params.userID);
+    res.send(deletedUser);
   } catch(err){
     res.status(400).send(err);
   }

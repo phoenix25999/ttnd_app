@@ -1,12 +1,74 @@
+.AddUser{
+    background: #fff;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+}
+
+.AddUser h3{
+    background: #ddd;
+    padding: 10px 16px;
+}
+
+.AddUser form{
+    text-align: center;
+    padding: 20px 16px;
+    flex-direction: column;
+}
+
+.AddUser form > div{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.AddUser input{
+    width: 47%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+.AddUser select{
+    color: #808080;
+    height: 40px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: none;
+    margin: 10px;
+    padding: 10px;
+    outline: none;
+}
+
+.AddUser button{
+    display: block;
+    margin: 15px auto;
+    padding: 10px 30px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 16px;
+    color: #ff0019;
+    background: #ccc;
+    outline: none;
+}
+
+.AddUser button:hover{
+    cursor: pointer;
+    background: #cfcfcf;
+}
+
 .SuperAdmin{
     border-radius: 5px;
     box-shadow: 0 0 4px #ccc;
-    background: #ccc;
+    background: #ddd;
     margin-bottom: 50px;
     width: 100%;
 }
 
-.SuperAdmin h2{
+.SuperAdmin h3{
     padding: 10px 16px;
 }
 

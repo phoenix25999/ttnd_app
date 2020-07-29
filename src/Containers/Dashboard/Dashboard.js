@@ -38,16 +38,16 @@ class Dashboard extends Component{
     }
 
     render(){
-         let routes=(
-            <Switch>
-                <Route path='/dashboard/buzz' component={Buzz} />
-                <Route path='/dashboard/complaints' component={Complaints} />
-                <Route path='/dashboard/resolve' component={Resolve} />
-                <Redirect to="/dashboard/buzz" />
-            </Switch>
-        );
-        if(this.props.role==='employee'){
-            routes=(
+        //  let routes=(
+        //     <Switch>
+        //         <Route path='/dashboard/buzz' component={Buzz} />
+        //         <Route path='/dashboard/complaints' component={Complaints} />
+        //         <Route path='/dashboard/resolve' component={Resolve} />
+        //         <Redirect to="/dashboard/buzz" />
+        //     </Switch>
+        // );
+        // if(this.props.role==='employee'){
+        let routes=(
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
@@ -57,7 +57,7 @@ class Dashboard extends Component{
                 
                 </Switch>
             )
-        }
+        // }
         return(
             <div>    
                 {this.props.valid ? 
