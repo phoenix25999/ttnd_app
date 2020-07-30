@@ -10,8 +10,8 @@ exports.getUserRole = async (email) => {
     return userRole;
 };
 
-exports.getAllUsersDetails = async () => {
-    const users = User.find({});
+exports.getAllUsersDetails = async ( userID ) => {
+    const users = User.find({_id: {$ne: userID}});
     return users;
 };
 

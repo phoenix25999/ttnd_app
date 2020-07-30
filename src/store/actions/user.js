@@ -46,9 +46,9 @@ export const fetchAllUsersSuccess = ( users ) => {
     };
 }
 
-export const fetchAllUsers = () => {
+export const fetchAllUsers = ( userID ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/users')
+        axios.get(`http://localhost:5000/users/${userID}`)
             .then(response=>{
                 let usersArray = [];
                 for(let i in response.data){

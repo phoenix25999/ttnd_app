@@ -38,26 +38,38 @@ class Dashboard extends Component{
     }
 
     render(){
-        //  let routes=(
-        //     <Switch>
-        //         <Route path='/dashboard/buzz' component={Buzz} />
-        //         <Route path='/dashboard/complaints' component={Complaints} />
-        //         <Route path='/dashboard/resolve' component={Resolve} />
-        //         <Redirect to="/dashboard/buzz" />
-        //     </Switch>
-        // );
-        // if(this.props.role==='employee'){
+        
         let routes=(
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
-                    <Route path='/dashboard/users' component={SuperAdmin} />
                     <Redirect to="/dashboard/buzz" />
-
-                
                 </Switch>
             )
-        // }
+       
+
+        if(this.props.role==='admin'){
+            routes=(
+                <Switch>
+                    <Route path='/dashboard/buzz' component={Buzz} />
+                    <Route path='/dashboard/complaints' component={Complaints} />
+                    <Route path='/dashboard/resolve' component={Resolve} />
+                    <Redirect to="/dashboard/buzz" />
+                </Switch>
+            )
+        }
+
+        if(this.props.role==='super-admin'){
+            routes=(
+                <Switch>
+                    <Route path='/dashboard/buzz' component={Buzz} />
+                    <Route path='/dashboard/complaints' component={Complaints} />
+                    <Route path='/dashboard/users' component={SuperAdmin} />
+                    <Redirect to="/dashboard/buzz" />
+                </Switch>
+            )
+        }
+
         return(
             <div>    
                 {this.props.valid ? 

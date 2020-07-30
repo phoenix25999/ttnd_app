@@ -28,7 +28,7 @@ exports.getUserDetails = async (req, res) => {
 exports.getAllUsersDetails = async (req, res) => {
   
   try {
-    const users = await userService.getAllUsersDetails();
+    const users = await userService.getAllUsersDetails(req.params.userID);
     res.send(users);
   } catch (err) {
     res.status(400).send(err);
@@ -46,18 +46,9 @@ exports.getUserName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-  let userDetails={};
-for(let i in req.body){
-  if(req.body[i]!=='' && req.body[i]!==' '){
-    userDetails = {
-      ...userDetails,
-      [i]: req.body[i]
-    };
-  }
-}
 
   try{
-    const profile = await userService.updateProfile(req.params.userID, userDetails);
+    const profile = await userService.updateProfile(req.params.userID, req.body);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);

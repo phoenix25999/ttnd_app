@@ -4,8 +4,17 @@ import * as actions from '../../../store/actions/index';
 import styles from './SuperAdmin.module.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import EditUser from './EditUser/EditUser';
 
 const SuperAdmin = ( props ) => {
+
+    window.document.title='Users';
+
+    const {
+        userID,
+        users,
+        fetchUsers
+    } = props;
 
     const initialUserForm = {
         firstname: '',
@@ -17,11 +26,10 @@ const SuperAdmin = ( props ) => {
     const [userForm, setUserform] = useState(initialUserForm);
     const [showEditSection, setShowEditSection] = useState(false);
 
-    useEffect(()=>props.fetchUsers(), []);
+    useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
         setUserform({...userForm, [inputIdentifier]: event.target.value});
-        console.log(userForm);
     }
 
     const addUser = (event) => {
@@ -30,38 +38,24 @@ const SuperAdmin = ( props ) => {
         axios.post('http://localhost:5000/user', userForm)
             .then(res=>{
                 setUserform(initialUserForm);
-                props.fetchUsers();
+                fetchUsers(userID);
             });
     }
 
-    const updateUser = (event, userID) => {
-        event.preventDefault();
-
-        let userDetails = {
-            name: userForm.firstname + ' ' + userForm.lastname,
-            email: userForm.email,
-            role: userForm.role
-        }
-
-        axios.patch(`http://localhost:5000/user/${userID}`, userDetails)
-            .then(res=>{
-                console.log(res);
-                props.fetchUsers();
-            })
-    }
+    
 
 
     const deleteUser = ( userID ) => {
         axios.delete(`http://localhost:5000/user/${userID}`)
             .then(res=>{
                 console.log(res);
-                props.fetchUsers();
+                fetchUsers();
             })
     }
 
     let usersData = [];
-        if(props.users){
-            usersData = props.users.map(user=> {
+        if(users.length){
+            usersData = users.map(user=> {
             return(
                 <tr key={user._id}>
                     <td>{user.name} </td>
@@ -69,25 +63,10 @@ const SuperAdmin = ( props ) => {
                     <td>{user.role}</td>
                     <td>
                         <button onClick={()=>setShowEditSection(!showEditSection)}>Edit</button>
+                        OR
                         <button onClick={()=>deleteUser(user._id)} >Delete</button>
-                        {showEditSection?<div>
-                <h3>Edit User Details</h3>
-                <form method="post" onSubmit={(e)=>updateUser(e, user._id)}>
-                        <input type="text" placeholder="Firstname" value={user.name.split(' ')[0]} onChange={(e)=>inputChangeHandler(e, 'firstname')} />
-                        <input type="text" placeholder="Lastname" value={user.name.split(' ')[1]} onChange={(e)=>inputChangeHandler(e, 'lastname')} />
-                   
-                    
-                        <input type="email" placeholder="Enter your e-mail" value={user.email} onChange={(e)=>inputChangeHandler(e, 'email')} />
-                        <select defaultValue={user.role} onChange={(e)=>inputChangeHandler(e, 'role')}>
-                            <option>Role</option>
-                            <option value='admin'>Admin</option>
-                            <option value='employee'>Employee</option>
-                        </select>
-                    <button>Submit</button>
-
-                </form>
-                
-            </div>:''}
+                        {showEditSection?
+                        <EditUser user={user} clicked={()=>setShowEditSection(false)} show={showEditSection}/>:''}
                     </td>
                 </tr>
             )
@@ -141,13 +120,14 @@ const SuperAdmin = ( props ) => {
 
 const mapStateToProps = state => {
     return{
+        userID: state.user.userData._id,
         users: state.user.allUsersData
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUsers: () => (dispatch(actions.fetchAllUsers()))
+        fetchUsers: ( userID ) => (dispatch(actions.fetchAllUsers( userID )))
     }
 }
 

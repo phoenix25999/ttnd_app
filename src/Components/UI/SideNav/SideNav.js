@@ -9,8 +9,8 @@ const sideNav = (props) => {
         <ul className={styles.SideNav}>
             <li><NavLink to='/dashboard/buzz' activeClassName={styles.active}>Buzz</NavLink></li>
             <li><NavLink to='/dashboard/complaints' activeClassName={styles.active}>Complaints</NavLink></li>
-            <li><NavLink to='/dashboard/users' activeClassName={styles.active}>Users</NavLink></li>
             {props.role==='admin'?<li><NavLink to='/dashboard/resolve' activeClassName={styles.active}>Resolve</NavLink></li>:''}
+            {props.role==='super-admin'?<li><NavLink to='/dashboard/users' activeClassName={styles.active}>Users</NavLink></li>:''}
         </ul>
     );
 };

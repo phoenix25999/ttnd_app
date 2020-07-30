@@ -1,0 +1,65 @@
+.EditUser{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    height: 70%;
+    width: 400px;
+    max-width: 70%;
+    background: #fff;
+    border: 1px solid#808080
+}
+
+.EditUser h3{
+    background: #cfcfcf;
+    color: #000;
+}
+
+.EditUser form{
+    height: 70%;
+    width: 80%;
+    margin: 45px auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.EditUser input{
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+}
+
+.EditUser select{
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: none;
+    width: 130px;
+    font-size: 15px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.EditUser button{
+    width: 100px;
+    padding: 7px 0;
+    font-size: 16px;
+    margin: 20px 10px;
+    align-self: flex-start;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.EditUser button:hover{
+    cursor: pointer;
+    background: #ccc;
+}
