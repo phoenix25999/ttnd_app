@@ -23,10 +23,10 @@ class Dashboard extends Component{
         token = queryString.parse(this.props.location.search);
         
         if (Object.keys(token).length > 1) {
-        localStorage.setItem('token', token.token);
+        sessionStorage.setItem('token', token.token);
         }
 
-        this.props.fetchUser(localStorage.getItem('token'));
+        this.props.fetchUser(sessionStorage.getItem('token'));
 
     }
 

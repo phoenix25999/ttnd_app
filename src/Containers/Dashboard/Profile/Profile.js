@@ -14,47 +14,35 @@ import axios from 'axios';
 class Profile extends Component{
 
     state = {
-        about: '',
-        edit: false
+        userForm:{...this.props.userData}
     }
 
     componentDidMount(){
-        let token = {};
-        token = queryString.parse(this.props.location.search);
-        
-        if (Object.keys(token).length > 1) {
-        localStorage.setItem('token', token.token);
-        }
 
-        this.props.fetchUser(localStorage.getItem('token'));
+        this.props.fetchUser(sessionStorage.getItem('token'));
         
-        this.props.fetchBuzzByUser(this.props.userData._id);
     }
 
-    inputChangeHandler = (event) => {
-        this.setState({about: event.target.value});
+    inputChangeHandler = (event, inputIdentifier) => {
+       
+        let updatedUserForm = {...this.state.userForm};
+        updatedUserForm[inputIdentifier] = event.target.value;
+
+        this.setState({userForm: updatedUserForm});
     }
 
     onSubmitHandler = (event) => {
         event.preventDefault();
         let load = {
-            about: this.state.about
+            ...this.state.userForm
         }
-        axios.patch('http://localhost:5000/user/profile/'+this.props.userData.email, load)
-            .then(res=>console.log(res));
-        this.setState({edit: false});
+        axios.patch(`http://localhost:5000/user/${this.props.userData._id}`, load)
+            .then(res=>this.props.fetchUser(sessionStorage.getItem('token')));
     }
 
     render(){
 
-        let buzzData = [];
-        if(this.props.buzzData){
-          buzzData = this.props.buzzData.map(buzz=>{
-            return(
-                <BuzzView buzz={buzz} userID={this.props.userData._id} />
-            );
-        });
-        }
+        
 
         return(
             <div>
@@ -65,32 +53,35 @@ class Profile extends Component{
                         <h3>Profile</h3>
                         <img src={this.props.userData.picture} alt='profile-pic'/>
                         <p>{this.props.userData.name}</p>
-                        {console.log(this.props.userData)}
                         <p>20 posts</p>
                         <p>{this.props.userData.about}</p>
-                        
+                    </div>
 
-                    {this.state.edit?
                     <div className={styles.EditProfile}>
+                        <h3>Update Profile</h3>
                         <form onSubmit={this.onSubmitHandler}>
-                            <label>Name</label>
-                            <input type='text' value={this.props.userData.name} disabled />
+                            <div className={styles.Name}>
+                                <div>
+                                    <label>First Name</label>
+                                    <input type='text' value={this.state.userForm.length?this.state.userForm.name.split(' ')[0]:''} onChange={(e)=>this.inputChangeHandler(e, 'name')} />
+                                </div>
+                                <div>
+                                    <label>Last Name</label>
+                                    <input type='text' value={this.state.userForm.length?this.state.userForm.name.split(' ')[1]:''} onChange={(e)=>this.inputChangeHandler(e, 'name')} />
+                                </div>
+                            </div>
 
                             <label>Email</label>
                             <input type='email' value={this.props.userData.email} disabled />
 
                             <label>Tell everyone about yourself</label>
-                            <textarea onChange={this.inputChangeHandler} />
+                            <textarea onChange={(e)=>this.inputChangeHandler(e, 'about')} value={this.state.userForm.about} />
+                            <div>
                             <button>Save</button>
+                            </div>
                         </form>
-                    </div>: <button onClick={()=>this.setState({edit: true})}>Edit</button>
-                    }
-                </div>
+                    </div>
 
-                <div className={styles.ShowBuzz}>
-                    <h4>Your Posts</h4>
-                    {buzzData}    
-                </div>
             </div>
         </div>
         )
@@ -99,15 +90,13 @@ class Profile extends Component{
 
 const mapStateToProps = state => {
     return{
-        userData: state.user.userData,
-        buzzData: state.buzz.buzzData
+        userData: state.user.userData
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUser: (token)=> dispatch( actions.fetchUser(token) ),
-        fetchBuzzByUser: (userID) => dispatch(actions.fetchBuzzByUser(userID))
+        fetchUser: (token)=> dispatch( actions.fetchUser(token) )
     };
 };
 

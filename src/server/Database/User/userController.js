@@ -32,7 +32,7 @@ exports.getUserName = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try{
-    const profile = await userService.updateProfile(req.params.email, req.body.about);
+    const profile = await userService.updateProfile(req.params.userID, req.body);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);

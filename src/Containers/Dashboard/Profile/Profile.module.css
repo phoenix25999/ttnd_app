@@ -1,7 +1,8 @@
 .Profile{
     display: flex;
-    justify-content: space-between;
-    margin-top: 50px;
+    justify-content: space-around;
+    background: #fff;
+    padding-top: 50px;
 }
 
 .Info{
@@ -25,19 +26,17 @@
     margin: 30px 0;
 }
 
-.Info button{
-    padding: 10px 20px;
-    background: #ccc;
-    border: none;
-    font-size: 16px;
-    color: #ff0019;
-    margin-top: 40px;
-}
 
 .EditProfile{
-    width: 50%;
-    margin: 0 auto;
     text-align: left;
+    background: #fff;
+    padding: 20px;
+    width: 50%;
+}
+
+.EditProfile form{
+    display: flex;
+    flex-direction: column;
 }
 
 .EditProfile label{
@@ -46,13 +45,22 @@
 }
 
 .EditProfile input{
-    width: 300px;
+    width: 100%;
     margin: 0 auto;
-    display: block;
-    padding: 5px;
+    padding: 10px;
     margin: 5px 0 20px 0;
     border: 1px solid #808080;
 }
+
+.Name{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Name input{
+}
+
+
 
 .EditProfile textarea{
     display: block;

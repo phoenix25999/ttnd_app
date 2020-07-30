@@ -11,7 +11,7 @@ exports.getAllUsersDetails = async () => {
 };
 
 
-exports.updateProfile = async (email, about) => {
-    const profile = User.updateOne({email: email}, {about: about});
+exports.updateProfile = async (userID, details) => {
+    const profile = User.updateOne({_id: userID}, details);
     return profile;
 };
