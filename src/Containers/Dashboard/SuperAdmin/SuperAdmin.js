@@ -20,7 +20,7 @@ const SuperAdmin = ( props ) => {
         firstname: '',
         lastname: '',
         email: '',
-        role:'admin'
+        role:''
     }
 
     const [userForm, setUserform] = useState(initialUserForm);
@@ -37,13 +37,11 @@ const SuperAdmin = ( props ) => {
 
         axios.post('http://localhost:5000/user', userForm)
             .then(res=>{
+                console.log(res);
                 setUserform(initialUserForm);
                 fetchUsers(userID);
             });
     }
-
-    
-
 
     const deleteUser = ( userID ) => {
         axios.delete(`http://localhost:5000/user/${userID}`)
@@ -85,8 +83,8 @@ const SuperAdmin = ( props ) => {
                     </div>
                     <div>
                         <input type="email" placeholder="Enter your e-mail" value={userForm.email} onChange={(e)=>inputChangeHandler(e, 'email')} />
-                        <select onChange={(e)=>inputChangeHandler(e, 'role')}>
-                            <option>Role</option>
+                        <select defaultValue={userForm.role} onChange={(e)=>inputChangeHandler(e, 'role')}>
+                            <option >Role</option>
                             <option value='admin'>Admin</option>
                             <option value='employee'>Employee</option>
                         </select>

@@ -1,8 +1,22 @@
 const User = require('./userModel');
 
 exports.addUser = async (newUser) => {
-    const user = User.create(newUser);
+
+    const user = User.find({email:newUser.email})
+        .then(existingUser=>{
+
+            if(existingUser.length){
+            return 'User Already Exists;'
+            }
+
+            else{
+                const user = User.create(newUser);
+                return user;
+            }
+        });
     return user;
+    
+
 }
 
 exports.getUserRole = async (email) => {
