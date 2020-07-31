@@ -2,7 +2,7 @@ const userService = require('./userService');
 
 exports.addUser = async ( req, res ) => {
   let newUser = {
-    name: req.body.firstname + ' ' + req.body.lastname,
+    name: `${req.body.firstname} ${req.body.lastname}`,
     email: req.body.email,
     role: req.body.role
   }

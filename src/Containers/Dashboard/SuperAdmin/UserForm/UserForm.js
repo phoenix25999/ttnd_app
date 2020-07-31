@@ -1,11 +1,11 @@
 import React from "react";
-import styles from './BuzzForm.module.css';
+import styles from './UserForm.module.css';
 
-const BuzzForm = props => {
+const UserForm = props => {
   let inputElement = null;
   const inputClasses = [props.className];
-
-  if (props.invalid && props.touched) {
+  
+  if (props.invalid && props.touched) { 
     inputClasses.push(styles.Invalid);
   }
 
@@ -13,6 +13,7 @@ const BuzzForm = props => {
     case 'input' :
         inputElement = <input 
             type='text'
+            placeholder={props.placeholder}
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
@@ -22,22 +23,15 @@ const BuzzForm = props => {
         inputElement = (
           <select 
             className={inputClasses.join(' ')}
-            style={{backgroundColor: "white"}} 
             value={props.value}
             onChange={props.changed}>
-            <option value='Category' disabled>Category</option>
-            {props.options.map(option => (
+            
+            <option defaultValue=''  >Role</option>
+            {props.options?props.options.map(option => (
               <option key={option.value} value={option.value} >{option.displayValue}</option>
-            ))}
+            )):''}
           </select>
         );
-        break;
-    case 'textarea' :
-        inputElement = <textarea 
-            className={inputClasses.join(' ')} 
-            value={props.value}
-            onChange={props.changed}
-            ></textarea>
         break;
     default :
         inputElement = <input 
@@ -46,11 +40,9 @@ const BuzzForm = props => {
             onChange={props.changed}/>;
   }
 
-  return (
-    <div >
-      {inputElement}
-    </div>
+  return (    
+          [inputElement]  
   );
 };
 
-export default BuzzForm;
+export default UserForm;

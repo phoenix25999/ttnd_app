@@ -10,6 +10,7 @@ import SideNav from '../../Components/UI/SideNav/SideNav';
 import Buzz from './Buzz/Buzz';
 import Complaints from './Complaints/Complaint';
 import Resolve from './Resolve/Resolve';
+import { isAdmin, isSuperAdmin } from '../../Utility/checkUserRole';
 import * as actions from '../../store/actions/index';
 
 
@@ -48,7 +49,7 @@ class Dashboard extends Component{
             )
        
 
-        if(this.props.role==='admin'){
+        if(isAdmin(this.props.role)){
             routes=(
                 <Switch>
                     <Route path='/dashboard/buzz' component={Buzz} />
@@ -59,7 +60,7 @@ class Dashboard extends Component{
             )
         }
 
-        if(this.props.role==='super-admin'){
+        if(isSuperAdmin(this.props.role)){
             routes=(
                 <Switch>
                     <Route path='/dashboard/buzz' component={Buzz} />

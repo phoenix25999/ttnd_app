@@ -24,7 +24,7 @@
     align-items: center;
 }
 
-.AddUser input{
+.Input{
     width: 47%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -34,7 +34,7 @@
     font-size: 16px;
 }
 
-.AddUser select{
+.Select{
     color: #808080;
     height: 40px;
     font-size: 16px;
@@ -61,6 +61,12 @@
 .AddUser button:hover{
     cursor: pointer;
     background: #cfcfcf;
+}
+
+.AddUser button:disabled{
+    cursor: not-allowed;
+    background: #aaaaaa;
+    color: #fff;
 }
 
 .SuperAdmin{
