@@ -4,8 +4,6 @@ import * as actions from '../../../store/actions/index';
 import styles from './SuperAdmin.module.css';
 import { connect } from 'react-redux';
 import axios from 'axios';
-
-import UserForm from './UserForm/UserForm';
 import{ checkValidity } from '../../../Utility/validation';
 import ShowUsers from './ShowUsers/ShowUsers';
 
@@ -82,14 +80,14 @@ const SuperAdmin = ( props ) => {
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
+        updatedUserForm[inputIdentifier] = updatedFormElement;
+
         let isFormValid = true;
 
         for(let inputIdentifier in updatedUserForm){
             isFormValid = updatedUserForm[inputIdentifier].valid && isFormValid;
             console.log(updatedUserForm[inputIdentifier].valid);
         }
-
-        updatedUserForm[inputIdentifier] = updatedFormElement;
 
         setFormIsValid(isFormValid);
         setUserform(updatedUserForm);
@@ -108,17 +106,11 @@ const SuperAdmin = ( props ) => {
             };
         }
 
-        if(formIsValid){
         axios.post('http://localhost:5000/user', userData)
             .then(res=>{
-                console.log(res);
                 setUserform(initialUserForm);
                 fetchUsers(userID);
             });
-        }
-        else{
-            alert('Enter Correct Information');
-        }
     }
 
     
@@ -127,10 +119,12 @@ const SuperAdmin = ( props ) => {
         if(users.length){
             usersData = users.map(user=> {
             return(
-                <ShowUsers user={user}/>
+                <ShowUsers user={user} />
             )
         })
         }
+
+    let errorMesssage = <p>Please enter valid data</p>;
 
     return(
         <div>
@@ -139,50 +133,49 @@ const SuperAdmin = ( props ) => {
                 <h3>Add user</h3>
                 <form method="post" onSubmit={addUser}>
                     <div className={styles.Name}>
-                        {/* <input type="text" placeholder="Firstname" value={userForm.firstname} onChange={(e)=>inputChangeHandler(e, 'firstname')} />
-                        <input type="text" placeholder="Lastname" value={userForm.lastname} onChange={(e)=>inputChangeHandler(e, 'lastname')} /> */}
-                        <UserForm 
-                            elementType='input'
-                            placeholder='Firstname'
-                            changed={(e)=>inputChangeHandler(e, 'firstname')}
-                            value={userForm.firstname.value}
-                            invalid={!userForm.firstname.valid}
-                            touched={userForm.firstname.touched}
-                            className={styles.Input}
-                        />
-
-                        <UserForm 
-                            elementType='input'
-                            placeholder='Lastname'
-                            changed={(e)=>inputChangeHandler(e, 'lastname')}
-                            value={userForm.lastname.value}
-                            invalid={!userForm.lastname.valid}
-                            touched={userForm.lastname.touched}
-                            className={styles.Input}
-                        />
+                        <div>
+                            <input 
+                                placeholder='Firstname'
+                                onChange={(e)=>inputChangeHandler(e, 'firstname')}
+                                value={userForm.firstname.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.firstname.valid&&userForm.firstname.touched?errorMesssage:''}
+                        </div>
+                        <div>
+                            <input 
+                                placeholder='Lastname'
+                                onChange={(e)=>inputChangeHandler(e, 'lastname')}
+                                value={userForm.lastname.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.lastname.valid&&userForm.lastname.touched?errorMesssage:''}
+                        </div>
                     </div>
                     <div>
-                        <UserForm 
-                            elementType='input'
-                            placeholder='e-mail'
-                            changed={(e)=>inputChangeHandler(e, 'email')}
-                            value={userForm.email.value}
-                            invalid={!userForm.email.valid}
-                            touched={userForm.email.touched}
-                            className={styles.Input}
-                        />
-                        <UserForm 
-                            elementType='select'
-                            options={userForm.role.options}
-                            changed={(e)=>inputChangeHandler(e, 'role')}
-                            value={userForm.role.value}
-                            invalid={!userForm.role.valid}
-                            touched={userForm.role.touched}
-                            label='Role'
-                            className={styles.Select}
-                        />
+                        <div>
+                            <input 
+                                placeholder='e-mail'
+                                onChange={(e)=>inputChangeHandler(e, 'email')}
+                                value={userForm.email.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
+                        </div>
+                        <div>
+                            <select 
+                                onChange={(e)=>inputChangeHandler(e, 'role')}
+                                value={userForm.role.value}
+                                className={styles.Select}
+                            >
+                                <option defaultValue=''>Role</option>
+                                <option value='ADMIN' >ADMIN</option>
+                                <option value='EMPLOYEE'>EMPLOYEE</option>
+                            </select>
+                            {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
+                        </div>
                     </div>
-                    <button>Add User</button>
+                    <button disabled={!formIsValid}>Add User</button>
                 </form>
 
             </div>
@@ -209,10 +202,10 @@ const SuperAdmin = ( props ) => {
     );
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({user}) => {
     return{
-        userID: state.user.userData._id,
-        users: state.user.allUsersData
+        userID: user.userData._id,
+        users: user.allUsersData
     };
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
-import UserForm from '../UserForm/UserForm';
 import { fetchAllUsers } from '../../../../store/actions/index';
 import { checkValidity } from '../../../../Utility/validation';
 
@@ -18,7 +17,7 @@ const EditUser = ( props ) => {
                 required: true,
                 minLength: 2
             },
-            valid: false,
+            valid: true,
             touched: false
         },
         lastname: {
@@ -27,7 +26,7 @@ const EditUser = ( props ) => {
                 required: true,
                 minLength: 2
             },
-            valid: false,
+            valid: true,
             touched: false
         },
         email: {
@@ -36,7 +35,7 @@ const EditUser = ( props ) => {
                 required: true,
                 isEmail: true
             },
-            valid: false,
+            valid: true,
             touched: false
         },
         role:{
@@ -48,7 +47,7 @@ const EditUser = ( props ) => {
             validation: {
                 required: true
             },
-            valid: false,
+            valid: true,
             touched: false
         }
     }
@@ -71,6 +70,8 @@ const EditUser = ( props ) => {
             updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
             updatedFormElement.touched = true;
     
+            updatedUserForm[inputIdentifier] = updatedFormElement;
+
             let isFormValid = true;
     
             for(let inputIdentifier in updatedUserForm){
@@ -78,12 +79,8 @@ const EditUser = ( props ) => {
                 console.log(updatedUserForm[inputIdentifier].valid);
             }
     
-            updatedUserForm[inputIdentifier] = updatedFormElement;
-    
             setFormIsValid(isFormValid);
             setUserform(updatedUserForm);
-            
-            console.log(formIsValid);
         }
 
     const updateUser = (event ) => {
@@ -102,6 +99,8 @@ const EditUser = ( props ) => {
             });
     }
 
+    let errorMesssage = <p>Please enter valid data</p>;
+
     return(
         <div>
             <Backdrop show={props.show} clicked={props.clicked}/>
@@ -109,49 +108,41 @@ const EditUser = ( props ) => {
                             
                 <h3>Edit User Details</h3>
                 <form method="post" onSubmit={updateUser}>
-                        <UserForm 
-                            elementType='input'
+                        <input 
                             placeholder='Firstname'
-                            changed={(e)=>inputChangeHandler(e, 'firstname')}
+                            onChange={(e)=>inputChangeHandler(e, 'firstname')}
                             value={userForm.firstname.value}
-                            invalid={!userForm.firstname.valid}
-                            touched={userForm.firstname.touched}
                             className={styles.Input}
                         />
 
-                        <UserForm 
-                            elementType='input'
+                        <input 
                             placeholder='Lastname'
-                            changed={(e)=>inputChangeHandler(e, 'lastname')}
+                            onChange={(e)=>inputChangeHandler(e, 'lastname')}
                             value={userForm.lastname.value}
-                            invalid={!userForm.lastname.valid}
-                            touched={userForm.lastname.touched}
                             className={styles.Input}
                         />
 
-                        <UserForm 
-                            elementType='input'
+                        <input 
                             placeholder='e-mail'
-                            changed={(e)=>inputChangeHandler(e, 'email')}
+                            onChange={(e)=>inputChangeHandler(e, 'email')}
                             value={userForm.email.value}
-                            invalid={!userForm.email.valid}
-                            touched={userForm.email.touched}
                             className={styles.Input}
                         />
-                        <UserForm 
-                            elementType='select'
-                            options={userForm.role.options}
-                            changed={(e)=>inputChangeHandler(e, 'role')}
+                        {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
+                        <select 
+                            onChange={(e)=>inputChangeHandler(e, 'role')}
                             value={userForm.role.value}
-                            invalid={!userForm.role.valid}
-                            touched={userForm.role.touched}
-                            label='Role'
                             className={styles.Select}
-                        />
-                    <div>
-                        <button>Submit</button>
-                         <button onClick={props.clicked}>Cancel</button>
-                    </div>
+                        >
+                            <option defaultValue=''>Role</option>
+                            <option value='ADMIN' >ADMIN</option>
+                            <option value='EMPLOYEE'>EMPLOYEE</option>
+                        </select>
+                        {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
+                        <div className={styles.Button}>
+                            <button disabled={!formIsValid}>Submit</button>
+                            <button onClick={props.clicked}>Cancel</button>
+                        </div>
 
                 </form>
                 

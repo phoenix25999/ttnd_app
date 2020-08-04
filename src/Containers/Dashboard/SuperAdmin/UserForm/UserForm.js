@@ -4,6 +4,7 @@ import styles from './UserForm.module.css';
 const UserForm = props => {
   let inputElement = null;
   const inputClasses = [props.className];
+  let errorMessage = props.invalid&&props.touched? <p style={{color:'#ff0000', fontSize:'12px'}}>Please enter a valid data</p> : '';
   
   if (props.invalid && props.touched) { 
     inputClasses.push(styles.Invalid);
@@ -17,7 +18,7 @@ const UserForm = props => {
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
-            />;
+            />
         break;
     case 'select':
         inputElement = (
@@ -41,7 +42,10 @@ const UserForm = props => {
   }
 
   return (    
-          [inputElement]  
+          <div style={{width:'47%'}}>
+            {inputElement}
+            {errorMessage}
+          </div>
   );
 };
 
