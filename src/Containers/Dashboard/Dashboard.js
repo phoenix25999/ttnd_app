@@ -44,32 +44,11 @@ class Dashboard extends Component{
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
+                    {isSuperAdmin(this.props.role)?<Route path='/dashboard/users' component={SuperAdmin} />:''}
+                    {isAdmin(this.props.role)?<Route path='/dashboard/resolve' component={Resolve} />:''}
                     <Redirect to="/dashboard/buzz" />
                 </Switch>
             )
-       
-
-        if(isAdmin(this.props.role)){
-            routes=(
-                <Switch>
-                    <Route path='/dashboard/buzz' component={Buzz} />
-                    <Route path='/dashboard/complaints' component={Complaints} />
-                    <Route path='/dashboard/resolve' component={Resolve} />
-                    <Redirect to="/dashboard/buzz" />
-                </Switch>
-            )
-        }
-
-        if(isSuperAdmin(this.props.role)){
-            routes=(
-                <Switch>
-                    <Route path='/dashboard/buzz' component={Buzz} />
-                    <Route path='/dashboard/complaints' component={Complaints} />
-                    <Route path='/dashboard/users' component={SuperAdmin} />
-                    <Redirect to="/dashboard/buzz" />
-                </Switch>
-            )
-        }
 
         return(
             <div>    
