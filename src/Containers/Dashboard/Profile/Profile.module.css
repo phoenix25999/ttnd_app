@@ -1,15 +1,16 @@
 .Profile{
     display: flex;
     justify-content: space-around;
-    background: #fff;
-    padding-top: 50px;
+    background: #f4f8fc;
+    margin: 20px;
 }
 
 .Info{
     text-align: center;
-    padding: 20px;
+    padding: 30px;
     border-right: 1px solid #808080;
     flex-basis: 40%;
+
 }
 
 .Info img{
@@ -26,15 +27,35 @@
     margin: 30px 0;
 }
 
+.Info p:nth-of-type(3){
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.Info p:nth-of-type(4){
+    margin-top: 10px;
+    color: #5a5a5a;
+}
+
 
 .EditProfile{
     text-align: left;
     background: #fff;
-    padding: 20px;
     width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-shadow:  0 0 4px #ccc;
+    margin: 20px 0;
+}
+
+.EditProfile h3{
+    background: #ccc;
+    padding: 10px;
 }
 
 .EditProfile form{
+    padding: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -50,6 +71,14 @@
     padding: 10px;
     margin: 5px 0 20px 0;
     border: 1px solid #808080;
+    outline: none;
+    border-radius: 5px;
+}
+
+.EditProfile p{
+    font-size: 12px;
+    margin-bottom: 20px;
+    color: #ff0000;
 }
 
 .Name{
@@ -57,18 +86,32 @@
     justify-content: space-between;
 }
 
-.Name input{
+.Gender{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0 20px 0;
 }
 
+.Gender > div{
+    flex-basis: 30%;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+}
 
+.EditProfile input[type='radio']{
+    margin: 0;
+    width: 20px;
+}
 
 .EditProfile textarea{
-    display: block;
     height: 100px;
-    width: 300px;
     border: 1px solid #808080;
     padding: 5px;
     margin: 5px 0 20px 0;
+    outline: none;
+    border-radius: 5px;
+    width: 100%;
 }
 
 .EditProfile button{
@@ -78,23 +121,17 @@
     font-size: 16px;
     color: #ff0019;
     margin-top: 20px;
+    outline: none;
+    border-radius: 5px;
 }
 
-.ShowBuzz{
-    margin: 20px;
-    flex-basis: 50%;
-    background: #fff;
-    border: 1px solid #aaa;
-    box-shadow: 0 0 5px #ccc;
-    margin-bottom: 50px;
+.EditProfile button:hover{
+    background: #d4d4d4;
+    cursor: pointer;
 }
 
-.ShowBuzz h4{
-    background: #ddd;
-    padding: 10px;
+.EditProfile button:disabled{
+    cursor: not-allowed;
+    color: #fff;
 }
 
-.ShowBuzz > div {
-    display: flex;
-    flex-direction: column;
-}
