@@ -17,7 +17,6 @@ exports.addBuzz = async (req, res) => {
       const result = await cloudinary.v2.uploader.upload(image.path);
       console.log('Path of image 18');
       imagePath.push(result.secure_url)
-<<<<<<< Updated upstream
       console.log(imagePath); // prints the path correctly
       console.log('Path of image 21');
       newBuzz = {
@@ -25,16 +24,13 @@ exports.addBuzz = async (req, res) => {
         image: imagePath
       }
     });  
-=======
       console.log(imagePath);
-    });
     
     newBuzz = {
       ...newBuzz,
       image: imagePath
     }
     console.log(newBuzz);
->>>>>>> Stashed changes
     
   }
 
