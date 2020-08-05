@@ -172,6 +172,22 @@ const SuperAdmin = ( props ) => {
                             {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
                         </div>
                     </div>
+                    <div>
+                        {userForm.role.value==='ADMIN'?
+                        
+                            <select 
+                                onChange={(e)=>inputChangeHandler(e, 'role')}
+                                value={userForm.role.value}
+                                className={styles.Select}
+                            >
+                                <option defaultValue=''>Department</option>
+                                <option value='IT' >IT</option>
+                                <option value='Infra'>Infra</option>
+                                <option value='Others'>Others</option>
+                            </select>
+                        :''
+                        }
+                        </div>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
 

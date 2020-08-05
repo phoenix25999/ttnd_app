@@ -1,16 +1,20 @@
 const User = require('./userModel');
+const Resolver = require('../Resolve/resolveModel');
 
 exports.addUser = async (newUser) => {
 
     const user = User.find({email:newUser.email})
-        .then(existingUser=>{
+        .then( async existingUser=>{
 
             if(existingUser.length){
             return 'User Already Exists;'
             }
 
             else{
-                const user = User.create(newUser);
+                const user = await User.create(newUser);
+                if(newUser.role==='ADMIN'){
+                    Resolver.create({_id: user._id}).then(res=>console.log(res));
+                }
                 return user;
             }
         });
