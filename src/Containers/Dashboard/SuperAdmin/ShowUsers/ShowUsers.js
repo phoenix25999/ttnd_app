@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import EditUser from '../EditUser/EditUser';
-import { fetchAllUsers } from '../../../../store/actions/index';
 import { connect } from 'react-redux';
+import { fetchAllUsers } from '../../../../store/actions/index';
+
+import styles from './ShowUsers.module.css';
+
 
 const ShowUsers = props => {
     const [showEditSection, setShowEditSection] = useState(false);
@@ -15,13 +18,14 @@ const ShowUsers = props => {
     }
 
     return(
-        <tr key={props.user._id}>
+
+        <tr key={props.user._id} className={styles.ShowUsers}>
             <td>{props.user.name} </td>
             <td>{props.user.email}</td>
             <td>{props.user.role}</td>
             <td>
                 <button onClick={()=>setShowEditSection(!showEditSection)}>Edit</button>
-                
+
                 <button onClick={()=>deleteUser(props.user._id)} >Delete</button>
                 {showEditSection?
                 <EditUser user={props.user} clicked={()=>setShowEditSection(false)} show={showEditSection}/>:''}
@@ -38,7 +42,7 @@ const mapStateToProps = ({user}) => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUsers: ( userID ) => (dispatch(fetchAllUsers( userID )))
+        fetchUsers: ( userID ) => (dispatch( fetchAllUsers( userID ) ))
     }
 }
 

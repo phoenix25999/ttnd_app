@@ -1,0 +1,28 @@
+.ShowUsers tr:nth-child(odd){
+    background: #fff;
+}
+
+.ShowUsers tr:nth-child(even){
+    background: #f1f1f1
+}
+
+.ShowUsers td{
+    text-align: center;
+    padding: 10px 0;
+    border: 1px solid #ddd;
+    border-top: none;
+}
+
+.ShowUsers button{
+    margin: 7px;
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: #333333;
+    font-weight: 600;
+}
+
+.ShowUsers button:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
