@@ -51,13 +51,13 @@
     font-size: 12px;
 }
 
-.Button{
+#Button{
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.EditUser button{
+#Button button{
     width: 100px;
     padding: 7px 0;
     font-size: 16px;
@@ -69,12 +69,12 @@
     font-weight: 400;
 }
 
-.EditUser button:hover{
+#Button button:hover{
     cursor: pointer;
     background: #e4e3e3;
 }
 
-.EditUser button:disabled{
+#Button button:disabled{
     cursor: not-allowed;
     color: #fff;
 }

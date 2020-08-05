@@ -140,7 +140,7 @@ const EditUser = ( props ) => {
                             <option value='EMPLOYEE'>EMPLOYEE</option>
                         </select>
                         {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
-                        <div className={styles.Button}>
+                        <div id={styles.Button}>
                             <button disabled={!formIsValid}>Submit</button>
                             <button onClick={props.clicked}>Cancel</button>
                         </div>
