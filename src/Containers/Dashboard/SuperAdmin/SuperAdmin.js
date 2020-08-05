@@ -64,7 +64,6 @@ const SuperAdmin = ( props ) => {
     
 
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
-    console.log(users);
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
 
@@ -86,13 +85,10 @@ const SuperAdmin = ( props ) => {
 
         for(let inputIdentifier in updatedUserForm){
             isFormValid = updatedUserForm[inputIdentifier].valid && isFormValid;
-            console.log(updatedUserForm[inputIdentifier].valid);
         }
 
         setFormIsValid(isFormValid);
         setUserform(updatedUserForm);
-        
-        console.log(formIsValid);
     }
 
     const addUser = (event) => {
@@ -119,7 +115,7 @@ const SuperAdmin = ( props ) => {
         if(users.length){
             usersData = users.map(user=> {
             return(
-                <ShowUsers user={user} />
+                <ShowUsers user={user} key={user._id} />
             )
         })
         }
