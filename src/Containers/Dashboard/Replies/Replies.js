@@ -5,7 +5,6 @@ import styles from './Replies.module.css';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions/index';
-import { act } from 'react-dom/test-utils';
 
 const Replies = (props) => {
 

@@ -18,8 +18,8 @@ exports.addBuzz = async (req, res) => {
       console.log('Path of image 18');
       imagePath.push(result.secure_url)
       console.log(imagePath);
-    });
     
+    });
     newBuzz = {
       ...newBuzz,
       image: imagePath

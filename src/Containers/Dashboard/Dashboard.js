@@ -10,6 +10,7 @@ import SideNav from '../../Components/UI/SideNav/SideNav';
 import Buzz from './Buzz/Buzz';
 import Complaints from './Complaints/Complaint';
 import Resolve from './Resolve/Resolve';
+import { isAdmin, isSuperAdmin } from '../../Utility/checkUserRole';
 import * as actions from '../../store/actions/index';
 
 
@@ -23,10 +24,10 @@ class Dashboard extends Component{
         token = queryString.parse(this.props.location.search);
         
         if (Object.keys(token).length > 1) {
-        localStorage.setItem('token', token.token);
+        sessionStorage.setItem('token', token.token);
         }
 
-        this.props.fetchUser(localStorage.getItem('token'));
+        this.props.fetchUser(sessionStorage.getItem('token'));
 
     }
 
@@ -38,26 +39,17 @@ class Dashboard extends Component{
     }
 
     render(){
-         let routes=(
-            <Switch>
-                <Route path='/dashboard/buzz' component={Buzz} />
-                <Route path='/dashboard/complaints' component={Complaints} />
-                <Route path='/dashboard/resolve' component={Resolve} />
-                <Redirect to="/dashboard/buzz" />
-            </Switch>
-        );
-        if(this.props.role==='employee'){
-            routes=(
+        
+        let routes=(
                 <Switch>
                     <Route path='/dashboard/buzz'  component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
-                    <Route path='/dashboard/users' component={SuperAdmin} />
+                    {isSuperAdmin(this.props.role)?<Route path='/dashboard/users' component={SuperAdmin} />:''}
+                    {isAdmin(this.props.role)?<Route path='/dashboard/resolve' component={Resolve} />:''}
                     <Redirect to="/dashboard/buzz" />
-
-                
                 </Switch>
             )
-        }
+
         return(
             <div>    
                 {this.props.valid ? 

@@ -1,0 +1,80 @@
+.EditUser{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+    width: 400px;
+    max-width: 70%;
+    background: #fff;
+    border: 1px solid#808080;
+    border-radius: 7px;
+}
+
+.EditUser h3{
+    background: #cfcfcf;
+    color: #000;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+.EditUser form{
+    padding: 30px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.EditUser input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none;
+}
+
+.EditUser select{
+    padding: 8px;
+    border: 1px solid #ccc;
+    background: none;
+    width: 130px;
+    font-size: 15px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.EditUser p{
+    color: #ff0000;
+    font-size: 12px;
+}
+
+#Button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#Button button{
+    width: 100px;
+    padding: 7px 0;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #808080;
+    outline: none;
+    background: #ccc;
+    color: #ff0019;
+    font-weight: 400;
+}
+
+#Button button:hover{
+    cursor: pointer;
+    background: #e4e3e3;
+}
+
+#Button button:disabled{
+    cursor: not-allowed;
+    color: #fff;
+}

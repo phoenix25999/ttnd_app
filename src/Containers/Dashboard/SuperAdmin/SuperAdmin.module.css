@@ -1,12 +1,98 @@
+.AddUser{
+    background: #fff;
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    box-shadow: 0 0 4px #ccc;
+}
+
+.AddUser h3{
+    background: #ddd;
+    padding: 10px 16px;
+}
+
+.AddUser form{
+    text-align: center;
+    padding: 20px 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AddUser form > div{
+    display: flex;
+    justify-content: space-around;
+}
+
+.AddUser form > div > div{
+    width: 47%;
+    display: flex;
+    flex-direction: column;
+}
+
+.Input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+.Select{
+    color: #808080;
+    height: 40px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: none;
+    margin: 10px;
+    padding: 10px;
+    outline: none;
+    width: 35%;
+}
+
+.AddUser p{
+    color: #ff0000;
+    font-size: 12px;
+}
+
+.AddUser button{
+    display: block;
+    margin: 15px auto;
+    padding: 10px 30px;
+    border: 1px solid #808080;
+    border-radius: 7px;
+    font-size: 16px;
+    color: #ff0019;
+    background: #ccc;
+    outline: none;
+}
+
+
+
+.AddUser button:hover{
+    cursor: pointer;
+    background: #cfcfcf;
+}
+
+.AddUser button:disabled{
+    cursor: not-allowed;
+    background: #aaaaaa;
+    color: #fff;
+}
+
 .SuperAdmin{
     border-radius: 5px;
     box-shadow: 0 0 4px #ccc;
-    background: #ccc;
+    background: #ddd;
     margin-bottom: 50px;
     width: 100%;
 }
 
-.SuperAdmin h2{
+.SuperAdmin h3{
     padding: 10px 16px;
 }
 
@@ -24,17 +110,18 @@
     color: #616060;
 }
 
-.SuperAdmin table tbody tr:nth-child(odd){
-    background: #fff;
-}
-
-.SuperAdmin table tbody tr:nth-child(even){
-    background: #f1f1f1
-}
-
 .SuperAdmin table td, .SuperAdmin table th{
     text-align: center;
     padding: 10px 0;
     border: 1px solid #ddd;
     border-top: none;
 }
+
+.SuperAdmin tr:nth-child(odd){
+    background: #fff;
+}
+
+.SuperAdmin tr:nth-child(even){
+    background: #f1f1f1
+}
+

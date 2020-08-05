@@ -136,7 +136,6 @@ class NewComplaint extends Component{
 
     else{
       updatedFormElement.value = event.target.files;
-      console.log(updatedFormElement.value);
       updatedFormElement.touched=true;
     }
 

@@ -10,13 +10,14 @@ module.exports = (passport) => {
         },
             (request, accessToken, refreshToken, profile, done) => {
                 User.findOne({ email: profile._json.email }).then((existingUser) => {
+                  console.log(profile)
                     if (existingUser) {
                       done(null, existingUser);
                     } else {
                       const newUser = new User({
                         email: profile._json.email,
                         name: profile._json.name,
-                        profilePic: profile._json.picture
+                        picture: profile._json.picture
                       });
                       newUser.save().then((newUser) => {
                         done(null, newUser);
