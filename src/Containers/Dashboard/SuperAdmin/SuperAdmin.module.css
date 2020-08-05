@@ -117,3 +117,11 @@
     border-top: none;
 }
 
+.SuperAdmin tr:nth-child(odd){
+    background: #fff;
+}
+
+.SuperAdmin tr:nth-child(even){
+    background: #f1f1f1
+}
+
