@@ -134,6 +134,7 @@ const EditUser = ( props ) => {
                             value={userForm.role.value}
                             className={styles.Select}
                         >
+
                             <option value=''>Role</option>
                             <option value='ADMIN' >ADMIN</option>
                             <option value='EMPLOYEE'>EMPLOYEE</option>
