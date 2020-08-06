@@ -76,7 +76,6 @@ const EditUser = ( props ) => {
     
             for(let inputIdentifier in updatedUserForm){
                 isFormValid = updatedUserForm[inputIdentifier].valid && isFormValid;
-                console.log(updatedUserForm[inputIdentifier].valid);
             }
     
             setFormIsValid(isFormValid);
@@ -87,15 +86,26 @@ const EditUser = ( props ) => {
         event.preventDefault();
 
         let userDetails = {
-            name: ` ${userForm.firstname.value} ${userForm.lastname.value}`,
+            name: `${userForm.firstname.value} ${userForm.lastname.value}`,
             email: userForm.email.value,
             role: userForm.role.value
         }
 
-        axios.patch(`http://localhost:5000/user/${props.user._id}`, userDetails)
+        let updatedUserDetails = {}
+
+        for(let i in userDetails){
+            if(userDetails[i]!==props.user[i]){
+                updatedUserDetails = {
+                    [i]: userDetails[i]
+                };
+            }
+        }
+
+        axios.patch(`http://localhost:5000/user/${props.user._id}`, updatedUserDetails)
             .then(res=>{
                 props.fetchUsers(props.userID);
                 props.clicked();
+                console.log(res);
             });
     }
 

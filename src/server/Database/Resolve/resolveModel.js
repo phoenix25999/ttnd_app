@@ -6,6 +6,7 @@ const resolverSchema = new mongoose.Schema({
         ref: 'User'
     },
     department:{
+        type: String,
         enum: ['Infra', 'IT', 'Others']
     }
 })

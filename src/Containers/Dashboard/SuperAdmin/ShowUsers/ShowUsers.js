@@ -17,6 +17,8 @@ const ShowUsers = props => {
             })
     }
 
+    console.log(props.user);
+
     return(
 
         <tr key={props.user._id} className={styles.ShowUsers}>

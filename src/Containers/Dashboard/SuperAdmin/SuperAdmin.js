@@ -46,15 +46,17 @@ const SuperAdmin = ( props ) => {
             touched: false
         },
         role:{
-            options: [
-                {value: 'ADMIN', displayValue: 'ADMIN'},
-                {value: 'EMPLOYEE', displayValue: 'EMPLOYEE'},
-            ],
             value:'',
             validation: {
                 required: true
             },
             valid: false,
+            touched: false
+        },
+        department: {
+            value:'',
+            validation: {},
+            valid: true,
             touched: false
         }
     }
@@ -165,7 +167,7 @@ const SuperAdmin = ( props ) => {
                                 value={userForm.role.value}
                                 className={styles.Select}
                             >
-                                <option defaultValue=''>Role</option>
+                                <option value=''>Role</option>
                                 <option value='ADMIN' >ADMIN</option>
                                 <option value='EMPLOYEE'>EMPLOYEE</option>
                             </select>
@@ -176,11 +178,11 @@ const SuperAdmin = ( props ) => {
                         {userForm.role.value==='ADMIN'?
                         
                             <select 
-                                onChange={(e)=>inputChangeHandler(e, 'role')}
-                                value={userForm.role.value}
+                                onChange={(e)=>inputChangeHandler(e, 'department')}
+                                value={userForm.department.value}
                                 className={styles.Select}
                             >
-                                <option defaultValue=''>Department</option>
+                                <option value=''>Department</option>
                                 <option value='IT' >IT</option>
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
