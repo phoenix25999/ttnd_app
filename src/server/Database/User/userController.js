@@ -7,8 +7,16 @@ exports.addUser = async ( req, res ) => {
     role: req.body.role
   }
 
+  console.log(req.body);
+
+  let department = '';
+
+  if(req.body.department){
+    department = req.body.department
+  }
+
   try{
-    const user = await userService.addUser(newUser);
+    const user = await userService.addUser(newUser, department);
     res.send(user);
   } catch(err){
     res.status(400).send(err);
@@ -49,6 +57,7 @@ exports.updateProfile = async (req, res) => {
 
   try{
     const profile = await userService.updateProfile(req.params.userID, req.body);
+    console.log(profile);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);

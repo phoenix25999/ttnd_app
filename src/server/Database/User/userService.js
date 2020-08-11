@@ -1,22 +1,23 @@
 const User = require('./userModel');
+const Resolver = require('../Resolve/resolveModel');
 
-exports.addUser = async (newUser) => {
+exports.addUser = async (newUser, department) => {
 
-    const user = User.find({email:newUser.email})
-        .then(existingUser=>{
+    User.find({email:newUser.email})
+        .then( async existingUser=>{
 
             if(existingUser.length){
-            return 'User Already Exists;'
+            return 'User Already Exists';
             }
 
             else{
-                const user = User.create(newUser);
+                const user = await User.create(newUser);
+                if(newUser.role==='ADMIN'){
+                    Resolver.create({_id: user._id, department: department}).then(res=>console.log(res));
+                }
                 return user;
             }
         });
-    return user;
-    
-
 }
 
 exports.getUserRole = async (email) => {
@@ -31,8 +32,21 @@ exports.getAllUsersDetails = async ( userID ) => {
 
 
 exports.updateProfile = async (userID, details) => {
-    const profile = User.updateOne({_id: userID}, details);
-    return profile;
+
+    User.findOne({email: details.email})
+        .then(existingUser=>{
+            if(existingUser){
+                return 'User Already Exists';
+            }
+
+            else{
+                const profile = User.updateOne({_id: userID}, details);
+                console.log(profile);
+                return profile;
+            }
+        })
+
+    
 };
 
 exports.deleteUser = async ( userID ) => {
