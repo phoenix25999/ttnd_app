@@ -63,6 +63,7 @@ const SuperAdmin = ( props ) => {
 
     const [userForm, setUserform] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
+    const [message, setMessage] = useState('');
     
 
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
@@ -106,9 +107,15 @@ const SuperAdmin = ( props ) => {
 
         axios.post('http://localhost:5000/user', userData)
             .then(res=>{
+                if(!res.data){
+                    setMessage('User already exists! Try again with a different email');
+                }
+                else{
                 setUserform(initialUserForm);
                 fetchUsers(userID);
-            });
+                }
+            })
+            .catch(err=>console.log(err));
     }
 
     
@@ -190,6 +197,7 @@ const SuperAdmin = ( props ) => {
                         :''
                         }
                         </div>
+                        <p>{message}</p>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
 

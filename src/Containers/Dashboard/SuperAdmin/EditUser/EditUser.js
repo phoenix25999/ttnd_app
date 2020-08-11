@@ -54,6 +54,7 @@ const EditUser = ( props ) => {
 
     const [userForm, setUserform] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
+    const [message, setMessage] = useState('');
 
    
         const inputChangeHandler = ( event, inputIdentifier ) => {
@@ -103,10 +104,16 @@ const EditUser = ( props ) => {
 
         axios.patch(`http://localhost:5000/user/${props.user._id}`, updatedUserDetails)
             .then(res=>{
-                props.fetchUsers(props.userID);
-                props.clicked();
-                console.log(res);
-            });
+                if(!res.data){
+                    setMessage('E-mail already exists!')
+                }
+                else{
+                    props.fetchUsers(props.userID);
+                    props.clicked();
+                    console.log(res);
+                }
+            })
+            .catch(err=>console.log(err.message));
     }
 
     let errorMesssage = <p>Please enter valid data</p>;
@@ -150,6 +157,7 @@ const EditUser = ( props ) => {
                             <option value='EMPLOYEE'>EMPLOYEE</option>
                         </select>
                         {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
+                        <p>{message}</p>
                         <div id={styles.Button}>
                             <button disabled={!formIsValid}>Submit</button>
                             <button onClick={props.clicked}>Cancel</button>

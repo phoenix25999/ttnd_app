@@ -7,16 +7,8 @@ exports.addUser = async ( req, res ) => {
     role: req.body.role
   }
 
-  console.log(req.body);
-
-  let department = '';
-
-  if(req.body.department){
-    department = req.body.department
-  }
-
   try{
-    const user = await userService.addUser(newUser, department);
+    const user = await userService.addUser(newUser);
     res.send(user);
   } catch(err){
     res.status(400).send(err);
