@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     userData:{},
     allUsersData: [],
-    valid: true
+    valid: true,
+    error: false
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -26,6 +27,13 @@ const reducer = ( state = initialState, action ) => {
             state = {
                 ...state,
                 valid: false
+            };
+            return state;
+        
+        case actionTypes.FETCH_ALL_USERS_FAILED:
+            state = {
+                ...state,
+                error: true
             };
             return state;
     

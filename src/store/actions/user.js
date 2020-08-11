@@ -46,6 +46,12 @@ export const fetchAllUsersSuccess = ( users ) => {
     };
 }
 
+export const fetchAllUsersFailed = (  ) => {
+    return {
+        type: actionTypes.FETCH_ALL_USERS_FAILED
+    };
+}
+
 export const fetchAllUsers = ( userID ) => {
     return dispatch => {
         axios.get(`http://localhost:5000/users/${userID}`)
@@ -57,5 +63,6 @@ export const fetchAllUsers = ( userID ) => {
                 
                 dispatch(fetchAllUsersSuccess(usersArray));
             })
+            .catch(err=>dispatch(fetchAllUsersFailed()))
     }
 }

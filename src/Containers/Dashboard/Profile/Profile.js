@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TopBar from '../../../Components/UI/TopBar/TopBar';
 import Banner from '../../../Components/UI/Banner/Banner';
-import { fetchUser } from '../../../store/actions/index';
+import { fetchUser, getBuzzCountByUser } from '../../../store/actions/index';
 import { checkValidity } from '../../../Utility/validation';
 
 import styles from './Profile.module.css';
@@ -71,6 +71,9 @@ class Profile extends Component{
     componentDidMount(){
 
         this.props.fetchUser(sessionStorage.getItem('token'));
+        setTimeout(()=>this.props.getBuzzCount(this.props.userData._id),1000);
+        
+        
         
     }
 
@@ -124,7 +127,8 @@ class Profile extends Component{
             .then(res=>{
                 this.props.fetchUser(sessionStorage.getItem('token'));
                 alert('Changes saved successfully!');
-            });
+            })
+            .catch(error=>alert(error.message))
     }
 
     render(){
@@ -140,7 +144,7 @@ class Profile extends Component{
                         <h3>Profile</h3>
                         <img src={this.props.userData.picture} alt='profile-pic'/>
                         <p>{this.props.userData.name}</p>
-                        <p>20 posts</p>
+                        <p>{this.props.buzzCount} posts</p>
                         <p>About</p>
                         <p>{this.props.userData.about}</p>
                     </div>
@@ -205,15 +209,17 @@ class Profile extends Component{
     }
 }
 
-const mapStateToProps = ({user}) => {
+const mapStateToProps = ({user, buzz}) => {
     return{
-        userData: user.userData
+        userData: user.userData,
+        buzzCount: buzz.buzzCount
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUser: (token)=> dispatch( fetchUser(token) )
+        fetchUser: (token)=> dispatch( fetchUser(token) ),
+        getBuzzCount: (userID)=> dispatch( getBuzzCountByUser(userID) )
     };
 };
 

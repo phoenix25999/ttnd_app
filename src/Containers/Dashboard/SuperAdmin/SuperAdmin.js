@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import{ checkValidity } from '../../../Utility/validation';
 import ShowUsers from './ShowUsers/ShowUsers';
+import ErrorHandler from '../../../Components/UI/ErrorHandler/ErrorHandler';
 
 const SuperAdmin = ( props ) => {
 
@@ -64,6 +65,7 @@ const SuperAdmin = ( props ) => {
     const [userForm, setUserform] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [message, setMessage] = useState('');
+    const [showError, setShowError] = useState(true);
     
 
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
@@ -115,7 +117,7 @@ const SuperAdmin = ( props ) => {
                 fetchUsers(userID);
                 }
             })
-            .catch(err=>console.log(err));
+            .catch(err=>alert(err.message));
     }
 
     
@@ -205,7 +207,7 @@ const SuperAdmin = ( props ) => {
 
             <div className={styles.SuperAdmin}>
                 <h3>Users</h3>
-                <table>
+                {props.error&&showError?<ErrorHandler clicked={()=>setShowError(false)}/>:<table>
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -214,10 +216,14 @@ const SuperAdmin = ( props ) => {
                             <th>Action</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                     {usersData}
                     </tbody>
+                    
+                    
                 </table>
+                }
             </div>
 
             
@@ -228,7 +234,8 @@ const SuperAdmin = ( props ) => {
 const mapStateToProps = ({user}) => {
     return{
         userID: user.userData._id,
-        users: user.allUsersData
+        users: user.allUsersData,
+        error: user.error
     };
 }
 

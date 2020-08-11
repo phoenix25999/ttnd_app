@@ -47,10 +47,13 @@ exports.getAllBuzz = async (req, res) => {
   }
 };
 
-exports.getBuzzByUser = async (req, res) => {
+exports.getBuzzCountByUser = async (req, res) => {
   try {
-    const allBuzz = await buzzService.getBuzzByUser(req.params.userID);
-    res.send(allBuzz);
+    const buzzCount = await buzzService.getBuzzCountByUser(req.params.userID);
+    let buzzCountObj =  {
+      count: buzzCount
+    }
+    res.send(buzzCountObj);
   } catch(err) {
     res.status(400).send(err);
   }
