@@ -28,6 +28,7 @@ require('./Database/User/passport/google-strategy')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+require('./Database/Config/cloudinary');
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(buzzRoutes);

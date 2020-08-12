@@ -103,6 +103,27 @@
     margin: 0;
     width: 20px;
 }
+.ProfilePic label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ProfilePic label span{
+    display: flex;
+    align-items: center;
+}
+
+.ImageButton{
+    color: #808080;
+    font-size: 23px;
+    margin: 10px 10px 10px 0;
+}
+
+.ImageButton:hover{
+    color: #000;
+    cursor: pointer;
+}
 
 .EditProfile textarea{
     height: 100px;

@@ -59,6 +59,14 @@ const SuperAdmin = ( props ) => {
             validation: {},
             valid: true,
             touched: false
+        },
+        gender: {
+            value: '',
+            validation:{
+                required: true
+            },
+            valid: false,
+            touched: false
         }
     }
 
@@ -199,6 +207,25 @@ const SuperAdmin = ( props ) => {
                         :''
                         }
                         </div>
+                        <div className={styles.Gender}>
+                        <label>Gender</label>
+                            <div>
+                                <div>
+                                    <input type="radio" value='male' id="male" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')} />
+                                    <label htmlFor="male">Male</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" value='female' id="female" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <label htmlFor="female">Female</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <label htmlFor="other">Other</label>
+                                </div>
+                            </div>
+                            </div>
                         <p>{message}</p>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
