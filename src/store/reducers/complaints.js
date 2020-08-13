@@ -1,15 +1,22 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    complaintsData: []
+    complaintsData: [],
+    allComplaintsData: []
 };
 
 const reducer = ( state = initialState, action ) => {
     switch( action.type ){
-        case actionTypes.FETCH_COMPLAINTS_SUCCESS:
+        case actionTypes.FETCH_COMPLAINTS_BYUSER_SUCCESS:
             state = {
                 ...state,
                 complaintsData: [...action.complaintsData]
+            };
+            return state;
+        case actionTypes.FETCH_COMPLAINTS_SUCCESS:
+            state={
+                ...state,
+                allComplaintsData: [...action.complaintsData]
             };
             return state;
         default:

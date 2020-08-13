@@ -13,5 +13,7 @@ router.get('/users/:userID', userController.getAllUsersDetails);
 router.patch('/user/:userID', userController.updateProfile);
 router.delete('/user/:userID', userController.deleteUser);
 
+router.get('/admins/:department', userController.getAdmins);
+
 
 module.exports = router;

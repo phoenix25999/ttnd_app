@@ -79,6 +79,7 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
+        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -180,23 +181,26 @@ const SuperAdmin = ( props ) => {
                             </select>
                             {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
                         </div>
-                    </div>
-                    <div>
-                        {userForm.role.value==='ADMIN'?
                         
+                        <div>
                             <select 
                                 onChange={(e)=>inputChangeHandler(e, 'department')}
                                 value={userForm.department.value}
                                 className={styles.Select}
+                                disabled={userForm.role.value==='ADMIN'?false:true}
                             >
                                 <option value=''>Department</option>
-                                <option value='IT' >IT</option>
+                                <option value='Hardware' >Hardware</option>
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
                             </select>
-                        :''
-                        }
                         </div>
+                        
+                        
+                    </div>
+                    
+                        
+                        
                         <p>{message}</p>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>

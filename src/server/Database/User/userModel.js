@@ -12,7 +12,11 @@ const userSchema = new mongoose.Schema({
     contact: String,
     age: String,
     gender: String,
-    about: String
+    about: String,
+    department: {
+        type: String,
+        enum: ['Hardware', 'Infra', 'Others']
+    }
 })
 
 const userModel = mongoose.model('User', userSchema);

@@ -4,11 +4,19 @@ exports.addUser = async ( req, res ) => {
   let newUser = {
     name: `${req.body.firstname} ${req.body.lastname}`,
     email: req.body.email,
-    role: req.body.role
+    role: req.body.role,
+  }
+
+  if(req.body.department){
+    newUser = {
+      ...newUser,
+      department: req.body.department
+    }
   }
 
   try{
     const user = await userService.addUser(newUser);
+    console.log(user);
     res.send(user);
   } catch(err){
     res.status(400).send(err);
@@ -60,6 +68,17 @@ exports.deleteUser = async (req, res) => {
   try{
     const deletedUser = await userService.deleteUser(req.params.userID);
     res.send(deletedUser);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.getAdmins = async (req, res) => {
+  
+  try{
+    const admins = await userService.getAdmins(req.params.department);
+    console.log(admins);
+    res.send(admins);
   } catch(err){
     res.status(400).send(err);
   }
