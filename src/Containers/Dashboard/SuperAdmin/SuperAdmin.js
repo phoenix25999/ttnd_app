@@ -206,7 +206,6 @@ const SuperAdmin = ( props ) => {
                         </div>
                           
                     </div>
-                    </div>
                         <div className={styles.Gender}>
                         <label>Gender</label>
                             <div>
