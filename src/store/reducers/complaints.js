@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     complaintsData: [],
-    allComplaintsData: []
+    allComplaintsData: [],
+    assignedComplaints: []
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -17,6 +18,12 @@ const reducer = ( state = initialState, action ) => {
             state={
                 ...state,
                 allComplaintsData: [...action.complaintsData]
+            };
+            return state;
+        case actionTypes.FETCH_ASSIGNED_COMPLAINTS_SUCCESS:
+            state={
+                ...state,
+                assignedComplaints: [...action.complaintsData]
             };
             return state;
         default:

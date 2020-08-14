@@ -1,20 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import { fetchAdmins, fetchComplaints } from '../../../../store/actions';
 import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
-import { fetchAdmins } from '../../../../store/actions';
+
 
 import styles from './Assign.module.css';
 
+
 const Assign = ( props ) => {
+
+    const[showAssignmentSection, setShowAssignmentSection] = useState(false);
+    const [assignedAdmin, setAssignedAdmin] = useState('');
 
     useEffect(()=>props.fetchAdmins(props.complaint.department), []);
 
+    const updateComplaintAssignment = (event) => {
+        event.preventDefault();
+        let complaintAssignment = {
+            assignedTo: assignedAdmin
+        }
+        axios.patch(`http://localhost:5000/complaint/${props.complaint._id}`, complaintAssignment)
+            .then(res=>{
+                console.log(res);
+                setShowAssignmentSection(false);
+                props.fetchAllComplaints();
+            });
+    }
+
     return(
         <>
-            <Backdrop show={props.show} clicked={props.clicked}/>
+            <button onClick={()=>setShowAssignmentSection(true)} className={styles.AssignButton}>Assign</button>
+            {showAssignmentSection?
+            <>
+            <Backdrop show={showAssignmentSection} clicked={()=>setShowAssignmentSection(false)}/>
             <div className={styles.Assign}>
-                <form>
-                    <select>
+                <form onSubmit={updateComplaintAssignment}>
+                    <select onChange={(event)=>setAssignedAdmin(event.target.value)}>
                         <option value=''>Select whom to assign</option>
                         {
                             props.admins.map(admin=>{
@@ -24,7 +46,8 @@ const Assign = ( props ) => {
                     </select>
                     <button>Assign</button>
                 </form>
-            </div>
+            </div></>:''
+            }
         </>
     );
 };
@@ -37,7 +60,8 @@ const mapStateToProps = ({ user }) => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchAdmins: ( department ) => dispatch( fetchAdmins(department) )
+        fetchAdmins: ( department ) => dispatch( fetchAdmins(department) ),
+        fetchAllComplaints: () => dispatch( fetchComplaints )
     }
 }
 

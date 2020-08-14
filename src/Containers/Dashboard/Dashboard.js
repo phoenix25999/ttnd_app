@@ -46,6 +46,7 @@ class Dashboard extends Component{
                     <Route path='/dashboard/complaints' component={Complaints} />
                     {isSuperAdmin(this.props.role)?<Route path='/dashboard/users' component={SuperAdmin} />:''}
                     {isAdmin(this.props.role)?<Route path='/dashboard/resolve' component={Resolve} />:''}
+                    <Redirect to='/dashboard/buzz' />
                 </Switch>
             )
 

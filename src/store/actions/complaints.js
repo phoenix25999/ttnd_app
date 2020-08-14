@@ -35,7 +35,6 @@ export const fetchComplaintsByUserSuccess = ( complaintsData ) => {
 
 export const fetchComplaintsByUser = (email) => {
     return dispatch => {
-        console.log(email);
         axios.get(`http://localhost:5000/complaint/${email}`)
             .then(res=>{
                 let complaintsArray = [];
@@ -45,6 +44,29 @@ export const fetchComplaintsByUser = (email) => {
                     })
                 }
                 dispatch( fetchComplaintsByUserSuccess(complaintsArray) )
+            });
+    };
+};
+
+export const fetchAssignedComplaintsSuccess = ( complaintsData ) => {
+    return{
+        type: actionTypes.FETCH_ASSIGNED_COMPLAINTS_SUCCESS,
+        complaintsData: complaintsData
+    };
+};
+
+export const fetchAssignedComplaints = ( admin ) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/complaint/assigned/${admin}`)
+            .then(res=>{
+                let complaintsArray = [];
+                for(let i in res.data){
+                    complaintsArray.push({
+                        ...res.data[i]
+                    })
+                }
+                console.log(res);
+                dispatch( fetchAssignedComplaintsSuccess(complaintsArray) )
             });
     }
 }

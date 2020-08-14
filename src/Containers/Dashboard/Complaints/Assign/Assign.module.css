@@ -11,6 +11,20 @@
     
 }
 
+.AssignButton{
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    margin: 0 auto;
+    font-weight: 700;
+}
+
+.AssignButton:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 
 .Assign select{
     padding: 10px;

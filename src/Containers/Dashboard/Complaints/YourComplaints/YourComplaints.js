@@ -7,10 +7,6 @@ import Assign from '../Assign/Assign';
 
 class YourComplaints extends Component{
 
-    state = {
-        showAssignmentSection: false
-    }
-
     componentDidMount(){
         this.props.fetchComplaintsByUser(this.props.email);
         this.props.fetchAllComplaints();
@@ -43,7 +39,7 @@ class YourComplaints extends Component{
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
                     <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
-                    <td>Ashish Mishra</td>
+                    <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
                 </tr>
             )
@@ -58,12 +54,10 @@ class YourComplaints extends Component{
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
                     <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
-                    <td>{complaint.assignedTo?complaint.assignedTo:'Not yet assigned'}</td>
+                    <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
-                    <td><button onClick={()=>this.setState({showAssignmentSection: true})}>Assign</button></td>
-                    {this.state.showAssignmentSection?
-                        <Assign complaint={complaint} show={this.state.showAssignmentSection} clicked={()=>this.setState({showAssignmentSection: false})}/>
-                        :''}
+                    <td><Assign complaint={complaint}/></td>
+
                 </tr>
             )
         })
