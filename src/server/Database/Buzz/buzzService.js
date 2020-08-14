@@ -12,10 +12,9 @@ exports.getAllBuzz = async () => {
   return allBuzz;
 };
 
-exports.getBuzzByUser = async ( userID ) => {
-  const allBuzz = Buzz.find({createdBy: userID})
-                  .populate('createdBy','name email');
-  return allBuzz;
+exports.getBuzzCountByUser = async ( userID ) => {
+  const buzzCount = Buzz.countDocuments({createdBy: userID});
+  return buzzCount;
 };
 
 exports.updateLikes = async ({id, likes, alreadyDisliked}) => {

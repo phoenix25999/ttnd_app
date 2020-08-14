@@ -4,7 +4,8 @@ const initialState = {
     userData:{},
     allUsersData: [],
     adminsData: [],
-    valid: true
+    valid: true,
+    error: false
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -34,6 +35,11 @@ const reducer = ( state = initialState, action ) => {
             state = {
                 ...state,
                 adminsData: [...action.admins]
+        
+        case actionTypes.FETCH_ALL_USERS_FAILED:
+            state = {
+                ...state,
+                error: true
             };
             return state;
     

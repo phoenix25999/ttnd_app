@@ -113,7 +113,7 @@ const EditUser = ( props ) => {
                     console.log(res);
                 }
             })
-            .catch(err=>console.log(err.message));
+            .catch(err=>alert(err.message));
     }
 
     let errorMesssage = <p>Please enter valid data</p>;

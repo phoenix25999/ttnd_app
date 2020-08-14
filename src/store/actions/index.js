@@ -1,6 +1,6 @@
 export { fetchUser, fetchAllUsers, fetchAdmins } from './user';
 
-export { fetchBuzz, fetchBuzzByUser } from './buzz';
+export { fetchBuzz, getBuzzCountByUser } from './buzz';
 
 export { fetchComplaints, fetchComplaintsByUser, fetchAssignedComplaints } from './complaints';
 

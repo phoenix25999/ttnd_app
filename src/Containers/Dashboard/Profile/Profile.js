@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TopBar from '../../../Components/UI/TopBar/TopBar';
 import Banner from '../../../Components/UI/Banner/Banner';
-import { fetchUser } from '../../../store/actions/index';
+import { fetchUser, getBuzzCountByUser } from '../../../store/actions/index';
 import { checkValidity } from '../../../Utility/validation';
+import { RiImageAddLine } from 'react-icons/ri';
 
 import styles from './Profile.module.css';
 import axios from 'axios';
@@ -35,7 +36,7 @@ class Profile extends Component{
                 value: this.props.userData.contact,
                 validation:{
                     minLength: 10,
-                    maxLength: 11
+                    maxLength: 10
                 },
                 valid: true,
                 touched: false
@@ -43,8 +44,8 @@ class Profile extends Component{
             age: {
                 value: this.props.userData.age,
                 validation:{
-                    minLength: 2,
-                    maxLength: 2
+                    minValue: 18,
+                    maxValue: 120
                 },
                 valid: true,
                 touched: false
@@ -63,6 +64,12 @@ class Profile extends Component{
                 },
                 valid: true,
                 touched: false
+            },
+            image: {
+                value: '',
+                validation:{},
+                valid: true,
+                touched: false
             }
         },
         formIsValid: false
@@ -71,6 +78,9 @@ class Profile extends Component{
     componentDidMount(){
 
         this.props.fetchUser(sessionStorage.getItem('token'));
+        setTimeout(()=>this.props.getBuzzCount(this.props.userData._id),1000);
+        
+        
         
     }
 
@@ -90,41 +100,54 @@ class Profile extends Component{
         const updatedFormElement = {
             ...updatedUserForm[inputIdentifier]
         }
+
+        if(inputIdentifier!=='image'){
         updatedFormElement.value = event.target.value;
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
-        console.log(updatedFormElement.valid);
+        }
+
+        else{
+            updatedFormElement.value = event.target.files;
+            console.log(updatedFormElement.value);
+        }
 
         updatedUserForm[inputIdentifier] = updatedFormElement;
 
         let formIsValid = true;
 
         for( let inputIdentifier in updatedUserForm ){
-            console.log(updatedUserForm[inputIdentifier].valid)
             formIsValid = updatedUserForm[inputIdentifier].valid && formIsValid;
         }
-
-        console.log(formIsValid);
-
         
         this.setState({userForm: updatedUserForm, formIsValid: formIsValid});
     }
 
     onSubmitHandler = (event) => {
         event.preventDefault();
-        let updatedUserDetails = {
-            name: `${this.state.userForm.firstname.value} ${this.state.userForm.lastname.value}`,
-            contact: this.state.userForm.contact.value,
-            age: this.state.userForm.age.value,
-            gender: this.state.userForm.gender.value,
-            about: this.state.userForm.about.value
 
-        }
-        axios.patch(`http://localhost:5000/user/${this.props.userData._id}`, updatedUserDetails)
+        const updatedUserData = new FormData();
+            updatedUserData.append('name', `${this.state.userForm.firstname.value} ${this.state.userForm.lastname.value}`);
+            updatedUserData.append('contact', this.state.userForm.contact.value);
+            updatedUserData.append('age', this.state.userForm.age.value);
+            updatedUserData.append('gender', this.state.userForm.gender.value);
+            updatedUserData.append('about', this.state.userForm.about.value);
+            updatedUserData.append('profilePic', this.state.userForm.image.value[0]);
+
+        console.log(updatedUserData);
+
+        const config = {
+            headers: {
+              'content-type': 'multipart/form-data'
+              }
+          }
+
+        axios.patch(`http://localhost:5000/user/${this.props.userData._id}`, updatedUserData, config)
             .then(res=>{
                 this.props.fetchUser(sessionStorage.getItem('token'));
                 alert('Changes saved successfully!');
-            });
+            })
+            .catch(error=>alert(error.message));
     }
 
     render(){
@@ -140,14 +163,14 @@ class Profile extends Component{
                         <h3>Profile</h3>
                         <img src={this.props.userData.picture} alt='profile-pic'/>
                         <p>{this.props.userData.name}</p>
-                        <p>20 posts</p>
+                        <p>{this.props.buzzCount} posts</p>
                         <p>About</p>
                         <p>{this.props.userData.about}</p>
                     </div>
 
                     <div className={styles.EditProfile}>
                         <h3>Update Profile</h3>
-                        <form onSubmit={this.onSubmitHandler}>
+                        <form  method="post" encType="multipart/form-data" onSubmit={this.onSubmitHandler}>
                             <div className={styles.Name}>
                                 <div>
                                     <label>First Name</label>
@@ -159,6 +182,24 @@ class Profile extends Component{
                                     <input type='text' value={this.state.userForm.lastname.value} onChange={(e)=>this.inputChangeHandler(e, 'lastname')} />
                                     {!this.state.userForm.lastname.valid && this.state.userForm.lastname.touched ? <p>{errorMessage}</p> : ''}
                                 </div>
+                            </div>
+
+                            <div className={styles.ProfilePic}>
+                                <label htmlFor='profilePic'>
+                                   Update Profile Pic
+                                   <span><RiImageAddLine title='Add image' className={styles.ImageButton}/>
+                                   {this.state.userForm.image.value?this.state.userForm.image.value[0].name:'No file Chosen'}
+                                   </span>
+                                </label>
+                                
+                                <input 
+                                    id='profilePic' 
+                                    name='profilePic' 
+                                    type='file' 
+                                    accept='image/*'
+                                    hidden
+                                    onChange={(e)=>this.inputChangeHandler(e, 'image')}
+                                />
                             </div>
 
                             <label>Email</label>
@@ -205,15 +246,17 @@ class Profile extends Component{
     }
 }
 
-const mapStateToProps = ({user}) => {
+const mapStateToProps = ({user, buzz}) => {
     return{
-        userData: user.userData
+        userData: user.userData,
+        buzzCount: buzz.buzzCount
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchUser: (token)=> dispatch( fetchUser(token) )
+        fetchUser: (token)=> dispatch( fetchUser(token) ),
+        getBuzzCount: (userID)=> dispatch( getBuzzCountByUser(userID) )
     };
 };
 

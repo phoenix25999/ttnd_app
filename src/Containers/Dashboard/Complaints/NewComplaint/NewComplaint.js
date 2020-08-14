@@ -190,7 +190,6 @@ class NewComplaint extends Component{
   render(){
     let attachments = [];
     for(let i in this.state.complaintForm.attachment.value){
-      //console.log(this.state.complaintForm.attachment.value)
       if(this.state.complaintForm.attachment.value.hasOwnProperty(i)){
       attachments.push(this.state.complaintForm.attachment.value[i].name);
       }
