@@ -6,8 +6,9 @@ exports.addBuzz = async (newBuzz) => {
   return buzz;
 };
 
-exports.getAllBuzz = async () => {
-  const allBuzz = Buzz.find({})
+exports.getAllBuzz = async ( filter ) => {
+  console.log(filter);
+  const allBuzz = Buzz.find(filter)
                   .populate('createdBy','name email');
   return allBuzz;
 };
@@ -37,4 +38,14 @@ exports.updateDislikes = async ({id, dislikes, alreadyLiked}) => {
     updatedDislikes = Buzz.updateOne({_id: id}, {$push:{dislikes: dislikes}});
   }
   return updatedDislikes;
+}
+
+exports.updateBuzz = (buzzId, buzzDetails) => {
+  const updatedBuzz = Buzz.updateOne({_id: buzzId}, buzzDetails);
+  return updatedBuzz;
+}
+
+exports.deleteBuzz = ( buzzId ) => {
+  const deletedBuzz = Buzz.deleteOne({_id: buzzId});
+  return deletedBuzz;
 }

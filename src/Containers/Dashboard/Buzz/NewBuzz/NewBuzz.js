@@ -24,7 +24,7 @@ class NewBuzz extends Component{
       category:{
         options: [
           {value: 'Activity', displayValue: 'Activity'},
-          {value: 'Lost & Found', displayValue: 'Lost & Found'},
+          {value: 'Lost and Found', displayValue: 'Lost and Found'},
         ],
         value: 'Activity',
         validation: {

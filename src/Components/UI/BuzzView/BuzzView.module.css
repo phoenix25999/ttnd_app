@@ -57,13 +57,18 @@
     width: 100%;
 }
 
-.BuzzContent p:first-child{
+.BuzzContent > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+.BuzzContent > div:first-of-type p{
     font-size: 15px;
     color: #808080;
     padding-bottom: 5px;
 }
 
-.BuzzContent p:last-child{
+.BuzzContent >div:last-of-type p{
     font-size: 15px;
     color: #3d3d3d;
 }

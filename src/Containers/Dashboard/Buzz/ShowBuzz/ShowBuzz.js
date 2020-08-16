@@ -5,11 +5,14 @@ import styles from './ShowBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
 import BuzzView from '../../../../Components/UI/BuzzView/BuzzView';
+import { FaFilter } from 'react-icons/fa';
+import BuzzFilter from '../BuzzFilter.js/BuzzFilter';
 
 class ShowBuzz extends Component{
 
     state = {
-        comment: ''
+        comment: '',
+        showBuzzFilters: false
     }
 
     componentDidMount(){
@@ -65,7 +68,11 @@ class ShowBuzz extends Component{
 
         return(
             <div className={styles.ShowBuzz}>
-                <h4>Recent Buzz</h4>
+                <div className={styles.Header}>
+                    <h4>Recent Buzz</h4>
+                    <button onClick={()=>this.setState({showBuzzFilters: true})}><FaFilter  /></button>
+                    {this.state.showBuzzFilters?<BuzzFilter show={this.state.showBuzzFilters} clicked={()=>this.setState({showBuzzFilters: false})} />:''}
+                </div>
                 {buzzData}    
             </div>
         );
@@ -82,7 +89,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: () => dispatch( actions.fetchBuzz() ),
+        fetchBuzz: ( filter ) => dispatch( actions.fetchBuzz( filter ) ),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }

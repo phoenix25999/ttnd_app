@@ -131,6 +131,7 @@ const EditUser = ( props ) => {
                             value={userForm.firstname.value}
                             className={styles.Input}
                         />
+                        {!userForm.firstname.valid&&userForm.firstname.touched?errorMesssage:''}
 
                         <input 
                             placeholder='Lastname'
@@ -138,6 +139,7 @@ const EditUser = ( props ) => {
                             value={userForm.lastname.value}
                             className={styles.Input}
                         />
+                        {!userForm.lastname.valid&&userForm.lastname.touched?errorMesssage:''}
 
                         <input 
                             placeholder='e-mail'

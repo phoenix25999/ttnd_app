@@ -8,9 +8,9 @@ export const fetchBuzzSuccess = ( buzzData ) => {
     };
 }
 
-export const fetchBuzz = () => {
+export const fetchBuzz = ( filter ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/buzz')
+        axios.get('http://localhost:5000/buzz', filter)
             .then(res=>{
                 let buzzArray = [];
                 for(let i in res.data){

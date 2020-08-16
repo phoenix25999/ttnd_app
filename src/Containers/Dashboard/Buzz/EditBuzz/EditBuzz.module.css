@@ -1,0 +1,63 @@
+.EditBuzz{
+    background: #fff;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 200;
+    width: 50%;
+    border-radius: 7px;
+    
+}
+
+.EditBuzz h3{
+    background: #ccc;
+    padding: 7px;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+.EditBuzz form{
+    display: flex;
+    flex-direction: column;
+    padding: 20px 40px;
+}
+
+.EditBuzz form textarea, .EditBuzz form select{
+    width: 100%;
+    padding: 8px 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    background: transparent;
+    font-size: 14px;
+    color: #808080;
+    font-weight: 500;
+    border-radius: 5px;
+    outline: none;
+}
+
+.Buttons{
+    display: flex;
+    justify-content: center;
+}
+
+.Buttons button{
+    padding: 7px 15px;
+    background: #ccc;
+    font-size: 14px;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    color: #ff0019;
+    margin: 0 7px;
+    outline: none;
+}
+
+.Buttons button:hover{
+    cursor: pointer;
+    background: #e4e3e3;
+}
+
+.Buttons button:disabled{
+    cursor: not-allowed;
+    color: #fff;
+}

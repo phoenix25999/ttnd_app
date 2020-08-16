@@ -5,13 +5,10 @@
     margin-bottom: 50px;
 }
 
-.ShowBuzz h4{
+.Header{
+    display: flex;
+    justify-content: space-between;
     background: #ddd;
     padding: 10px;
-}
-
-.ShowBuzz > div {
-    display: flex;
-    flex-direction: column;
 }
 

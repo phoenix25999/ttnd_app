@@ -1,0 +1,20 @@
+.BuzzFilter{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 200;
+    padding: 20px;
+    background: #fff;
+
+}
+
+.Category label{
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.Category div{
+    margin-left: 10px;
+}
+
