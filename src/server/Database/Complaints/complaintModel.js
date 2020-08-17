@@ -29,6 +29,10 @@ const complaintSchema = new mongoose.Schema({
     },
     attachment: {
         type: Array
+    },
+    assignedTo:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 

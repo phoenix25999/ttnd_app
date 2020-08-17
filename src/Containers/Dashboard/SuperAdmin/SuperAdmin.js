@@ -89,6 +89,7 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
+        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -198,11 +199,12 @@ const SuperAdmin = ( props ) => {
                                 disabled={userForm.role.value==='ADMIN'?false:true}
                             >
                                 <option value=''>Department</option>
-                                <option value='IT' >IT</option>
+                                <option value='Hardware' >Hardware</option>
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
                             </select>
                         </div>
+                          
                     </div>
                         <div className={styles.Gender}>
                         <label>Gender</label>

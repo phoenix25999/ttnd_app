@@ -7,17 +7,23 @@ exports.addComplaint = (newComplaint) => {
 };
 
 exports.getAllComplaint = async () => {
-  const allComplaint = Complaint.find({});
+  const allComplaint = Complaint.find({})
+                                .populate('assignedTo', 'name');
   return allComplaint;
 };
 
 exports.getComplaintByUser = async ( email ) => {
-  const userComplaint = Complaint.find({email: email});
+  const userComplaint = Complaint.find({email: email})
+                                  .populate('assignedTo', 'name');
   return userComplaint;
 };
 
-exports.updateStatus = async (statusInfo) => {
-  console.log(statusInfo)
-  const complaintStatus = Complaint.updateOne({_id: statusInfo.id}, {status: statusInfo.status});
-  return complaintStatus;
+exports.getAssignedComplaints = async ( adminId ) => {
+  const userComplaint = Complaint.find({assignedTo: adminId});
+  return userComplaint;
+};
+
+exports.updateStatus = async (complaintID, updates) => {
+  const updatedInfo = Complaint.updateOne({_id: complaintID}, updates);
+  return updatedInfo;
 }

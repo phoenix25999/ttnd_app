@@ -13,6 +13,13 @@ exports.addUser = async ( req, res ) => {
     picture: profilePic
   }
 
+  if(req.body.department){
+    newUser = {
+      ...newUser,
+      department: req.body.department
+    }
+  }
+
   try{
     const user = await userService.addUser(newUser);
     res.send(user);
@@ -82,6 +89,17 @@ exports.deleteUser = async (req, res) => {
   try{
     const deletedUser = await userService.deleteUser(req.params.userID);
     res.send(deletedUser);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.getAdmins = async (req, res) => {
+  
+  try{
+    const admins = await userService.getAdmins(req.params.department);
+    console.log(admins);
+    res.send(admins);
   } catch(err){
     res.status(400).send(err);
   }

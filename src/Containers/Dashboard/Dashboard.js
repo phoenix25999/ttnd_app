@@ -42,11 +42,11 @@ class Dashboard extends Component{
         
         let routes=(
                 <Switch>
-                    <Route path='/dashboard/buzz'  component={Buzz} />
+                    <Route path='/dashboard/buzz' component={Buzz} />
                     <Route path='/dashboard/complaints' component={Complaints} />
                     {isSuperAdmin(this.props.role)?<Route path='/dashboard/users' component={SuperAdmin} />:''}
                     {isAdmin(this.props.role)?<Route path='/dashboard/resolve' component={Resolve} />:''}
-                    <Redirect to="/dashboard/buzz" />
+                    <Redirect to='/dashboard/buzz' />
                 </Switch>
             )
 
