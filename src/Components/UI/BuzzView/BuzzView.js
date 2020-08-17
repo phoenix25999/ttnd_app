@@ -5,6 +5,8 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import * as actions from '../../../store/actions/index';
 
 import styles from './BuzzView.module.css';
+import EditBuzz from '../../../Containers/Dashboard/Buzz/EditBuzz/EditBuzz';
+import axios from 'axios';
 
 const BuzzView = (props) => {
 
@@ -17,6 +19,14 @@ const BuzzView = (props) => {
 
     useEffect(()=>{fetchComments(buzz._id)}, [buzz._id, fetchComments]);
 
+    const deleteBuzz = ( buzzId ) => {
+        axios.delete(`http://localhost:5000/buzz/${buzzId}`)
+            .then(res=>{
+                props.fetchBuzz('');
+            })
+            .catch(err=>alert(err.message));
+    }
+
     return(
         <div key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
             <div className={styles.BuzzDetails}>
@@ -25,13 +35,21 @@ const BuzzView = (props) => {
                     <p><em>{buzz.createdOn.slice(5,7)}</em></p>
                 </div>
                 <div className={styles.BuzzContent}>
-                    <p>{buzz.createdBy.email}</p>
-                    <div className={styles.ImageBox}>{buzz.image.map(image=><div key={image}className={styles.Image}>
-                        <img src={image} alt='buzz'/>
-                    </div>)}</div>
-        
-                            
-                    <p className={styles.BuzzDescription}>{buzz.description}</p>
+                    <div>
+                        <p>{buzz.createdBy.email}</p>
+                        {props.userID===buzz.createdBy._id?
+                        <div className={styles.Manipulate}>
+                            <EditBuzz buzz={buzz} />
+                            <button onClick={()=>deleteBuzz(buzz._id)}>Delete</button>
+                        </div>
+                        :''}
+                    </div>
+                    <div>
+                        <div className={styles.ImageBox}>{buzz.image.map(image=><div key={image}className={styles.Image}>
+                            <img src={image} alt='buzz'/>
+                        </div>)}</div>   
+                        <p className={styles.BuzzDescription}>{buzz.description}</p>
+                    </div>
                 </div>
             </div>
             <div className={styles.Action}>
@@ -72,6 +90,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
+        fetchBuzz: (category ) => dispatch( actions.fetchBuzz( category ) ),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }

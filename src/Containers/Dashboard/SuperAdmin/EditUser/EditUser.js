@@ -6,6 +6,7 @@ import { fetchAllUsers } from '../../../../store/actions/index';
 import { checkValidity } from '../../../../Utility/validation';
 
 import styles from './EditUser.module.css';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 
 const EditUser = ( props ) => {
@@ -52,9 +53,10 @@ const EditUser = ( props ) => {
         }
     }
 
-    const [userForm, setUserform] = useState(initialUserForm);
+    const [userForm, setUserForm] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [message, setMessage] = useState('');
+    const [showToaster, setShowToaster] = useState(false);
 
    
         const inputChangeHandler = ( event, inputIdentifier ) => {
@@ -80,7 +82,8 @@ const EditUser = ( props ) => {
             }
     
             setFormIsValid(isFormValid);
-            setUserform(updatedUserForm);
+            setUserForm(updatedUserForm);
+            
         }
 
     const updateUser = (event ) => {
@@ -109,8 +112,11 @@ const EditUser = ( props ) => {
                 }
                 else{
                     props.fetchUsers(props.userID);
-                    props.clicked();
-                    console.log(res);
+                    setShowToaster(true);
+                    setTimeout(()=>{
+                        props.clicked();
+                        setShowToaster(false)
+                    }, 3000);
                 }
             })
             .catch(err=>alert(err.message));
@@ -131,6 +137,7 @@ const EditUser = ( props ) => {
                             value={userForm.firstname.value}
                             className={styles.Input}
                         />
+                        {!userForm.firstname.valid&&userForm.firstname.touched?errorMesssage:''}
 
                         <input 
                             placeholder='Lastname'
@@ -138,6 +145,7 @@ const EditUser = ( props ) => {
                             value={userForm.lastname.value}
                             className={styles.Input}
                         />
+                        {!userForm.lastname.valid&&userForm.lastname.touched?errorMesssage:''}
 
                         <input 
                             placeholder='e-mail'
@@ -162,9 +170,8 @@ const EditUser = ( props ) => {
                             <button disabled={!formIsValid}>Submit</button>
                             <button onClick={props.clicked}>Cancel</button>
                         </div>
-
-                </form>
-                
+                </form>  
+                {showToaster?<Toaster message='Changes saved successfully!'/>:''}
             </div>
         </div>
     )

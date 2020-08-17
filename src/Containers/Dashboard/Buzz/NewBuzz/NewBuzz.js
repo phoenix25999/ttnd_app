@@ -7,6 +7,7 @@ import classes from './NewBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
 import BuzzForm from './BuzzForm/BuzzForm';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 class NewBuzz extends Component{
 
@@ -24,7 +25,7 @@ class NewBuzz extends Component{
       category:{
         options: [
           {value: 'Activity', displayValue: 'Activity'},
-          {value: 'Lost & Found', displayValue: 'Lost & Found'},
+          {value: 'Lost and Found', displayValue: 'Lost and Found'},
         ],
         value: 'Activity',
         validation: {
@@ -40,7 +41,8 @@ class NewBuzz extends Component{
         touched: true
       }
     },
-    formIsValid: false
+    formIsValid: false,
+    showToaster: false
   }
 
   checkValidity(value, rules) {
@@ -114,8 +116,6 @@ class NewBuzz extends Component{
     
     axios.post('http://localhost:5000/buzz', buzzData, config)
       .then(res=>{
-
-        
         const updatedBuzzForm = {
           ...this.state.buzzForm
         };
@@ -124,7 +124,9 @@ class NewBuzz extends Component{
           formElementIdentifier!=='category'? updatedBuzzForm[formElementIdentifier].value='':updatedBuzzForm[formElementIdentifier].value='Activity';
         }
         this.setState({buzzForm: updatedBuzzForm, imageName:''});
-        this.props.fetchBuzz();
+        this.props.fetchBuzz('');
+        this.setState({showToaster: true});
+        setTimeout(()=>this.setState({showToaster: false}), 3000)
       }); 
   }
 
@@ -146,6 +148,7 @@ class NewBuzz extends Component{
             <BuzzForm 
               className={classes.Form}
               elementType='textarea' 
+              placeholder="What's in your mind....."
               changed={(e)=>this.changeHandler(e,'desc')} 
               value={this.state.buzzForm.desc.value || ''}
               invalid={!this.state.buzzForm.desc.valid}
@@ -188,6 +191,7 @@ class NewBuzz extends Component{
             </button>
           </div>
           </form>
+          {this.state.showToaster?<Toaster message='Buzz created!!'/>:''}
         </div>
     )
   }
@@ -202,7 +206,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return{
-      fetchBuzz: () => dispatch( actions.fetchBuzz() )
+      fetchBuzz: ( category ) => dispatch( actions.fetchBuzz( category ) )
   };
 }
 

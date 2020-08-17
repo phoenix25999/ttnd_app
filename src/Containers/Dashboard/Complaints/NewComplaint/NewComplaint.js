@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../../../../store/actions/index';
 import classes from './NewComplaint.module.css';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 import Input from '../../../../Components/UI/Input/Input';
 import { RiImageAddLine } from 'react-icons/ri';
 import axios from 'axios';
@@ -88,7 +89,8 @@ class NewComplaint extends Component{
         valid: true
       }
     },
-    formIsValid: false
+    formIsValid: false,
+    showToaster: false
   }
 
   checkValidity(value, rules) {
@@ -173,7 +175,6 @@ class NewComplaint extends Component{
 
     axios.post('http://localhost:5000/complaint', complaintData, config)
       .then(res=>{
-        console.log(res);
         const updatedComplaintForm = {
           ...this.state.complaintForm
         };
@@ -182,7 +183,9 @@ class NewComplaint extends Component{
           updatedComplaintForm[formElementIdentifier].value='';
         }
         this.setState({complaintForm: updatedComplaintForm});
-        this.props.fetchComplaints();
+        this.props.fetchComplaintsByUser(this.props.email);
+        this.setState({showToaster:true});
+        setTimeout(()=>this.setState({showToaster: false}), 3000);
       });    
       
   }
@@ -270,16 +273,24 @@ class NewComplaint extends Component{
             </div>
           </div>
         </form>
+        {this.state.showToaster?<Toaster message='Complaint successfully registered!' />:''}
   
       </div>
     );
   } 
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = ({user}) => {
   return{
-      fetchComplaints: () => dispatch( actions.fetchComplaints() )
+      email: user.userData.email
+
   };
 };
 
-export default connect( null, mapDispatchToProps )( NewComplaint );
+const mapDispatchToProps = dispatch => {
+  return{
+    fetchComplaintsByUser: (email) => dispatch( actions.fetchComplaintsByUser(email) )
+  };
+};
+
+export default connect( mapStateToProps, mapDispatchToProps )( NewComplaint );

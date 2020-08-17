@@ -57,13 +57,18 @@
     width: 100%;
 }
 
-.BuzzContent p:first-child{
+.BuzzContent > div:first-of-type {
+    display: flex;
+    justify-content: space-between;
+}
+
+.BuzzContent > div:first-of-type p{
     font-size: 15px;
     color: #808080;
     padding-bottom: 5px;
 }
 
-.BuzzContent p:last-child{
+.BuzzContent >div:last-of-type p{
     font-size: 15px;
     color: #3d3d3d;
 }
@@ -83,6 +88,21 @@
 .Image img{
     height: 100%;
     width: 100%;
+}
+
+.Manipulate button{
+    background: none;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #808080;
+}
+
+.Manipulate button:hover{
+    color: #000;
+    cursor: pointer;
 }
 
 @media(max-width:600px){

@@ -40,7 +40,7 @@ exports.addBuzz = async (req, res) => {
 
 exports.getAllBuzz = async (req, res) => {
   try {
-    const allBuzz = await buzzService.getAllBuzz();
+    const allBuzz = await buzzService.getAllBuzz(req.query.category);
     res.send(allBuzz);
   } catch(err) {
     res.status(400).send(err);
@@ -74,6 +74,24 @@ exports.updateDislikes = async (req, res) => {
     const dislikeInfo = await buzzService.updateDislikes(req.body);
     res.send(dislikeInfo);
   } catch (err) {
+    res.status(400).send(err);
+  }
+}
+
+exports.updateBuzz = async (req, res) => {
+  try{
+    const updatedBuzz = await buzzService.updateBuzz(req.params.buzzId, req.body);
+    res.send(updatedBuzz);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.deleteBuzz = async (req, res) => {
+  try{
+    const deletedBuzz = await buzzService.deleteBuzz(req.params.buzzId);
+    res.send(deletedBuzz);
+  } catch(err){
     res.status(400).send(err);
   }
 }

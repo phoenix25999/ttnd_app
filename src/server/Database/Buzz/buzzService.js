@@ -6,9 +6,17 @@ exports.addBuzz = async (newBuzz) => {
   return buzz;
 };
 
-exports.getAllBuzz = async () => {
-  const allBuzz = Buzz.find({})
+exports.getAllBuzz = async ( searchedCategory ) => {
+  let allBuzz = '';
+  searchedCategory?
+    allBuzz = Buzz.find({category: searchedCategory})
+                  .populate('createdBy','name email')
+  
+  :
+    allBuzz = Buzz.find({})
                   .populate('createdBy','name email');
+  
+
   return allBuzz;
 };
 
@@ -37,4 +45,14 @@ exports.updateDislikes = async ({id, dislikes, alreadyLiked}) => {
     updatedDislikes = Buzz.updateOne({_id: id}, {$push:{dislikes: dislikes}});
   }
   return updatedDislikes;
+}
+
+exports.updateBuzz = (buzzId, buzzDetails) => {
+  const updatedBuzz = Buzz.updateOne({_id: buzzId}, buzzDetails);
+  return updatedBuzz;
+}
+
+exports.deleteBuzz = ( buzzId ) => {
+  const deletedBuzz = Buzz.deleteOne({_id: buzzId});
+  return deletedBuzz;
 }

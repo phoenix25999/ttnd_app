@@ -7,9 +7,12 @@ import Assign from '../Assign/Assign';
 
 class YourComplaints extends Component{
 
+
     componentDidMount(){
         this.props.fetchComplaintsByUser(this.props.email);
-        this.props.fetchAllComplaints();
+        if(isSuperAdmin(this.props.role)){
+            this.props.fetchAllComplaints();
+        }
     }
 
     checkStatus = (status) => {
@@ -41,6 +44,23 @@ class YourComplaints extends Component{
                     <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
+                </tr>
+            )
+        })
+        }
+
+        let allComplaintsData = [];
+        if(this.props.allComplaintsData){
+            allComplaintsData = this.props.allComplaintsData.map(complaint=> {
+            let statusClass = this.checkStatus(complaint.status)
+            return(
+                <tr key={complaint._id}>
+                    <td>{complaint.department} </td>
+                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
+                    <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
+                    <td className={statusClass}>{complaint.status}</td>
+                    <td><Assign complaint={complaint}/></td>
+
                 </tr>
             )
         })

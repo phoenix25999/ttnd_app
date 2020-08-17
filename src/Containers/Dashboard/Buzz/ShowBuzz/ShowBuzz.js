@@ -5,15 +5,19 @@ import styles from './ShowBuzz.module.css';
 import axios from 'axios';
 import * as actions from '../../../../store/actions/index';
 import BuzzView from '../../../../Components/UI/BuzzView/BuzzView';
+import { FaFilter } from 'react-icons/fa';
+import BuzzFilter from '../BuzzFilter.js/BuzzFilter';
+import ErrorHandler from '../../../../Components/UI/ErrorHandler/ErrorHandler';
 
 class ShowBuzz extends Component{
 
     state = {
-        comment: ''
+        comment: '',
+        showBuzzFilters: false
     }
 
     componentDidMount(){
-        this.props.fetchBuzz();
+        this.props.fetchBuzz('');
     }
 
         likeHandler = async (id, dislikedBy)=>{
@@ -64,25 +68,33 @@ class ShowBuzz extends Component{
         }
 
         return(
+            <>
             <div className={styles.ShowBuzz}>
-                <h4>Recent Buzz</h4>
+                <div className={styles.Header}>
+                    <h4>Recent Buzz</h4>
+                    <button onClick={()=>this.setState({showBuzzFilters: true})}><FaFilter  /></button>
+                    {this.state.showBuzzFilters?<BuzzFilter show={this.state.showBuzzFilters} clicked={()=>this.setState({showBuzzFilters: false})} />:''}
+                </div>
                 {buzzData}    
             </div>
+            {this.props.error?<ErrorHandler/>:''}
+            </>
         );
     };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({buzz, user}) => {
     return{
-        buzzData: state.buzz.buzzData,
-        email: state.user.userData.email,
-        userID: state.user.userData._id
+        buzzData: buzz.buzzData,
+        error: buzz.error,
+        email: user.userData.email,
+        userID: user.userData._id
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: () => dispatch( actions.fetchBuzz() ),
+        fetchBuzz: ( category ) => dispatch( actions.fetchBuzz( category ) ),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }
