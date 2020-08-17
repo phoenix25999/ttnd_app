@@ -7,6 +7,7 @@ import axios from 'axios';
 import{ checkValidity } from '../../../Utility/validation';
 import ShowUsers from './ShowUsers/ShowUsers';
 import ErrorHandler from '../../../Components/UI/ErrorHandler/ErrorHandler';
+import Toaster from '../../../Utility/Toaster/Toaster';
 
 const SuperAdmin = ( props ) => {
 
@@ -70,10 +71,11 @@ const SuperAdmin = ( props ) => {
         }
     }
 
-    const [userForm, setUserform] = useState(initialUserForm);
+    const [userForm, setUserForm] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [message, setMessage] = useState('');
     const [showError, setShowError] = useState(true);
+    const [showToaster, setShowToaster] = useState(false);
     
 
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
@@ -89,7 +91,6 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
-        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -102,11 +103,15 @@ const SuperAdmin = ( props ) => {
         }
 
         setFormIsValid(isFormValid);
-        setUserform(updatedUserForm);
+        setUserForm(updatedUserForm);
     }
 
     const addUser = (event) => {
         event.preventDefault();
+
+        if(userForm.role.value==='EMPLOYEE' && userForm.department.value){
+            userForm.department.value='';
+        }
 
         let userData = {};
         for(let i in userForm){
@@ -122,8 +127,10 @@ const SuperAdmin = ( props ) => {
                     setMessage('User already exists! Try again with a different email');
                 }
                 else{
-                setUserform(initialUserForm);
+                setUserForm(initialUserForm);
                 fetchUsers(userID);
+                setShowToaster(true);
+                setTimeout(()=>setShowToaster(false), 3000);
                 }
             })
             .catch(err=>alert(err.message));
@@ -149,6 +156,7 @@ const SuperAdmin = ( props ) => {
             <div className={styles.AddUser}>
                 <h3>Add user</h3>
                 <form method="post" onSubmit={addUser}>
+                <p>{message}</p>
                     <div className={styles.Name}>
                         <div>
                             <input 
@@ -225,9 +233,10 @@ const SuperAdmin = ( props ) => {
                                 </div>
                             </div>
                             </div>
-                        <p>{message}</p>
+                        
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
+                {showToaster?<Toaster message='User created successfully!'/>:''}
 
             </div>
 

@@ -7,9 +7,12 @@ import Assign from '../Assign/Assign';
 
 class YourComplaints extends Component{
 
+
     componentDidMount(){
         this.props.fetchComplaintsByUser(this.props.email);
-        this.props.fetchAllComplaints();
+        if(isSuperAdmin(this.props.role)){
+            this.props.fetchAllComplaints();
+        }
     }
 
     checkStatus = (status) => {

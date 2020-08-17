@@ -6,10 +6,17 @@ exports.addBuzz = async (newBuzz) => {
   return buzz;
 };
 
-exports.getAllBuzz = async ( filter ) => {
-  console.log(filter);
-  const allBuzz = Buzz.find(filter)
+exports.getAllBuzz = async ( searchedCategory ) => {
+  let allBuzz = '';
+  searchedCategory?
+    allBuzz = Buzz.find({category: searchedCategory})
+                  .populate('createdBy','name email')
+  
+  :
+    allBuzz = Buzz.find({})
                   .populate('createdBy','name email');
+  
+
   return allBuzz;
 };
 

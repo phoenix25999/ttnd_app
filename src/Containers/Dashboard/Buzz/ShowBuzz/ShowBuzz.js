@@ -7,6 +7,7 @@ import * as actions from '../../../../store/actions/index';
 import BuzzView from '../../../../Components/UI/BuzzView/BuzzView';
 import { FaFilter } from 'react-icons/fa';
 import BuzzFilter from '../BuzzFilter.js/BuzzFilter';
+import ErrorHandler from '../../../../Components/UI/ErrorHandler/ErrorHandler';
 
 class ShowBuzz extends Component{
 
@@ -16,7 +17,7 @@ class ShowBuzz extends Component{
     }
 
     componentDidMount(){
-        this.props.fetchBuzz();
+        this.props.fetchBuzz('');
     }
 
         likeHandler = async (id, dislikedBy)=>{
@@ -67,6 +68,7 @@ class ShowBuzz extends Component{
         }
 
         return(
+            <>
             <div className={styles.ShowBuzz}>
                 <div className={styles.Header}>
                     <h4>Recent Buzz</h4>
@@ -75,21 +77,24 @@ class ShowBuzz extends Component{
                 </div>
                 {buzzData}    
             </div>
+            {this.props.error?<ErrorHandler/>:''}
+            </>
         );
     };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = ({buzz, user}) => {
     return{
-        buzzData: state.buzz.buzzData,
-        email: state.user.userData.email,
-        userID: state.user.userData._id
+        buzzData: buzz.buzzData,
+        error: buzz.error,
+        email: user.userData.email,
+        userID: user.userData._id
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: ( filter ) => dispatch( actions.fetchBuzz( filter ) ),
+        fetchBuzz: ( category ) => dispatch( actions.fetchBuzz( category ) ),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }

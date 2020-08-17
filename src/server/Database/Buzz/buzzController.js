@@ -39,9 +39,8 @@ exports.addBuzz = async (req, res) => {
 }
 
 exports.getAllBuzz = async (req, res) => {
-  console.log(req.body);
   try {
-    const allBuzz = await buzzService.getAllBuzz(req.body);
+    const allBuzz = await buzzService.getAllBuzz(req.query.category);
     res.send(allBuzz);
   } catch(err) {
     res.status(400).send(err);

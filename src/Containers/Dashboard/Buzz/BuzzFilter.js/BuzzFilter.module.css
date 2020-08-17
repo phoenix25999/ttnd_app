@@ -4,17 +4,55 @@
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: 200;
-    padding: 20px;
     background: #fff;
+    min-width: 300px;
+    border-radius: 7px;
+}
 
+.BuzzFilter h3{
+    padding: 10px;
+    background: #ccc;
+    border-top-right-radius: 7px;
+    border-top-left-radius: 7px;
+}
+
+.Category{
+    padding: 20px;
 }
 
 .Category label{
     display: inline-block;
-    margin-bottom: 10px;
+    margin: 0 0px 10px 10px;
 }
 
 .Category div{
     margin-left: 10px;
+}
+
+.Category button{
+    display: inline-block;
+    margin: 20px 10px 0 0;
+    background: #ccc;
+    border: 1px solid #808080;
+    padding: 7px 15px;
+    font-size: 14px;
+    color: #ff0019;
+    border-radius: 5px;
+}
+
+.Category > div:last-of-type{
+    display: flex;
+    justify-content: center;
+}
+
+.Category button:hover{
+    background: #dbdada;
+    cursor: pointer;
+}
+
+.Category button:disabled{
+    cursor: not-allowed;
+    color: #fff;
+    background: #ccc;
 }
 

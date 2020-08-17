@@ -37,6 +37,7 @@ const BuzzForm = props => {
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
+            placeholder={props.placeholder}
             ></textarea>
         break;
     default :

@@ -6,12 +6,14 @@ import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
 
 
 import styles from './Assign.module.css';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 
 const Assign = ( props ) => {
 
     const[showAssignmentSection, setShowAssignmentSection] = useState(false);
     const [assignedAdmin, setAssignedAdmin] = useState('');
+    const [showToaster, setShowToaster] = useState(false);
 
     useEffect(()=>props.fetchAdmins(props.complaint.department), []);
 
@@ -25,6 +27,8 @@ const Assign = ( props ) => {
                 console.log(res);
                 setShowAssignmentSection(false);
                 props.fetchAllComplaints();
+                setShowToaster(true)
+                setTimeout(()=>setShowToaster(false), 3000);
             });
     }
 
@@ -48,6 +52,7 @@ const Assign = ( props ) => {
                 </form>
             </div></>:''
             }
+            {showToaster?<Toaster message='Admin assigned!' />:''}
         </>
     );
 };

@@ -8,9 +8,15 @@ export const fetchBuzzSuccess = ( buzzData ) => {
     };
 }
 
-export const fetchBuzz = ( filter ) => {
+export const fetchBuzzFailed = ( ) => {
+    return {
+        type: actionTypes.FETCH_BUZZ_FAILED
+    };
+}
+
+export const fetchBuzz = ( category ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/buzz', filter)
+        axios.get(`http://localhost:5000/buzz?category=${category}`)
             .then(res=>{
                 let buzzArray = [];
                 for(let i in res.data){

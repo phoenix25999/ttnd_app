@@ -29,7 +29,6 @@ export const fetchUser = ( token ) => {
                         let userData = {
                             ...response.data[0]
                         }
-                        console.log(userData);
                         dispatch(fetchUserSuccess(userData));
             });
                     

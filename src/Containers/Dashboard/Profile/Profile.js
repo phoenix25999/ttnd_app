@@ -8,6 +8,7 @@ import { RiImageAddLine } from 'react-icons/ri';
 
 import styles from './Profile.module.css';
 import axios from 'axios';
+import Toaster from '../../../Utility/Toaster/Toaster';
 
 
 class Profile extends Component{
@@ -72,7 +73,8 @@ class Profile extends Component{
                 touched: false
             }
         },
-        formIsValid: false
+        formIsValid: false,
+        showToaster: false
     }
 
     componentDidMount(){
@@ -134,8 +136,6 @@ class Profile extends Component{
             updatedUserData.append('about', this.state.userForm.about.value);
             updatedUserData.append('profilePic', this.state.userForm.image.value[0]);
 
-        console.log(updatedUserData);
-
         const config = {
             headers: {
               'content-type': 'multipart/form-data'
@@ -145,7 +145,8 @@ class Profile extends Component{
         axios.patch(`http://localhost:5000/user/${this.props.userData._id}`, updatedUserData, config)
             .then(res=>{
                 this.props.fetchUser(sessionStorage.getItem('token'));
-                alert('Changes saved successfully!');
+                this.setState({showToaster: true});
+                setTimeout(()=>this.setState({showToaster: false}), 3000)
             })
             .catch(error=>alert(error.message));
     }
@@ -239,7 +240,7 @@ class Profile extends Component{
                             </div>
                         </form>
                     </div>
-
+                    {this.state.showToaster?<Toaster message='Changes saved successfully!' />:''}
             </div>
         </div>
         )

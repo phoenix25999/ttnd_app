@@ -20,6 +20,8 @@ exports.addUser = async ( req, res ) => {
     }
   }
 
+
+  console.log(newUser);
   try{
     const user = await userService.addUser(newUser);
     res.send(user);

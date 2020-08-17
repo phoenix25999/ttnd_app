@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     buzzData: [],
+    error: false,
     buzzCount: 0
 };
 
@@ -12,7 +13,13 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 buzzData: [...action.buzzData]
             };
-            console.log(state);
+            return state;
+        
+        case actionTypes.FETCH_BUZZ_FAILED:
+            state = {
+                ...state,
+                error: true
+            };
             return state;
 
         case actionTypes.GET_BUZZ_COUNT_SUCCESS:

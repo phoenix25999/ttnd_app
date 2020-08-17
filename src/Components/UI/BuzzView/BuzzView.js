@@ -22,8 +22,9 @@ const BuzzView = (props) => {
     const deleteBuzz = ( buzzId ) => {
         axios.delete(`http://localhost:5000/buzz/${buzzId}`)
             .then(res=>{
-                props.fetchBuzz();
+                props.fetchBuzz('');
             })
+            .catch(err=>alert(err.message));
     }
 
     return(
@@ -37,7 +38,7 @@ const BuzzView = (props) => {
                     <div>
                         <p>{buzz.createdBy.email}</p>
                         {props.userID===buzz.createdBy._id?
-                        <div>
+                        <div className={styles.Manipulate}>
                             <EditBuzz buzz={buzz} />
                             <button onClick={()=>deleteBuzz(buzz._id)}>Delete</button>
                         </div>
@@ -89,7 +90,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: ( ) => dispatch( actions.fetchBuzz() ),
+        fetchBuzz: (category ) => dispatch( actions.fetchBuzz( category ) ),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }

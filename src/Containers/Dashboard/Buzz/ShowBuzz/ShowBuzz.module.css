@@ -12,3 +12,15 @@
     padding: 10px;
 }
 
+.Header button{
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.Header button:hover{
+    color: #ff0019;
+    cursor: pointer;
+}
+

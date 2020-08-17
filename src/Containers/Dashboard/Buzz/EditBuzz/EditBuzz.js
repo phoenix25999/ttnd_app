@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { checkValidity } from '../../../../Utility/validation';
 import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 import styles from './EditBuzz.module.css';
 import axios from 'axios';
 import { fetchBuzz } from '../../../../store/actions';
@@ -37,7 +38,7 @@ const EditBuzz = ( props ) => {
     const [showEditSection, setShowEditSection] = useState(false);
     const [buzzForm, setBuzzForm] = useState(initialBuzzForm);
     const [formIsValid, setFormIsValid] = useState(false);
-    const [message, setMessage] = useState('');
+    const [showToaster, setShowToaster] = useState(false);
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
 
@@ -79,11 +80,12 @@ const EditBuzz = ( props ) => {
 
         axios.patch(`http://localhost:5000/buzz/${props.buzz._id}`, updatedBuzzDetails)
             .then(res=>{
-                console.log(res);
-                props.fetchBuzz();
+                props.fetchBuzz('');
                 setShowEditSection(false);
-                
+                setShowToaster(true); 
+                setTimeout(()=>setShowToaster(false), 3000)  
             })
+            .catch(err=>alert(err.message));
     }
 
     let errorMessage = <p>Please enter a valid data!</p>
@@ -125,13 +127,14 @@ const EditBuzz = ( props ) => {
                     </div>
                     </div>:''
             }
+            {showToaster?<Toaster message='Changes saved successfully!' />: ''}
         </>
     );
 };
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchBuzz: () => dispatch( fetchBuzz() )
+        fetchBuzz: ( category ) => dispatch( fetchBuzz( category ) )
     };
 };
 
