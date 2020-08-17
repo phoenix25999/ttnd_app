@@ -76,8 +76,7 @@ const SuperAdmin = ( props ) => {
     const [message, setMessage] = useState('');
     const [showError, setShowError] = useState(true);
     const [showToaster, setShowToaster] = useState(false);
-    
-
+  
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
@@ -91,6 +90,7 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
+        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -233,7 +233,6 @@ const SuperAdmin = ( props ) => {
                                 </div>
                             </div>
                             </div>
-                        
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
                 {showToaster?<Toaster message='User created successfully!'/>:''}

@@ -6,8 +6,8 @@ import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
 
 
 import styles from './Assign.module.css';
-import Toaster from '../../../../Utility/Toaster/Toaster';
 
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 const Assign = ( props ) => {
 
