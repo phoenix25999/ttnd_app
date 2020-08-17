@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    buzzData: []
+    buzzData: [],
+    buzzCount: 0
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -12,6 +13,13 @@ const reducer = ( state = initialState, action ) => {
                 buzzData: [...action.buzzData]
             };
             console.log(state);
+            return state;
+
+        case actionTypes.GET_BUZZ_COUNT_SUCCESS:
+            state = {
+                ...state,
+                buzzCount: action.buzzCount
+            };
             return state;
         default:
             return state;

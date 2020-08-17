@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import{ checkValidity } from '../../../Utility/validation';
 import ShowUsers from './ShowUsers/ShowUsers';
+import ErrorHandler from '../../../Components/UI/ErrorHandler/ErrorHandler';
 
 const SuperAdmin = ( props ) => {
 
@@ -58,12 +59,21 @@ const SuperAdmin = ( props ) => {
             validation: {},
             valid: true,
             touched: false
+        },
+        gender: {
+            value: '',
+            validation:{
+                required: true
+            },
+            valid: false,
+            touched: false
         }
     }
 
     const [userForm, setUserform] = useState(initialUserForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [message, setMessage] = useState('');
+    const [showError, setShowError] = useState(true);
     
 
     useEffect(()=>fetchUsers(userID), [userID, fetchUsers]);
@@ -79,6 +89,7 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
+        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -115,7 +126,7 @@ const SuperAdmin = ( props ) => {
                 fetchUsers(userID);
                 }
             })
-            .catch(err=>console.log(err));
+            .catch(err=>alert(err.message));
     }
 
     
@@ -180,23 +191,40 @@ const SuperAdmin = ( props ) => {
                             </select>
                             {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
                         </div>
-                    </div>
-                    <div>
-                        {userForm.role.value==='ADMIN'?
-                        
+                        <div>
                             <select 
                                 onChange={(e)=>inputChangeHandler(e, 'department')}
                                 value={userForm.department.value}
                                 className={styles.Select}
+                                disabled={userForm.role.value==='ADMIN'?false:true}
                             >
                                 <option value=''>Department</option>
-                                <option value='IT' >IT</option>
+                                <option value='Hardware' >Hardware</option>
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
                             </select>
-                        :''
-                        }
                         </div>
+                          
+                    </div>
+                        <div className={styles.Gender}>
+                        <label>Gender</label>
+                            <div>
+                                <div>
+                                    <input type="radio" value='male' id="male" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')} />
+                                    <label htmlFor="male">Male</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" value='female' id="female" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <label htmlFor="female">Female</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <label htmlFor="other">Other</label>
+                                </div>
+                            </div>
+                            </div>
                         <p>{message}</p>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
@@ -205,7 +233,7 @@ const SuperAdmin = ( props ) => {
 
             <div className={styles.SuperAdmin}>
                 <h3>Users</h3>
-                <table>
+                {props.error&&showError?<ErrorHandler clicked={()=>setShowError(false)}/>:<table>
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -214,10 +242,14 @@ const SuperAdmin = ( props ) => {
                             <th>Action</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                     {usersData}
                     </tbody>
+                    
+                    
                 </table>
+                }
             </div>
 
             
@@ -228,7 +260,8 @@ const SuperAdmin = ( props ) => {
 const mapStateToProps = ({user}) => {
     return{
         userID: user.userData._id,
-        users: user.allUsersData
+        users: user.allUsersData,
+        error: user.error
     };
 }
 

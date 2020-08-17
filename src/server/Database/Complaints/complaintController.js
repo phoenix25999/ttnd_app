@@ -36,14 +36,20 @@ exports.getComplaintByUser = async (req, res) => {
   }
 };
 
-exports.updateStatus = async (req, res) => {
-  let updatedStatus = {
-    id: req.body.id,
-    status: req.body.updatedStatus
-  };
+exports.getAssignedComplaints = async (req, res) => {
+
   try {
-    const statusInfo = await complaintService.updateStatus(updatedStatus);
-    res.send(statusInfo);
+    const userComplaint = await complaintService.getAssignedComplaints(req.params.adminId);
+    res.send(userComplaint);
+  } catch(err) {
+    res.status(400).send(err);
+  }
+};
+
+exports.updateComplaint = async (req, res) => {
+  try {
+    const updatedInfo = await complaintService.updateStatus(req.params.id, req.body);
+    res.send(updatedInfo);
   } catch (err) {
     res.status(400).send(err);
   }

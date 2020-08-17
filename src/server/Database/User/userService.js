@@ -40,3 +40,8 @@ exports.deleteUser = async ( userID ) => {
     const deletedProfile = User.deleteOne({_id: userID});
     return deletedProfile;
 }
+
+exports.getAdmins = async (department) => {
+    const admins = User.find({department: department});
+    return admins;
+  }

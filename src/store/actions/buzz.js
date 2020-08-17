@@ -23,17 +23,19 @@ export const fetchBuzz = () => {
     }
 }
 
-export const fetchBuzzByUser = ( userID ) => {
+export const getBuzzCountByUserSuccess = ( buzzCount ) => {
+    return{
+        type: actionTypes.GET_BUZZ_COUNT_SUCCESS,
+        buzzCount: buzzCount
+    }
+}
+
+export const getBuzzCountByUser = ( userID ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/buzz/'+userID)
+        axios.get(`http://localhost:5000/buzzCount/${userID}`)
             .then(res=>{
-                let buzzArray = [];
-                for(let i in res.data){
-                    buzzArray.push({
-                        ...res.data[i]
-                    });
-                }
-                dispatch(fetchBuzzSuccess(buzzArray))
-            })
+                let buzzCount = res.data.count;
+                dispatch(getBuzzCountByUserSuccess(buzzCount))
+            });
     }
 }
