@@ -47,6 +47,15 @@ const SuperAdmin = ( props ) => {
             valid: false,
             touched: false
         },
+        password: {
+            value:'',
+            validation: {
+                required: true,
+                isPassword: true
+            },
+            valid: false,
+            touched: false
+        },
         role:{
             value:'',
             validation: {
@@ -187,6 +196,18 @@ const SuperAdmin = ( props ) => {
                             {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
                         </div>
                         <div>
+                            <input 
+                                type='password'
+                                placeholder='Password'
+                                onChange={(e)=>inputChangeHandler(e, 'password')}
+                                value={userForm.password.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.password.valid&&userForm.password.touched?errorMesssage:''}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
                             <select 
                                 onChange={(e)=>inputChangeHandler(e, 'role')}
                                 value={userForm.role.value}
@@ -210,8 +231,7 @@ const SuperAdmin = ( props ) => {
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
                             </select>
-                        </div>
-                          
+                        </div>      
                     </div>
                         <div className={styles.Gender}>
                         <label>Gender</label>

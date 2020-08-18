@@ -10,7 +10,6 @@ module.exports = (passport) => {
         },
             (request, accessToken, refreshToken, profile, done) => {
                 User.findOne({ email: profile._json.email }).then((existingUser) => {
-                  console.log(profile)
                     if (existingUser) {
                       done(null, existingUser);
                     } else {

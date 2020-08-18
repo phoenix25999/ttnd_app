@@ -29,12 +29,6 @@ const reducer = ( state = initialState, action ) => {
             };
             return state;
 
-        case actionTypes.GET_BUZZ_COUNT_SUCCESS:
-            state = {
-                ...state,
-                buzzCount: action.buzzCount
-            };
-            return state;
         default:
             return state;
     }

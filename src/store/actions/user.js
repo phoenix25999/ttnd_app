@@ -20,6 +20,7 @@ export const fetchUser = ( token ) => {
             headers: {'authorization': `bearer ${token}`}
         })
             .then(res=>{
+                console.log(res.data);
                 if(res.data.status===false){
                     dispatch(fetchUserFailed());
                 }

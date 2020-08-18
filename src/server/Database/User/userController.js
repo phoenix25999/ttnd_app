@@ -1,5 +1,8 @@
 const userService = require('./userService');
 const cloudinary = require('cloudinary');
+const keys = require('./keys');
+const jwt = require('jsonwebtoken')
+const url = require('url');
 
 exports.addUser = async ( req, res ) => {
 
@@ -8,6 +11,7 @@ exports.addUser = async ( req, res ) => {
   let newUser = {
     name: `${req.body.firstname} ${req.body.lastname}`,
     email: req.body.email,
+    password: req.body.password,
     role: req.body.role,
     gender: req.body.gender,
     picture: profilePic
@@ -23,6 +27,29 @@ exports.addUser = async ( req, res ) => {
   try{
     const user = await userService.addUser(newUser);
     res.send(user);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.loginUser = async (req, res) => {
+  console.log(req.query);
+  try{
+    const loggedinUser = await userService.loginUser(res, req.query);
+    const tokenPayload = {
+      userName: loggedinUser[0].name,
+      email: loggedinUser[0].email
+    }
+    const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
+    const tokenData = {
+      token: token,
+      name: tokenPayload.userName,
+      email: tokenPayload.email
+    }
+    res.redirect(url.format({
+      pathname: 'http://localhost:3000/dashboard/buzz',
+      query: tokenData
+    }));
   } catch(err){
     res.status(400).send(err);
   }
