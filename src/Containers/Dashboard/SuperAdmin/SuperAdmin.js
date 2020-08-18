@@ -90,7 +90,6 @@ const SuperAdmin = ( props ) => {
         }
 
         updatedFormElement.value = event.target.value;
-        console.log(updatedFormElement.value);
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
@@ -142,7 +141,7 @@ const SuperAdmin = ( props ) => {
         if(users.length){
             usersData = users.map(user=> {
             return(
-                <ShowUsers user={user} key={user._id} />
+                <ShowUsers user={user} key={user._id} setMessage={setMessage} emptyUserForm={initialUserForm} clearUserForm={setUserForm} />
 
             )
         })
@@ -218,17 +217,17 @@ const SuperAdmin = ( props ) => {
                         <label>Gender</label>
                             <div>
                                 <div>
-                                    <input type="radio" value='male' id="male" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')} />
+                                    <input type="radio" value='male' id="male" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')} checked={userForm.gender.value==='male'} />
                                     <label htmlFor="male">Male</label>
                                 </div>
 
                                 <div>
-                                    <input type="radio" value='female' id="female" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <input type="radio" value='female' id="female" name="gender" onChange={(e)=>inputChangeHandler(e, 'gender')} checked={userForm.gender.value==='female'} />
                                     <label htmlFor="female">Female</label>
                                 </div>
 
                                 <div>
-                                    <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>inputChangeHandler(e, 'gender')}  />
+                                    <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>inputChangeHandler(e, 'gender')} checked={userForm.gender.value==='other'} />
                                     <label htmlFor="other">Other</label>
                                 </div>
                             </div>

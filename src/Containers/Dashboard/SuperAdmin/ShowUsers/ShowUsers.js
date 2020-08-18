@@ -28,7 +28,14 @@ const ShowUsers = props => {
 
                 <button onClick={()=>deleteUser(props.user._id)} >Delete</button>
                 {showEditSection?
-                <EditUser user={props.user} clicked={()=>setShowEditSection(false)} show={showEditSection}/>:''}
+                <EditUser 
+                    user={props.user} 
+                    clicked={()=>setShowEditSection(false)} 
+                    show={showEditSection} 
+                    setMessage={props.setMessage}
+                    emptyUserForm={props.emptyUserForm} 
+                    clearUserForm={props.clearUserForm}
+                />:''}
             </td>
         </tr>
     )

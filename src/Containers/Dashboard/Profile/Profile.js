@@ -81,9 +81,6 @@ class Profile extends Component{
 
         this.props.fetchUser(sessionStorage.getItem('token'));
         setTimeout(()=>this.props.getBuzzCount(this.props.userData._id),1000);
-        
-        
-        
     }
 
     logoutHandler = async() => {

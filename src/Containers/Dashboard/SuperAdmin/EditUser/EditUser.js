@@ -116,7 +116,9 @@ const EditUser = ( props ) => {
                     setTimeout(()=>{
                         props.clicked();
                         setShowToaster(false)
-                    }, 3000);
+                    }, 2000);
+                    props.clearUserForm(props.emptyUserForm)
+                    props.setMessage('');
                 }
             })
             .catch(err=>alert(err.message));
@@ -125,55 +127,62 @@ const EditUser = ( props ) => {
     let errorMesssage = <p>Please enter valid data</p>;
 
     return(
+        <>
         <div>
             <Backdrop show={props.show} clicked={props.clicked}/>
-            <div className={styles.EditUser}>
-                            
-                <h3>Edit User Details</h3>
-                <form method="post" onSubmit={updateUser}>
-                        <input 
-                            placeholder='Firstname'
-                            onChange={(e)=>inputChangeHandler(e, 'firstname')}
-                            value={userForm.firstname.value}
-                            className={styles.Input}
-                        />
-                        {!userForm.firstname.valid&&userForm.firstname.touched?errorMesssage:''}
+                <div className={styles.EditUser}>
+                                
+                    <h3>Edit User Details</h3>
+                    <form method="post" onSubmit={updateUser}>
+                            <input 
+                                placeholder='Firstname'
+                                onChange={(e)=>inputChangeHandler(e, 'firstname')}
+                                value={userForm.firstname.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.firstname.valid&&userForm.firstname.touched?errorMesssage:''}
 
-                        <input 
-                            placeholder='Lastname'
-                            onChange={(e)=>inputChangeHandler(e, 'lastname')}
-                            value={userForm.lastname.value}
-                            className={styles.Input}
-                        />
-                        {!userForm.lastname.valid&&userForm.lastname.touched?errorMesssage:''}
+                            <input 
+                                placeholder='Lastname'
+                                onChange={(e)=>inputChangeHandler(e, 'lastname')}
+                                value={userForm.lastname.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.lastname.valid&&userForm.lastname.touched?errorMesssage:''}
 
-                        <input 
-                            placeholder='e-mail'
-                            onChange={(e)=>inputChangeHandler(e, 'email')}
-                            value={userForm.email.value}
-                            className={styles.Input}
-                        />
-                        {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
-                        <select 
-                            onChange={(e)=>inputChangeHandler(e, 'role')}
-                            value={userForm.role.value}
-                            className={styles.Select}
-                        >
+                            <input 
+                                placeholder='e-mail'
+                                onChange={(e)=>inputChangeHandler(e, 'email')}
+                                value={userForm.email.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
+                            <select 
+                                onChange={(e)=>inputChangeHandler(e, 'role')}
+                                value={userForm.role.value}
+                                className={styles.Select}
+                            >
 
-                            <option value=''>Role</option>
-                            <option value='ADMIN' >ADMIN</option>
-                            <option value='EMPLOYEE'>EMPLOYEE</option>
-                        </select>
-                        {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
-                        <p>{message}</p>
-                        <div id={styles.Button}>
-                            <button disabled={!formIsValid}>Submit</button>
-                            <button onClick={props.clicked}>Cancel</button>
-                        </div>
-                </form>  
-                {showToaster?<Toaster message='Changes saved successfully!'/>:''}
+                                <option value=''>Role</option>
+                                <option value='ADMIN' >ADMIN</option>
+                                <option value='EMPLOYEE'>EMPLOYEE</option>
+                            </select>
+                            {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
+                            <p>{message}</p>
+                            <div id={styles.Button}>
+                                <button disabled={!formIsValid}>Submit</button>
+                                <button onClick={props.clicked}>Cancel</button>
+                            </div>
+                    </form>  
+                    
+                </div>
             </div>
-        </div>
+            {showToaster?
+                <>
+                    <Backdrop show={showToaster} clicked={()=>setShowToaster(false)} />
+                    <Toaster message='Changes saved successfully!'/>
+                </>:''}
+        </>
     )
 }
 
