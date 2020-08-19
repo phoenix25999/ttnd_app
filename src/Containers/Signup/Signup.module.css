@@ -1,4 +1,4 @@
-.Login{
+.Signup{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -10,7 +10,7 @@
     
 }
 
-.Login h3{
+.Signup h3{
    padding-bottom: 20px;
 }
 
@@ -20,14 +20,14 @@
     height: 100vh;
 }
 
-.Login form{
+.Signup form{
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 0 10px;
 }
 
-.Login input{
+.Signup input{
     padding: 10px 5px;
     border: 1px solid #a3a3a3;
     width: 100%;
@@ -38,13 +38,13 @@
     outline: none;
 }
 
-.Login p{
+.Signup p{
     color: #ff0019;
     margin-bottom: 10px;
     font-size: 12px;
 }
 
-.Login button{
+.Signup button{
     padding: 10px 15px;
     width: 50%;
     align-self: center;
@@ -55,17 +55,46 @@
     font-size: 16px;
     outline: none;
 }
-.Login button a{
+.Signup button a{
     color: #fff;
     text-decoration: none;
 }
 
-.Login button:hover{
+.Signup button:hover{
     background: #ff0019;
     cursor: pointer;
 }
 
-.Login a{
+.Gender{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.Gender label{
+    margin-bottom: 10px;
+    color: #808080;
+    font-size: 15px;
+}
+
+.Gender > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 14px;
+    align-items: center;
+}
+
+.Gender > div > div{
+    display: flex;
+    flex-direction: row;
+    width: 33%;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+
+.Signup a{
     color:#000;
     text-decoration: none;
     font-size: 14px;
@@ -74,7 +103,7 @@
     font-weight: 500;
 }
 
-.Login a:hover{
+.Signup a:hover{
     text-decoration: underline;
 }
 

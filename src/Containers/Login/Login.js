@@ -5,6 +5,7 @@ import Logo from '../../assets/ttn-logo.jpg';
 
 import styles from './Login.module.css';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 const Login = ( ) => {
 
@@ -104,6 +105,7 @@ const Login = ( ) => {
                     {/* <input type='submit' value='Login' /> */}
                     <button>Login</button>
                 </form>
+                <NavLink to='/signup'>Don't have an account? Sign Up</NavLink>
             </div>
         </>
     )

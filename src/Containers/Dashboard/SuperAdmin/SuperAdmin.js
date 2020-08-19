@@ -129,8 +129,6 @@ const SuperAdmin = ( props ) => {
             userForm.department.value='';
         }
 
-        
-
         let userData = {};
         for(let i in userForm){
             userData={
@@ -262,7 +260,7 @@ const SuperAdmin = ( props ) => {
                                     <label htmlFor="other">Other</label>
                                 </div>
                             </div>
-                            </div>
+                        </div>
                     <button disabled={!formIsValid}>Add User</button>
                 </form>
                 {showToaster?<Toaster message='User created successfully!'/>:''}
