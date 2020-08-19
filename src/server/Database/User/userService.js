@@ -33,6 +33,7 @@ exports.loginUser = (res, loginDetails) => {
             }
             else{
                 res.status(400).send({message:"User doesn't exist"});
+                //res.redirect('http://localhost:3000/login');
             }
         })
         .catch(err=>console.log(err));

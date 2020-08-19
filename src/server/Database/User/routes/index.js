@@ -6,7 +6,7 @@ const uploadImage = require('../../../middleware/multer');
 router.get('/', tokenVerify, (req, res)=> {
     res.send({status: true, name: req.user.userName, email: req.user.email});
 });
-router.get('/login', userController.loginUser);
+router.post('/login', userController.loginUser);
 
 router.get('/user/:email', userController.getUserDetails);
 router.patch('/user/:userID', uploadImage, userController.updateProfile);

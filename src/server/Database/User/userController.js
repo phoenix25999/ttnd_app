@@ -33,9 +33,8 @@ exports.addUser = async ( req, res ) => {
 }
 
 exports.loginUser = async (req, res) => {
-  console.log(req.query);
   try{
-    const loggedinUser = await userService.loginUser(res, req.query);
+    const loggedinUser = await userService.loginUser(res, req.body);
     const tokenPayload = {
       userName: loggedinUser[0].name,
       email: loggedinUser[0].email
@@ -46,6 +45,7 @@ exports.loginUser = async (req, res) => {
       name: tokenPayload.userName,
       email: tokenPayload.email
     }
+    console.log('here');
     res.redirect(url.format({
       pathname: 'http://localhost:3000/dashboard/buzz',
       query: tokenData
@@ -86,26 +86,25 @@ exports.getUserName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-  console.log(req.file);
   let updatedUserDetails = {
     ...req.body
   }
 
   if(req.file){
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    console.log(result);
-  
+
     updatedUserDetails = {
       ...updatedUserDetails,
       picture: result.secure_url
     }
+
+    
   }
   
 
   try{
     
     const profile = await userService.updateProfile(req.params.userID, updatedUserDetails);
-    console.log(profile);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);

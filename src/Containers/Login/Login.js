@@ -31,7 +31,7 @@ const Login = ( ) => {
 
     const [loginForm, setLoginForm] = useState(initialLoginForm);
     const [formIsValid, setFormIsValid] = useState(false);
-    const [message, setMessage] = useState('');
+    const [showValidationMessage, setShowValidationMessage] = useState(false);
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
 
@@ -61,20 +61,27 @@ const Login = ( ) => {
 
     const loginHandler = ( event ) => {
         event.preventDefault();
+        setShowValidationMessage(true);
 
-        axios.get(`http://localhost:5000/login?email=${loginForm.email.value}&password=${loginForm.password.value}`)
-            .then(res=>console.log(res));
+        const loginDetails = {
+            email: loginForm.email.value,
+            password: loginForm.password.value
+        }
+
+        if(formIsValid){
+            axios.post(`http://localhost:5000/login`, loginDetails)
+                .then(res=>console.log(res));
+        }
     }
 
-    const url = `http://localhost:5000/login?email=${loginForm.email.value}&password=${loginForm.password.value}`
-    const errorMessage = <p>Pleas enter a valid data</p>
+    const errorMessage = <p>Please enter a valid data</p>
     return(
         <>
             <div className={styles.BackgroundImage}></div>
             <div className={styles.Login}>
                 <img src={Logo} alt='logo'/>
                 <h3>Login to TTND</h3>
-                <form method="post">
+                <form method='post' onSubmit={loginHandler} >
                     <div>
                         <input 
                             placeholder='e-mail'
@@ -82,7 +89,7 @@ const Login = ( ) => {
                             value={loginForm.email.value}
                             className={styles.Input}
                         />
-                        {!loginForm.email.valid&&loginForm.email.touched?errorMessage:''}
+                        {!loginForm.email.valid&&loginForm.email.touched&&showValidationMessage?errorMessage:''}
                     </div>
                     <div>
                         <input 
@@ -92,9 +99,10 @@ const Login = ( ) => {
                             value={loginForm.password.value}
                             className={styles.Input}
                         />
-                        {!loginForm.password.valid&&loginForm.password.touched?errorMessage:''}
+                        {!loginForm.password.valid&&loginForm.password.touched&&showValidationMessage?errorMessage:''}
                     </div>
-                    <button disabled={!formIsValid}><a href={url}>Login</a></button>
+                    {/* <input type='submit' value='Login' /> */}
+                    <button>Login</button>
                 </form>
             </div>
         </>
