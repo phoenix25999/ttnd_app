@@ -28,7 +28,6 @@ exports.loginUser = (res, loginDetails) => {
                 }
 
                 else{
-                    //throw new Error('Wrong credentials');
                     return {error: 'Wrong credentials'}
                 }
             }

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { checkValidity } from '../../Utility/validation';
-import url from 'url';
 
 import Logo from '../../assets/ttn-logo.jpg';
 
 import styles from './Login.module.css';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 const Login = ( ) => {
 
@@ -76,7 +75,7 @@ const Login = ( ) => {
             axios.post('http://localhost:5000/login', loginDetails)
                 .then(res=>setRedirectURL(res.data.redirectTo))
                 .catch(err=>{
-                    setError(err.response.data.message);// prints Request failed with status code 400
+                    setError(err.response.data.message);
                 });
         }
     }
@@ -85,6 +84,7 @@ const Login = ( ) => {
     return(
         <>
             {redirectURL?<Redirect to={redirectURL} />:''}
+
             <div className={styles.BackgroundImage}></div>
             <div className={styles.Login}>
                 <img src={Logo} alt='logo'/>
@@ -112,6 +112,7 @@ const Login = ( ) => {
                     <p>{error}</p>
                     <button>Login</button>
                 </form>
+                <NavLink to='/signup'>Don't have an account? Sign Up</NavLink>
             </div>
         </>
     )
