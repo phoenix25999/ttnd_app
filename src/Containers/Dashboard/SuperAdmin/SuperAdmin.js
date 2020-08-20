@@ -129,6 +129,8 @@ const SuperAdmin = ( props ) => {
             userForm.department.value='';
         }
 
+        
+
         let userData = {};
         for(let i in userForm){
             userData={

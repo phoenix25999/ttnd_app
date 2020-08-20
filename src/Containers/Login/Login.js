@@ -5,7 +5,7 @@ import Logo from '../../assets/ttn-logo.jpg';
 
 import styles from './Login.module.css';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 
 const Login = ( ) => {
 
@@ -33,6 +33,8 @@ const Login = ( ) => {
     const [loginForm, setLoginForm] = useState(initialLoginForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [showValidationMessage, setShowValidationMessage] = useState(false);
+    const [error, setError] = useState('');
+    const [redirectURL, setRedirectURL] =useState('');
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
 
@@ -70,14 +72,19 @@ const Login = ( ) => {
         }
 
         if(formIsValid){
-            axios.post(`http://localhost:5000/login`, loginDetails)
-                .then(res=>console.log(res));
+            axios.post('http://localhost:5000/login', loginDetails)
+                .then(res=>setRedirectURL(res.data.redirectTo))
+                .catch(err=>{
+                    setError(err.response.data.message);
+                });
         }
     }
 
     const errorMessage = <p>Please enter a valid data</p>
     return(
         <>
+            {redirectURL?<Redirect to={redirectURL} />:''}
+
             <div className={styles.BackgroundImage}></div>
             <div className={styles.Login}>
                 <img src={Logo} alt='logo'/>
@@ -102,7 +109,7 @@ const Login = ( ) => {
                         />
                         {!loginForm.password.valid&&loginForm.password.touched&&showValidationMessage?errorMessage:''}
                     </div>
-                    {/* <input type='submit' value='Login' /> */}
+                    <p>{error}</p>
                     <button>Login</button>
                 </form>
                 <NavLink to='/signup'>Don't have an account? Sign Up</NavLink>

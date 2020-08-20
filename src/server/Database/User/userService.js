@@ -28,15 +28,14 @@ exports.loginUser = (res, loginDetails) => {
                 }
 
                 else{
-                    res.status(400).send({message:"Wrong credentials"});
+                    return {error: 'Wrong credentials'}
                 }
             }
             else{
-                res.status(400).send({message:"User doesn't exist"});
-                //res.redirect('http://localhost:3000/login');
+                return {error: "User doesn't exist"};
             }
         })
-        .catch(err=>console.log(err));
+        .catch(err=>err);
     return(user);
 }
 
