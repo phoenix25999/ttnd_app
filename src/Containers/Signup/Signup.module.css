@@ -94,6 +94,10 @@
     margin-left: 10px;
 }
 
+.Gender p{
+    text-align: center;
+}
+
 .Signup a{
     color:#000;
     text-decoration: none;

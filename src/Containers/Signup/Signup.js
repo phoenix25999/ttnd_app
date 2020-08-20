@@ -61,6 +61,7 @@ const Signup = ( ) => {
     const [formIsValid, setFormIsValid] = useState(false);
     const [showValidationMessage, setShowValidationMessage] = useState(false);
     const [showToaster, setShowToaster] = useState(false);
+    const [error, setError] = useState('');
 
     const inputChangeHandler = ( event, inputIdentifier ) => {
 
@@ -103,10 +104,16 @@ const Signup = ( ) => {
         if(formIsValid){
             axios.post(`http://localhost:5000/user`, userData)
                 .then(res=>{
-                    console.log(res);
-                    setSignupForm(initialSignupForm);
-                    setShowToaster(true);
-                    setTimeout(()=>setShowToaster(false), 3000);
+                    if(!res.data){
+                        setError('User already exist');
+                    }
+                    else{
+                        setSignupForm(initialSignupForm);
+                        setShowValidationMessage(false);
+                        setError('');
+                        setShowToaster(true);
+                        setTimeout(()=>setShowToaster(false), 3000);
+                    }
                 });
         }
     }
@@ -126,7 +133,7 @@ const Signup = ( ) => {
                             value={signupForm.firstname.value}
                             className={styles.Input}
                         />
-                        {!signupForm.firstname.valid&&signupForm.firstname.touched&&showValidationMessage?errorMessage:''}
+                        {!signupForm.firstname.valid&&showValidationMessage?errorMessage:''}
                     </div>
                     <div>
                         <input 
@@ -135,7 +142,7 @@ const Signup = ( ) => {
                             value={signupForm.lastname.value}
                             className={styles.Input}
                         />
-                        {!signupForm.lastname.valid&&signupForm.lastname.touched&&showValidationMessage?errorMessage:''}
+                        {!signupForm.lastname.valid&&showValidationMessage?errorMessage:''}
                     </div>
                     <div>
                         <input 
@@ -144,7 +151,7 @@ const Signup = ( ) => {
                             value={signupForm.email.value}
                             className={styles.Input}
                         />
-                        {!signupForm.email.valid&&signupForm.email.touched&&showValidationMessage?errorMessage:''}
+                        {!signupForm.email.valid&showValidationMessage?errorMessage:''}
                     </div>
                     <div>
                         <input 
@@ -154,7 +161,7 @@ const Signup = ( ) => {
                             value={signupForm.password.value}
                             className={styles.Input}
                         />
-                        {!signupForm.password.valid&&signupForm.password.touched&&showValidationMessage?errorMessage:''}
+                        {!signupForm.password.valid&&showValidationMessage?errorMessage:''}
                     </div>
                     <div className={styles.Gender}>
                         <label>Gender</label>
@@ -172,9 +179,11 @@ const Signup = ( ) => {
                                 <div>
                                     <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>inputChangeHandler(e, 'gender')} checked={signupForm.gender.value==='other'} />
                                     <label htmlFor="other">Other</label>
-                                </div>
+                                </div>   
                             </div>
+                            {!signupForm.gender.valid&&showValidationMessage?errorMessage:''}
                     </div>
+                    <p>{error}</p>
                     <button>Signup</button>
                 </form>
                 <NavLink to='/login'>Signed Up? Login</NavLink>
