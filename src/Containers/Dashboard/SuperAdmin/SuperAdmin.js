@@ -47,6 +47,15 @@ const SuperAdmin = ( props ) => {
             valid: false,
             touched: false
         },
+        password: {
+            value:'',
+            validation: {
+                required: true,
+                isPassword: true
+            },
+            valid: false,
+            touched: false
+        },
         role:{
             value:'',
             validation: {
@@ -57,8 +66,10 @@ const SuperAdmin = ( props ) => {
         },
         department: {
             value:'',
-            validation: {},
-            valid: true,
+            validation: {
+                required: true
+            },
+            valid: false,
             touched: false
         },
         gender: {
@@ -93,6 +104,8 @@ const SuperAdmin = ( props ) => {
         updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
 
+        
+
         updatedUserForm[inputIdentifier] = updatedFormElement;
 
         let isFormValid = true;
@@ -103,6 +116,10 @@ const SuperAdmin = ( props ) => {
 
         setFormIsValid(isFormValid);
         setUserForm(updatedUserForm);
+
+        if(inputIdentifier==='role' && updatedFormElement.value==='EMPLOYEE'){
+            userForm.department.valid=true;
+        }
     }
 
     const addUser = (event) => {
@@ -111,6 +128,8 @@ const SuperAdmin = ( props ) => {
         if(userForm.role.value==='EMPLOYEE' && userForm.department.value){
             userForm.department.value='';
         }
+
+        
 
         let userData = {};
         for(let i in userForm){
@@ -187,6 +206,18 @@ const SuperAdmin = ( props ) => {
                             {!userForm.email.valid&&userForm.email.touched?errorMesssage:''}
                         </div>
                         <div>
+                            <input 
+                                type='password'
+                                placeholder='Password'
+                                onChange={(e)=>inputChangeHandler(e, 'password')}
+                                value={userForm.password.value}
+                                className={styles.Input}
+                            />
+                            {!userForm.password.valid&&userForm.password.touched?errorMesssage:''}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
                             <select 
                                 onChange={(e)=>inputChangeHandler(e, 'role')}
                                 value={userForm.role.value}
@@ -210,8 +241,8 @@ const SuperAdmin = ( props ) => {
                                 <option value='Infra'>Infra</option>
                                 <option value='Others'>Others</option>
                             </select>
-                        </div>
-                          
+                            {!userForm.department.valid&&userForm.department.touched?errorMesssage:''}
+                        </div>      
                     </div>
                         <div className={styles.Gender}>
                         <label>Gender</label>

@@ -34,7 +34,7 @@ class Profile extends Component{
                 touched: false
             },
             contact: {
-                value: this.props.userData.contact,
+                value: this.props.userData.contact!=='undefined'?this.props.userData.contact:'',
                 validation:{
                     minLength: 10,
                     maxLength: 10
@@ -43,7 +43,7 @@ class Profile extends Component{
                 touched: false
             },
             age: {
-                value: this.props.userData.age,
+                value: this.props.userData.age!=='undefined'?this.props.userData.age:'',
                 validation:{
                     minValue: 18,
                     maxValue: 120
@@ -52,13 +52,13 @@ class Profile extends Component{
                 touched: false
             },
             gender: {
-                value: this.props.userData.gender,
+                value: this.props.userData.gender!=='undefined'?this.props.userData.gender:'',
                 validation:{},
                 valid: true,
                 touched: false
             },
             about: {
-                value: this.props.userData.about,
+                value: this.props.userData.about!=='undefined'?this.props.userData.about:'',
                 validation:{
                     minLength: 10,
                     maxLength: 200

@@ -23,18 +23,11 @@
     justify-content: space-around;
 }
 
-.AddUser form > div:first-of-type > div{
+.AddUser form > div > div{
     width: 47%;
     display: flex;
     flex-direction: column;
     
-}
-
-.AddUser form > div:nth-of-type(2) > div{
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .Input{
@@ -72,11 +65,14 @@
     align-items: flex-start;
     margin: 10px 0 20px 20px;
     color: #616060;
+    width: 100%;
 }
 
 .Gender > div{
     display: flex;
-    width: 100%;
+    width: 100% !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
 }
 
 .Gender >div > div{

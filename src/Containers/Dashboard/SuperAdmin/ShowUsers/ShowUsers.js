@@ -5,15 +5,19 @@ import { connect } from 'react-redux';
 import { fetchAllUsers } from '../../../../store/actions/index';
 
 import styles from './ShowUsers.module.css';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 
 const ShowUsers = props => {
     const [showEditSection, setShowEditSection] = useState(false);
+    const[showToaster, setShowToaster] = useState(false);
 
     const deleteUser = ( userId ) => {
         axios.delete(`http://localhost:5000/user/${userId}`)
             .then(res=>{
                 props.fetchUsers(props.userID);
+                setShowToaster(true);
+                setTimeout(()=>setShowToaster(false), 3000)
             })
     }
 
@@ -27,6 +31,7 @@ const ShowUsers = props => {
                 <button onClick={()=>setShowEditSection(!showEditSection)}>Edit</button>
 
                 <button onClick={()=>deleteUser(props.user._id)} >Delete</button>
+                {showToaster?<Toaster message='User deleted successfully!'/>:''}
                 {showEditSection?
                 <EditUser 
                     user={props.user} 

@@ -1,0 +1,67 @@
+.Login{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.8);
+    padding: 20px;
+    min-width: 300px;
+    text-align: center;
+    
+}
+
+.Login h3{
+   padding-bottom: 20px;
+}
+
+.BackgroundImage{
+    background: url('../../assets/to-the-new-office.jpg') center center/cover no-repeat;
+    filter: blur(5px);
+    height: 100vh;
+}
+
+.Login form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+.Login input{
+    padding: 10px 5px;
+    border: 1px solid #a3a3a3;
+    width: 100%;
+    margin-bottom: 7px;
+    font-size: 15px;
+    background: transparent;
+    border-radius: 5px;
+    outline: none;
+}
+
+.Login p{
+    color: #ff0019;
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+
+.Login button{
+    padding: 10px 15px;
+    width: 50%;
+    align-self: center;
+    margin-top: 10px;
+    background: #db1111;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+}
+.Login button a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.Login button:hover{
+    background: #ff0019;
+    cursor: pointer;
+}
+

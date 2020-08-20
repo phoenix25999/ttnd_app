@@ -1,5 +1,8 @@
 const userService = require('./userService');
 const cloudinary = require('cloudinary');
+const keys = require('./keys');
+const jwt = require('jsonwebtoken')
+const url = require('url');
 
 exports.addUser = async ( req, res ) => {
 
@@ -8,6 +11,7 @@ exports.addUser = async ( req, res ) => {
   let newUser = {
     name: `${req.body.firstname} ${req.body.lastname}`,
     email: req.body.email,
+    password: req.body.password,
     role: req.body.role,
     gender: req.body.gender,
     picture: profilePic
@@ -25,6 +29,33 @@ exports.addUser = async ( req, res ) => {
     res.send(user);
   } catch(err){
     res.status(400).send(err);
+  }
+}
+
+exports.loginUser = async (req, res) => {
+  console.log(req.body);
+  try{
+    const loggedinUser = await userService.loginUser(res, req.body);
+    if(loggedinUser.error){
+      throw new Error(loggedinUser.error);
+    }
+    const tokenPayload = {
+      userName: loggedinUser[0].name,
+      email: loggedinUser[0].email
+    }
+    const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
+    const tokenData = {
+      token: token,
+      name: tokenPayload.userName,
+      email: tokenPayload.email
+    }
+    const redirectURL = url.format({
+      pathname: '/dashboard/buzz',
+      query: tokenData
+    });
+    res.send({redirectTo: redirectURL});
+  } catch(err){
+    res.status(400).json({message: err.message});
   }
 }
 
@@ -59,26 +90,25 @@ exports.getUserName = async (req, res) => {
 }
 
 exports.updateProfile = async (req, res) => {
-  console.log(req.file);
   let updatedUserDetails = {
     ...req.body
   }
 
   if(req.file){
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    console.log(result);
-  
+
     updatedUserDetails = {
       ...updatedUserDetails,
       picture: result.secure_url
     }
+
+    
   }
   
 
   try{
     
     const profile = await userService.updateProfile(req.params.userID, updatedUserDetails);
-    console.log(profile);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);
