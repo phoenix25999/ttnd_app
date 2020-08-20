@@ -33,8 +33,12 @@ exports.addUser = async ( req, res ) => {
 }
 
 exports.loginUser = async (req, res) => {
+  console.log(req.body);
   try{
     const loggedinUser = await userService.loginUser(res, req.body);
+    if(loggedinUser.error){
+      throw new Error(loggedinUser.error);
+    }
     const tokenPayload = {
       userName: loggedinUser[0].name,
       email: loggedinUser[0].email
@@ -45,13 +49,13 @@ exports.loginUser = async (req, res) => {
       name: tokenPayload.userName,
       email: tokenPayload.email
     }
-    console.log('here');
-    res.redirect(url.format({
-      pathname: 'http://localhost:3000/dashboard/buzz',
+    const redirectURL = url.format({
+      pathname: '/dashboard/buzz',
       query: tokenData
-    }));
+    });
+    res.send({redirectTo: redirectURL});
   } catch(err){
-    res.status(400).send(err);
+    res.status(400).json({message: err.message});
   }
 }
 
