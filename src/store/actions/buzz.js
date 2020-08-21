@@ -29,6 +29,28 @@ export const fetchBuzz = ( category ) => {
     }
 }
 
+export const fetchMoreBuzzSuccess = ( buzzData ) => {
+    return {
+        type: actionTypes.FETCH_MORE_BUZZ_SUCCESS,
+        buzzData: buzzData
+    };
+}
+
+export const fetchMoreBuzz = ( pageNo ) => {
+    return dispatch => {
+        axios.get( `http://localhost:5000/buzz?pageNo=${pageNo}` )
+            .then(res=>{
+                let buzzArray = [];
+                for(let i in res.data){
+                    buzzArray.push({
+                        ...res.data[i]
+                    });
+                }
+                dispatch(fetchMoreBuzzSuccess(buzzArray));
+            });
+    }
+}
+
 export const getBuzzCountByUserSuccess = ( buzzCount ) => {
     return{
         type: actionTypes.GET_BUZZ_COUNT_SUCCESS,

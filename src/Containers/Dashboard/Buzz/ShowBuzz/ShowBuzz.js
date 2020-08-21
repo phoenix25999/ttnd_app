@@ -13,11 +13,16 @@ class ShowBuzz extends Component{
 
     state = {
         comment: '',
-        showBuzzFilters: false
+        showBuzzFilters: false,
+        pageNo: 2,
+        buzzMessage: ''
     }
 
     componentDidMount(){
         this.props.fetchBuzz('');
+        // this.scrollListener = window.addEventListener("scroll", e => {
+        //     this.handleScroll(e);
+        //   });
     }
 
         likeHandler = async (id, dislikedBy)=>{
@@ -50,8 +55,23 @@ class ShowBuzz extends Component{
             
         }
 
+        loadMoreBuzz = ( ) => {
+            this.props.fetchMoreBuzz(this.state.pageNo);
+            this.setState({pageNo: this.state.pageNo+1});
+        }
+
+        handleScroll = () => { 
+            var lastLi = document.querySelector("div.BuzzView > div:last-child");
+            var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+            var pageOffset = window.pageYOffset + window.innerHeight;
+          if (pageOffset > lastLiOffset) {
+                 this.loadMoreBuzz();
+            }
+          };
+
 
     render(){
+        console.log(document.querySelector("div.ShowBuzz"))
         let buzzData = [];
         if(this.props.buzzData){
           buzzData = this.props.buzzData.map(buzz=>{
@@ -67,6 +87,8 @@ class ShowBuzz extends Component{
         });
         }
 
+        
+
         return(
             <>
             <div className={styles.ShowBuzz}>
@@ -75,9 +97,12 @@ class ShowBuzz extends Component{
                     <button onClick={()=>this.setState({showBuzzFilters: true})}><FaFilter  /></button>
                     {this.state.showBuzzFilters?<BuzzFilter show={this.state.showBuzzFilters} clicked={()=>this.setState({showBuzzFilters: false})} />:''}
                 </div>
-                {buzzData}    
+                <div className={styles.BuzzView}>
+                    {buzzData}    
+                </div>
             </div>
             {this.props.error?<ErrorHandler/>:''}
+            {/* {this.props.message?<p className={styles.Message}>{this.props.message}</p>:<button className={styles.LoadMoreButton} onClick={this.loadMoreBuzz}>Load more</button>} */}
             </>
         );
     };
@@ -87,6 +112,7 @@ const mapStateToProps = ({buzz, user}) => {
     return{
         buzzData: buzz.buzzData,
         error: buzz.error,
+        message: buzz.message,
         email: user.userData.email,
         userID: user.userData._id
     };
@@ -95,6 +121,7 @@ const mapStateToProps = ({buzz, user}) => {
 const mapDispatchToProps = dispatch => {
     return{
         fetchBuzz: ( category ) => dispatch( actions.fetchBuzz( category ) ),
+        fetchMoreBuzz: ( pageNo ) => dispatch( actions.fetchMoreBuzz( pageNo )),
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) )
     };
 }

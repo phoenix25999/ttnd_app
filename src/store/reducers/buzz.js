@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     buzzData: [],
     error: false,
-    buzzCount: 0
+    buzzCount: 0,
+    message: ''
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -11,9 +12,40 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.FETCH_BUZZ_SUCCESS:
             state = {
                 ...state,
-                buzzData: [...action.buzzData]
-            };
+                buzzData: [
+                    ...action.buzzData
+                ]
+            }
             return state;
+
+        case actionTypes.FETCH_MORE_BUZZ_SUCCESS:
+            if(action.buzzData.length===3){
+                state = {
+                    ...state,
+                    buzzData: [
+                        ...state.buzzData,
+                        ...action.buzzData
+                    ]
+                }
+            }
+            if(action.buzzData.length===0){
+                state={
+                    ...state,
+                    message: 'No more buzz!'
+                }
+            }
+            else{
+                state = {
+                    ...state,
+                    buzzData: [
+                        ...state.buzzData,
+                        ...action.buzzData
+                    ],
+                    message: 'No more buzz!'
+                }
+            }
+            
+        return state;
         
         case actionTypes.FETCH_BUZZ_FAILED:
             state = {
