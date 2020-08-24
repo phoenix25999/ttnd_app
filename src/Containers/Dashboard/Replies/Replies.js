@@ -11,6 +11,7 @@ const Replies = (props) => {
     const[showReplySection, setShowReplySection] = useState(false);
     const[reply, setReply] = useState('');
     const[image, setImage] = useState('');
+    const[pageNo, setPageNo] = useState(2);
 
     const {
         replies,
@@ -41,7 +42,7 @@ const Replies = (props) => {
             .then(res=>{
                 setReply('');
                 props.fetchReplies(props.commentID);
-                props.fetchBuzz();
+                props.fetchBuzz('');
             });
     } 
 
@@ -118,7 +119,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         fetchReplies: (commentID) => dispatch(actions.fetchReplies(commentID)),
-        fetchBuzz: () => dispatch(actions.fetchBuzz())
+        fetchBuzz: (category) => dispatch(actions.fetchBuzz(category))
     }
 }
 

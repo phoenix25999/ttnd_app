@@ -28,7 +28,7 @@ const reducer = ( state = initialState, action ) => {
                     ]
                 }
             }
-            if(action.buzzData.length===0){
+            else if(action.buzzData.length===0){
                 state={
                     ...state,
                     message: 'No more buzz!'

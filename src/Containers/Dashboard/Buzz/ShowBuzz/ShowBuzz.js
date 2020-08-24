@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import styles from './ShowBuzz.module.css';
@@ -9,79 +9,96 @@ import { FaFilter } from 'react-icons/fa';
 import BuzzFilter from '../BuzzFilter.js/BuzzFilter';
 import ErrorHandler from '../../../../Components/UI/ErrorHandler/ErrorHandler';
 
-class ShowBuzz extends Component{
+const ShowBuzz = ( props ) => {
 
-    state = {
-        comment: '',
-        showBuzzFilters: false,
-        pageNo: 2,
-        buzzMessage: ''
-    }
+    const [showBuzzFilters, setShowBuzzFilters] =useState(false);
+    const [pageNo, setPageNo] = useState(2);
+    const [showToaster, setShowToaster] = useState(false);
 
-    componentDidMount(){
-        this.props.fetchBuzz('');
-        // this.scrollListener = window.addEventListener("scroll", e => {
-        //     this.handleScroll(e);
-        //   });
-    }
+    const observer = useRef(
+        new IntersectionObserver((entries)=>{
+            const first = entries[0];
+            if(first.isIntersecting){
+                props.fetchMoreBuzz(pageNo);
+                loader.current(pageNo+1);
+                console.log(pageNo);
+            }
+        }, { threshold: 0.5 })
+    )
 
-        likeHandler = async (id, dislikedBy)=>{
+    const loader = React.useRef(setPageNo);
+
+    const [element, setElement] = useState(null);
+    useEffect(()=>props.fetchBuzz(''), []);
+
+    useEffect(()=>{
+        
+        const currentElement = element;
+        const currentObserver = observer.current;
+        console.log(currentElement);
+        if(currentElement){
+            currentObserver.observe(currentElement);
+        }
+
+        return ( ) => {
+            if(currentElement){
+                currentObserver.unobserve(currentElement);
+            }
+        };
+
+    },[element]);
+
+    useEffect(()=>{
+        loader.current = setPageNo;
+    }, [pageNo]);
+    
+
+        const likeHandler = async (id, dislikedBy)=>{
                 let likeInfo = {
                     id: id,
-                    likes: this.props.userID,
+                    likes: props.userID,
                     alreadyDisliked: false
                 };
-                if(dislikedBy.includes(this.props.userID)){
+                if(dislikedBy.includes(props.userID)){
                     likeInfo.alreadyDisliked=true;
                 }
                 axios.put('http://localhost:5000/buzz/like', likeInfo)
                     .then(res=>console.log(res));
-                this.props.fetchBuzz();
+                props.fetchBuzz('');
         }
 
-        dislikeHandler = async (id, likedBy)=>{
+        const dislikeHandler = async (id, likedBy)=>{
 
             let dislikeInfo = {
                 id: id,
-                dislikes: this.props.userID,
+                dislikes: props.userID,
                 alreadyLiked: false
             };
-            if(likedBy.includes(this.props.userID)){
+            if(likedBy.includes(props.userID)){
                 dislikeInfo.alreadyLiked=true;
             }
             axios.put('http://localhost:5000/buzz/dislike', dislikeInfo)
                 .then(res=>console.log(res));
-            this.props.fetchBuzz();
+            props.fetchBuzz('');
             
         }
 
-        loadMoreBuzz = ( ) => {
-            this.props.fetchMoreBuzz(this.state.pageNo);
-            this.setState({pageNo: this.state.pageNo+1});
-        }
+        // const loadMoreBuzz = ( ) => {
+        //     props.fetchMoreBuzz(pageNo);
+        //     setPageNo(pageNo+1);
+        // }
 
-        handleScroll = () => { 
-            var lastLi = document.querySelector("div.BuzzView > div:last-child");
-            var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-            var pageOffset = window.pageYOffset + window.innerHeight;
-          if (pageOffset > lastLiOffset) {
-                 this.loadMoreBuzz();
-            }
-          };
-
-
-    render(){
-        console.log(document.querySelector("div.ShowBuzz"))
         let buzzData = [];
-        if(this.props.buzzData){
-          buzzData = this.props.buzzData.map(buzz=>{
+        if(props.buzzData){
+          buzzData = props.buzzData.map(buzz=>{
             return(
                 <BuzzView 
                     key={buzz._id}
                     buzz={buzz} 
-                    userID={this.props.userID}
-                    likeHandler={()=>this.likeHandler(buzz._id, buzz.dislikes)}
-                    dislikeHandler={()=>this.dislikeHandler(buzz._id,buzz.likes)}
+                    userID={props.userID}
+                    likeHandler={()=>likeHandler(buzz._id, buzz.dislikes)}
+                    dislikeHandler={()=>dislikeHandler(buzz._id,buzz.likes)}
+                    showToaster={showToaster}
                 />
             );
         });
@@ -91,21 +108,20 @@ class ShowBuzz extends Component{
 
         return(
             <>
-            <div className={styles.ShowBuzz}>
+            <div  className={styles.ShowBuzz} >
                 <div className={styles.Header}>
                     <h4>Recent Buzz</h4>
-                    <button onClick={()=>this.setState({showBuzzFilters: true})}><FaFilter  /></button>
-                    {this.state.showBuzzFilters?<BuzzFilter show={this.state.showBuzzFilters} clicked={()=>this.setState({showBuzzFilters: false})} />:''}
+                    <button onClick={()=>setShowBuzzFilters(true)}><FaFilter  /></button>
+                    {showBuzzFilters?<BuzzFilter show={showBuzzFilters} clicked={()=>setShowBuzzFilters(false)} />:''}
                 </div>
-                <div className={styles.BuzzView}>
+                <div ref={setElement}>
                     {buzzData}    
                 </div>
             </div>
-            {this.props.error?<ErrorHandler/>:''}
-            {/* {this.props.message?<p className={styles.Message}>{this.props.message}</p>:<button className={styles.LoadMoreButton} onClick={this.loadMoreBuzz}>Load more</button>} */}
+            {props.error?<ErrorHandler/>:''}
+            {props.message?<p className={styles.Message}>{props.message}</p>:''}
             </>
         );
-    };
 };
 
 const mapStateToProps = ({buzz, user}) => {

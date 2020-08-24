@@ -15,7 +15,8 @@ class Comments extends Component{
 
     state = {
         comment: '',
-        image: ''
+        image: '',
+        pageNo: 2
     }
 
     commentHandler = (event, inputIdentifier) => {
@@ -46,10 +47,15 @@ class Comments extends Component{
         axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData, config)
             .then(res=>{
                 this.setState({comment: ''});
-                this.props.fetchComments(this.props.buzzID);
-                this.props.fetchBuzz();
+                this.props.fetchComments(this.props.buzzID, ' ');
+                this.props.fetchBuzz(' ');
             });
         
+    }
+
+    loadMoreComments = ( ) => {
+        this.props.fetchMoreComments(this.props.buzzID, this.state.pageNo);
+        this.setState({pageNo: this.state.pageNo});
     }
 
     render(){
@@ -94,6 +100,7 @@ class Comments extends Component{
             <div>
                 
             {commentsList}
+            <button onClick={this.loadMoreComments}>Load more</button>
 
                 
                     <form action="upload" method="post" encType="multipart/form-data" className={styles.NewComment} onSubmit={this.addComment}>
@@ -118,6 +125,7 @@ class Comments extends Component{
                         
                         <button><FaArrowAltCircleRight/></button>
                     </form>
+                    
                   
             </div>
         );  
@@ -133,7 +141,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) ),
-        fetchBuzz: () => dispatch( actions.fetchBuzz() )
+        fetchMoreComments: (buzzID, pageNo) => dispatch( actions.fetchMoreComments(buzzID, pageNo) ),
+        fetchBuzz: (category) => dispatch( actions.fetchBuzz(category) )
     };
 }
 

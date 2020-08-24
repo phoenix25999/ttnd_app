@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import { act } from 'react-dom/test-utils';
 
 const initialState = {
     commentsData: {},
@@ -13,9 +14,14 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 commentsData: {
                     ...state.commentsData,
-                    [action.buzzID]: action.commentsData
+                    [action.buzzID]: state.commentsData[action.buzzID]?[
+                        ...state.commentsData[action.buzzID],
+                        ...action.commentsData,
+                        //action.commentsData.length===2?{message: ''}:{message: 'No more comments'}
+                    ]: []
                 }
             };
+            //console.log(state.commentsData);
             return state;
 
         case actionTypes.FETCH_REPLIES_SUCCESS:
@@ -26,8 +32,7 @@ const reducer = ( state = initialState, action ) => {
                     ...state.repliesData,
                     [action.commentID]: action.repliesData
                 }
-            };
-            console.log(state);
+            }
             return state;
         default:
             return state;

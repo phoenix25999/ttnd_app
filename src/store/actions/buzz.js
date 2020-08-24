@@ -46,6 +46,7 @@ export const fetchMoreBuzz = ( pageNo ) => {
                         ...res.data[i]
                     });
                 }
+                console.log(buzzArray);
                 dispatch(fetchMoreBuzzSuccess(buzzArray));
             });
     }
