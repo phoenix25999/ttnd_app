@@ -29,7 +29,7 @@ exports.getAllComplaint = async (req, res) => {
 
 exports.getComplaintByUser = async (req, res) => {
   try {
-    const userComplaint = await complaintService.getComplaintByUser(req.params.email);
+    const userComplaint = await complaintService.getComplaintByUser(req.params.email, req.query.category);
     res.send(userComplaint);
   } catch(err) {
     res.status(400).send(err);

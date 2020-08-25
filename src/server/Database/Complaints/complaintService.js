@@ -12,9 +12,16 @@ exports.getAllComplaint = async () => {
   return allComplaint;
 };
 
-exports.getComplaintByUser = async ( email ) => {
-  const userComplaint = Complaint.find({email: email})
-                                  .populate('assignedTo', 'name');
+exports.getComplaintByUser = async ( email, category ) => {
+  let userComplaint = '';
+  if(category){
+     userComplaint = Complaint.find({email: email, category: category})
+                                .populate('assignedTo', 'name');
+  }
+  else{
+    userComplaint = Complaint.find({email: email})
+                              .populate('assignedTo', 'name');
+  }
   return userComplaint;
 };
 

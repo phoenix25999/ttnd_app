@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isSuperAdmin } from '../../../../Utility/checkUserRole';
+import { FaFilter, FaSort } from 'react-icons/fa';
 import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 import Assign from '../Assign/Assign';
+import FilterComplaints from '../FilterComplaints/FilterComplaints';
 
 class YourComplaints extends Component{
+
+    state={
+        showSortingSection: false,
+        showFilterSection: false
+    }
 
 
     componentDidMount(){
@@ -67,8 +74,15 @@ class YourComplaints extends Component{
 
         return(
             <>
+            {this.state.showFilterSection?<FilterComplaints show={this.state.showFilterSection} clicked={()=>this.setState({showFilterSection: false})} />:''}
             <div className={styles.YourComplaints}>
-                <h4>Your Complaints</h4>
+                <div>
+                    <h4>Your Complaints</h4>
+                    <div>
+                        <button onClick={()=>this.setState({showSortingSection: true})}><FaSort /></button>
+                        <button onClick={()=>this.setState({showFilterSection: true})}><FaFilter /></button>
+                    </div>
+                    </div>
                 <table>
                     <thead>
                         <tr>

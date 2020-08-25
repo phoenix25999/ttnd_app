@@ -31,7 +31,7 @@ class ShowBuzz extends Component{
                 }
                 axios.put('http://localhost:5000/buzz/like', likeInfo)
                     .then(res=>console.log(res));
-                this.props.fetchBuzz();
+                this.props.fetchBuzz('');
         }
 
         dislikeHandler = async (id, likedBy)=>{
@@ -46,7 +46,7 @@ class ShowBuzz extends Component{
             }
             axios.put('http://localhost:5000/buzz/dislike', dislikeInfo)
                 .then(res=>console.log(res));
-            this.props.fetchBuzz();
+            this.props.fetchBuzz('');
             
         }
 

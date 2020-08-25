@@ -10,9 +10,9 @@ export const fetchComplaintsSuccess = ( complaintsData ) => {
 
 
 
-export const fetchComplaints = () => {
+export const fetchComplaints = ( category ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/complaint')
+        axios.get(`http://localhost:5000/complaint?category=${category}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
@@ -33,9 +33,9 @@ export const fetchComplaintsByUserSuccess = ( complaintsData ) => {
 };
 
 
-export const fetchComplaintsByUser = (email) => {
+export const fetchComplaintsByUser = (email, category) => {
     return dispatch => {
-        axios.get(`http://localhost:5000/complaint/${email}`)
+        axios.get(`http://localhost:5000/complaint/${email}?category=${category}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
