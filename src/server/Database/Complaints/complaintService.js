@@ -12,12 +12,20 @@ exports.getAllComplaint = async () => {
   return allComplaint;
 };
 
-exports.getComplaintByUser = async ( email, category ) => {
+exports.getComplaintByUser = async ( email, category, sortBy ) => {
   let userComplaint = '';
+  console.log(email, category, sortBy);
   if(category){
-     userComplaint = Complaint.find({email: email, category: category})
+     userComplaint = await Complaint.find({email: email, department: category})
                                 .populate('assignedTo', 'name');
   }
+
+  else if(sortBy){
+    userComplaint = await Complaint.find({email: email})
+                                .populate('assignedTo', 'name')
+                                .sort({createdOn: sortBy})
+  }
+
   else{
     userComplaint = Complaint.find({email: email})
                               .populate('assignedTo', 'name');

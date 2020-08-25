@@ -183,7 +183,7 @@ class NewComplaint extends Component{
           updatedComplaintForm[formElementIdentifier].value='';
         }
         this.setState({complaintForm: updatedComplaintForm});
-        this.props.fetchComplaintsByUser(this.props.email);
+        this.props.fetchComplaintsByUser(this.props.email, '', '');
         this.setState({showToaster:true});
         setTimeout(()=>this.setState({showToaster: false}), 3000);
       });    
@@ -289,7 +289,7 @@ const mapStateToProps = ({user}) => {
 
 const mapDispatchToProps = dispatch => {
   return{
-    fetchComplaintsByUser: (email) => dispatch( actions.fetchComplaintsByUser(email) )
+    fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) )
   };
 };
 

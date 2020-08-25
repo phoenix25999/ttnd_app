@@ -127,7 +127,6 @@ exports.getAdmins = async (req, res) => {
   
   try{
     const admins = await userService.getAdmins(req.params.department);
-    console.log(admins);
     res.send(admins);
   } catch(err){
     res.status(400).send(err);

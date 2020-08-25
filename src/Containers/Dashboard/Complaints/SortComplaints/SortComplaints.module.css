@@ -1,4 +1,4 @@
-.FilterComplaints{
+.SortComplaints{
     position: fixed;
     top: 50%;
     left: 50%;
@@ -9,7 +9,7 @@
     min-width: 300px;
 }
 
-.FilterComplaints h3{
+.SortComplaints h3{
     padding: 10px;
     background: #ccc;
     border-top-right-radius: 7px;

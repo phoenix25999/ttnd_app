@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
 
 import styles from './FilterComplaints.module.css';
+import { checkValidity } from '../../../../Utility/validation';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 const FilterComplaints = ( props ) => {
 
@@ -17,9 +19,29 @@ const FilterComplaints = ( props ) => {
     }
 
     const [category, setCategory] = useState(initialCategory);
+    const [showToaster, setShowToaster] = useState(false);
+
+    const inputChangeHandler = ( event ) => {
+        const updatedCategory = {
+            ...category
+        };
+
+        updatedCategory.value = event.target.value;
+        updatedCategory.valid = checkValidity(updatedCategory.value, updatedCategory.validation);
+        updatedCategory.touched = true;
+
+        setCategory(updatedCategory);
+    }
 
     const applyFilter = () => {
-        props.fetchComplaints(props.email, category);
+        props.fetchComplaints(props.email, category.value);
+        setShowToaster(true);
+        setTimeout(
+            ()=>{
+                setShowToaster(false);
+                props.clicked();
+            }
+        , 2000);
     }
 
     return(
@@ -29,17 +51,17 @@ const FilterComplaints = ( props ) => {
                 <h3>Choose Category</h3>
                 <div className={styles.Category}>
                     <div>
-                        <input type="radio" value='Hardware' id="Hardware" name="category" onChange={(e)=>setCategory(e.target.value)} />
+                        <input type="radio" value='Hardware' id="Hardware" name="category" onChange={inputChangeHandler} />
                         <label htmlFor="Hardware">Hardware</label>
                     </div>
 
                     <div>
-                        <input type="radio" value='Infra' id="Infra" name="category" onChange={(e)=>setCategory(e.target.value)}  />
+                        <input type="radio" value='Infra' id="Infra" name="category" onChange={inputChangeHandler}  />
                         <label htmlFor="Infra">Infra</label>
                     </div>
 
                     <div>
-                        <input type="radio" value='Other' id="Other" name="category" onChange={(e)=>setCategory(e.target.value)}  />
+                        <input type="radio" value='Other' id="Other" name="category" onChange={inputChangeHandler}  />
                         <label htmlFor="Other">Other</label>
                     </div>
                     <div>
@@ -48,13 +70,14 @@ const FilterComplaints = ( props ) => {
                     </div>
                 </div>
             </div>
+            {showToaster?<Toaster message='Filter Applied!' />:''}
         </>
     )
 }
 
 const mapStateToProps = ({user}) => {
     return{
-        email: user.email
+        email: user.userData.email
     }
 }
 

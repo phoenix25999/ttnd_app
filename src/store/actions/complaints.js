@@ -33,9 +33,10 @@ export const fetchComplaintsByUserSuccess = ( complaintsData ) => {
 };
 
 
-export const fetchComplaintsByUser = (email, category) => {
+export const fetchComplaintsByUser = (email, category, sortBy) => {
+    console.log(email, category);
     return dispatch => {
-        axios.get(`http://localhost:5000/complaint/${email}?category=${category}`)
+        axios.get(`http://localhost:5000/complaint/${email}?category=${category}&sortBy=${sortBy}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
@@ -43,6 +44,7 @@ export const fetchComplaintsByUser = (email, category) => {
                         ...res.data[i]
                     })
                 }
+                console.log(complaintsArray);
                 dispatch( fetchComplaintsByUserSuccess(complaintsArray) )
             });
     };

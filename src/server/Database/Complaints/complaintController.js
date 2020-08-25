@@ -29,7 +29,8 @@ exports.getAllComplaint = async (req, res) => {
 
 exports.getComplaintByUser = async (req, res) => {
   try {
-    const userComplaint = await complaintService.getComplaintByUser(req.params.email, req.query.category);
+    const userComplaint = await complaintService.getComplaintByUser(req.params.email, req.query.category, req.query.sortBy);
+    console.log(userComplaint);
     res.send(userComplaint);
   } catch(err) {
     res.status(400).send(err);

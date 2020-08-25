@@ -4,7 +4,7 @@ const complaintSchema = new mongoose.Schema({
     department: {
         type:String,
         required: true,
-        enum: ['Hardware', 'Infra', 'Others']
+        enum: ['Hardware', 'Infra', 'Other']
     },
     title: {
         type: String,
@@ -33,6 +33,10 @@ const complaintSchema = new mongoose.Schema({
     assignedTo:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now
     }
 })
 

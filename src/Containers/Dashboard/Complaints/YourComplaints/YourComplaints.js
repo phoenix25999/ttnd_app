@@ -6,17 +6,20 @@ import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 import Assign from '../Assign/Assign';
 import FilterComplaints from '../FilterComplaints/FilterComplaints';
+import SortComplaints from '../SortComplaints/SortComplaints';
+import ShowComplaints from '../ShowComplaints/ShowComplaints';
 
 class YourComplaints extends Component{
 
     state={
         showSortingSection: false,
-        showFilterSection: false
+        showFilterSection: false,
+        showComplaintDetails: false
     }
 
 
     componentDidMount(){
-        this.props.fetchComplaintsByUser(this.props.email);
+        this.props.fetchComplaintsByUser(this.props.email, '', '');
         if(isSuperAdmin(this.props.role)){
             this.props.fetchAllComplaints();
         }
@@ -48,10 +51,12 @@ class YourComplaints extends Component{
             return(
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
+                    <td><ShowComplaints complaint={complaint}/></td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
+                    {/* {this.state.showComplaintDetails?<ShowComplaints complaint={complaint} show={this.state.showComplaintDetails} clicked={()=>this.setState({showComplaintDetails: false})} />:''} */}
                 </tr>
+                
             )
         })
         }
@@ -63,7 +68,7 @@ class YourComplaints extends Component{
             return(
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td style={{textDecoration:'underline', color:'#0000ff'}}>{complaint._id}</td>
+                    <td style={{textDecoration:'underline', color:'#0000ff'}}><button>{complaint._id}</button></td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
                     <td><Assign complaint={complaint}/></td>
@@ -75,6 +80,7 @@ class YourComplaints extends Component{
         return(
             <>
             {this.state.showFilterSection?<FilterComplaints show={this.state.showFilterSection} clicked={()=>this.setState({showFilterSection: false})} />:''}
+            {this.state.showSortingSection?<SortComplaints show={this.state.showSortingSection} clicked={()=>this.setState({showSortingSection: false})} />:''}
             <div className={styles.YourComplaints}>
                 <div>
                     <h4>Your Complaints</h4>
@@ -133,7 +139,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComplaintsByUser: (email) => dispatch( actions.fetchComplaintsByUser(email) ),
+        fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) ),
         fetchAllComplaints: () => dispatch( actions.fetchComplaints() )
     };
 };
