@@ -20,7 +20,7 @@ exports.addComplaint = async (req, res) => {
 
 exports.getAllComplaint = async (req, res) => {
   try {
-    const allComplaint = await complaintService.getAllComplaint();
+    const allComplaint = await complaintService.getAllComplaint(req.query.department, req.query.sortBy);
     res.send(allComplaint);
   } catch(err) {
     res.status(400).send(err);

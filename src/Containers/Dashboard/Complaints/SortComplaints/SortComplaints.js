@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fetchComplaintsByUser } from '../../../../store/actions';
+import { fetchComplaintsByUser, fetchComplaints } from '../../../../store/actions';
 import { connect } from 'react-redux';
 import Backdrop from '../../../../Components/UI/SideDrawer/Backdrop/Backdrop';
 
@@ -34,7 +34,10 @@ const SortComplaints = ( props ) => {
     }
 
     const applySorting = () => {
-        props.fetchComplaints(props.email, '', sortBy.value);
+        props.fetchByUser?
+        props.fetchComplaints(props.email, '', sortBy.value)
+        :
+        props.fetchAllComplaints('', sortBy.value);
         setShowToaster(true);
         setTimeout(
             ()=>{
@@ -79,7 +82,8 @@ const mapStateToProps = ({user}) => {
 
 const mapDispatchToProps = dispatch => {
     return{
-        fetchComplaints: ( email, category, sortBy ) => dispatch( fetchComplaintsByUser(email, category, sortBy) )
+        fetchComplaints: ( email, department, sortBy ) => dispatch( fetchComplaintsByUser(email, department, sortBy) ),
+        fetchAllComplaints: ( department, sortBy ) => dispatch( fetchComplaints(department, sortBy) )
     }
 }
 

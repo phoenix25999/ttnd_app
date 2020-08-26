@@ -14,14 +14,15 @@ class YourComplaints extends Component{
     state={
         showSortingSection: false,
         showFilterSection: false,
-        showComplaintDetails: false
+        showComplaintDetails: false,
+        fetchByUser: false
     }
 
 
     componentDidMount(){
         this.props.fetchComplaintsByUser(this.props.email, '', '');
         if(isSuperAdmin(this.props.role)){
-            this.props.fetchAllComplaints();
+            this.props.fetchAllComplaints('', '');
         }
     }
 
@@ -51,10 +52,9 @@ class YourComplaints extends Component{
             return(
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td><ShowComplaints complaint={complaint}/></td>
+                    <td><ShowComplaints complaint={complaint} /></td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
-                    {/* {this.state.showComplaintDetails?<ShowComplaints complaint={complaint} show={this.state.showComplaintDetails} clicked={()=>this.setState({showComplaintDetails: false})} />:''} */}
                 </tr>
                 
             )
@@ -68,7 +68,7 @@ class YourComplaints extends Component{
             return(
                 <tr key={complaint._id}>
                     <td>{complaint.department} </td>
-                    <td style={{textDecoration:'underline', color:'#0000ff'}}><button>{complaint._id}</button></td>
+                    <td><ShowComplaints complaint={complaint}/></td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
                     <td><Assign complaint={complaint}/></td>
@@ -79,16 +79,16 @@ class YourComplaints extends Component{
 
         return(
             <>
-            {this.state.showFilterSection?<FilterComplaints show={this.state.showFilterSection} clicked={()=>this.setState({showFilterSection: false})} />:''}
-            {this.state.showSortingSection?<SortComplaints show={this.state.showSortingSection} clicked={()=>this.setState({showSortingSection: false})} />:''}
+            {this.state.showFilterSection?<FilterComplaints fetchByUser={this.state.fetchByUser} show={this.state.showFilterSection} clicked={()=>this.setState({showFilterSection: false})} />:''}
+            {this.state.showSortingSection?<SortComplaints fetchByUser={this.state.fetchByUser} show={this.state.showSortingSection} clicked={()=>this.setState({showSortingSection: false})} />:''}
             <div className={styles.YourComplaints}>
                 <div>
                     <h4>Your Complaints</h4>
                     <div>
-                        <button onClick={()=>this.setState({showSortingSection: true})}><FaSort /></button>
-                        <button onClick={()=>this.setState({showFilterSection: true})}><FaFilter /></button>
+                        <button onClick={()=>this.setState({showSortingSection: true, fetchByUser: true})}><FaSort /></button>
+                        <button onClick={()=>this.setState({showFilterSection: true, fetchByUser: true})}><FaFilter /></button>
                     </div>
-                    </div>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -106,7 +106,13 @@ class YourComplaints extends Component{
             {
                 isSuperAdmin(this.props.role)?
                 <div className={styles.YourComplaints}>
-                <h4>All Complaints</h4>
+                <div>
+                    <h4>All Complaints</h4>
+                    <div>
+                        <button onClick={()=>this.setState({showSortingSection: true, fetchByUser: false})}><FaSort /></button>
+                        <button onClick={()=>this.setState({showFilterSection: true, fetchByUser: false})}><FaFilter /></button>
+                    </div>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -140,7 +146,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) ),
-        fetchAllComplaints: () => dispatch( actions.fetchComplaints() )
+        fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints( department, sortBy ) )
     };
 };
 

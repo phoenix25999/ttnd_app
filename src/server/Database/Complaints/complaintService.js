@@ -6,15 +6,28 @@ exports.addComplaint = (newComplaint) => {
   return complaint;
 };
 
-exports.getAllComplaint = async () => {
-  const allComplaint = Complaint.find({})
-                                .populate('assignedTo', 'name');
+exports.getAllComplaint = async ( department, sortBy ) => {
+  let allComplaint = '';
+  if( department ){
+     allComplaint = await Complaint.find({department: department})
+                                    .populate('assignedTo', 'name');
+  }
+
+  else if(sortBy){
+    allComplaint = await Complaint.find({})
+                                  .populate('assignedTo', 'name')
+                                  .sort({createdOn: sortBy})
+  }
+
+  else{
+    allComplaint = Complaint.find({})
+                            .populate('assignedTo', 'name');
+  }
   return allComplaint;
 };
 
 exports.getComplaintByUser = async ( email, category, sortBy ) => {
   let userComplaint = '';
-  console.log(email, category, sortBy);
   if(category){
      userComplaint = await Complaint.find({email: email, department: category})
                                 .populate('assignedTo', 'name');

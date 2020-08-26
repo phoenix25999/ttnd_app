@@ -16,6 +16,7 @@ const Input = props => {
             className={inputClasses.join(' ')} 
             value={props.value}
             onChange={props.changed}
+            disabled={props.disabled}
             />;
         break;
     case 'select':
