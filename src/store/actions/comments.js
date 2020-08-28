@@ -24,6 +24,14 @@ export const fetchComments = ( buzzID ) => {
     }
 }
 
+export const fetchMoreCommentsSuccess = ( commentsData, buzzID ) => {
+    return {
+        type: actionTypes.FETCH_MORE_COMMENTS_SUCCESS,
+        commentsData: commentsData,
+        buzzID: buzzID
+    };
+}
+
 export const fetchMoreComments = ( buzzID, pageNo ) => {
     return dispatch => {
         axios.get(`http://localhost:5000/comment/${buzzID}?pageNo=${pageNo}`)
@@ -34,7 +42,7 @@ export const fetchMoreComments = ( buzzID, pageNo ) => {
                         ...res.data[i]
                     });
                 }
-                dispatch(fetchCommentsSuccess(commentsArray, buzzID))
+                dispatch(fetchMoreCommentsSuccess(commentsArray, buzzID))
             });
     }
 }

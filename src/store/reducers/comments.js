@@ -1,9 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
-import { act } from 'react-dom/test-utils';
 
 const initialState = {
     commentsData: {},
-    repliesData: {}
+    repliesData: {},
+    commentsMessage: {}
 };
 
 const reducer = ( state = initialState, action ) => {
@@ -14,14 +14,61 @@ const reducer = ( state = initialState, action ) => {
                 ...state,
                 commentsData: {
                     ...state.commentsData,
-                    [action.buzzID]: state.commentsData[action.buzzID]?[
-                        ...state.commentsData[action.buzzID],
-                        ...action.commentsData,
-                        //action.commentsData.length===2?{message: ''}:{message: 'No more comments'}
-                    ]: []
+                    [action.buzzID]: action.commentsData
+                },
+                commentsMessage: {
+                    [action.buzzID]: ''
                 }
             };
-            //console.log(state.commentsData);
+            return state;
+        
+        case actionTypes.FETCH_MORE_COMMENTS_SUCCESS:
+
+            if(action.commentsData.length===2){
+            
+                state = {
+                    ...state,
+                    commentsData: {
+                        ...state.commentsData,
+                        [action.buzzID]: [
+                            ...state.commentsData[action.buzzID],
+                            ...action.commentsData
+                        ]
+                    },
+                    commentsMessage: {
+                        ...state.commentsMessage,
+                        [action.buzzID]: ''
+                    }
+                };
+            }
+
+            else if(action.commentsData.length===1){
+                state = {
+                    ...state,
+                    commentsData: {
+                        ...state.commentsData,
+                        [action.buzzID]: [
+                            ...state.commentsData[action.buzzID],
+                            ...action.commentsData
+                        ]
+                    },
+                    commentsMessage: {
+                        ...state.commentsMessage,
+                        [action.buzzID]: 'No more comments'
+                    }
+                };
+            }
+
+            else{
+                state = {
+                    ...state,
+                    commentsMessage: {
+                        ...state.commentsMessage,
+                        [action.buzzID]: 'No more comments'
+                    }
+                };
+            }
+            console.log(state);
             return state;
 
         case actionTypes.FETCH_REPLIES_SUCCESS:

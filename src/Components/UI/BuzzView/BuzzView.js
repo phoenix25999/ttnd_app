@@ -34,7 +34,7 @@ const BuzzView = (props) => {
 
     return(
         <>
-        <div key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
+        <div  key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
             <div className={styles.BuzzDetails}>
                 <div className={styles.Date}>
                     <p><em>{buzz.createdOn.slice(8,10)}/</em></p>

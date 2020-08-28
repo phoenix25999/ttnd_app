@@ -15,6 +15,7 @@ export const fetchBuzzFailed = ( ) => {
 }
 
 export const fetchBuzz = ( category ) => {
+    console.log('initial buzz fetch');
     return dispatch => {
         axios.get(`http://localhost:5000/buzz?category=${category}`)
             .then(res=>{
