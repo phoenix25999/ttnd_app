@@ -45,3 +45,16 @@
     max-width: 300px;
     overflow: auto;
 }
+
+.Attachment{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Attachment  img{
+    max-width: 400px;
+    max-height: 200px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    margin-right: 5px;
+}
