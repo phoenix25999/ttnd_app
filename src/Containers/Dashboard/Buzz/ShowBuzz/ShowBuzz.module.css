@@ -2,7 +2,7 @@
     background: #fff;
     border: 1px solid #aaa;
     box-shadow: 0 0 5px #ccc;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .Header{
@@ -22,5 +22,27 @@
 .Header button:hover{
     color: #ff0019;
     cursor: pointer;
+}
+
+.LoadMoreButton{
+    display: block;
+    margin: 20px auto;
+    background: #ccc;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    font-size: 17px;
+    color: #ff0019;
+    outline: none;
+}
+
+.LoadMoreButton:hover{
+    background: #ddd;
+    cursor: pointer;
+}
+
+.Message{
+    text-align: center;
+    margin: 20px 0;
+    color: #ff0019;
 }
 

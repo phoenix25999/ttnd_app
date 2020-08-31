@@ -16,7 +16,7 @@ const buzzSchema = new mongoose.Schema({
     },
     createdOn: {
         type: Date,
-        default: new Date()
+        default: Date.now
     },
     likes: [{
         type: mongoose.Schema.Types.ObjectId,

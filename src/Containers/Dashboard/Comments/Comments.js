@@ -15,7 +15,8 @@ class Comments extends Component{
 
     state = {
         comment: '',
-        image: ''
+        image: '',
+        pageNo: 2
     }
 
     commentHandler = (event, inputIdentifier) => {
@@ -46,10 +47,15 @@ class Comments extends Component{
         axios.post(`http://localhost:5000/comment/${this.props.buzzID}`, commentData, config)
             .then(res=>{
                 this.setState({comment: ''});
-                this.props.fetchComments(this.props.buzzID);
-                this.props.fetchBuzz();
+                this.props.fetchComments(this.props.buzzID, ' ');
+                this.props.fetchBuzz(' ');
             });
         
+    }
+
+    loadMoreComments = ( ) => {
+        this.props.fetchMoreComments(this.props.buzzID, this.state.pageNo);
+        this.setState({pageNo: this.state.pageNo+1});
     }
 
     render(){
@@ -63,6 +69,7 @@ class Comments extends Component{
 
         let commentsList = '';
         if(commentsArray.length){
+            console.log(this.props.commentsMessage[this.props.buzzID]);
             commentsList = (
                 commentsArray.map(comment=>{
                     return (
@@ -90,10 +97,15 @@ class Comments extends Component{
             )
         }
 
+        
+
         return(
             <div>
                 
             {commentsList}
+            <div className={styles.LoadMoreComments}>
+            {commentsArray.length?!this.props.commentsMessage[this.props.buzzID]?<button onClick={this.loadMoreComments}>Load more</button>:<p>{this.props.commentsMessage[this.props.buzzID]}</p>:''}
+            </div>
 
                 
                     <form action="upload" method="post" encType="multipart/form-data" className={styles.NewComment} onSubmit={this.addComment}>
@@ -118,6 +130,7 @@ class Comments extends Component{
                         
                         <button><FaArrowAltCircleRight/></button>
                     </form>
+                    
                   
             </div>
         );  
@@ -126,14 +139,16 @@ class Comments extends Component{
 
 const mapStateToProps = state => {
     return{
-        userID: state.user.userData._id
+        userID: state.user.userData._id,
+        commentsMessage: state.comments.commentsMessage
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return{
         fetchComments: (buzzID) => dispatch( actions.fetchComments(buzzID) ),
-        fetchBuzz: () => dispatch( actions.fetchBuzz() )
+        fetchMoreComments: (buzzID, pageNo) => dispatch( actions.fetchMoreComments(buzzID, pageNo) ),
+        fetchBuzz: (category) => dispatch( actions.fetchBuzz(category) )
     };
 }
 

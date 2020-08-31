@@ -13,8 +13,6 @@ exports.addComment = async (req, res) => {
     image: imagePath
   }
 
-  console.log(req.file);
-
   try{
       const addedComment = await commentService.addComment(newComment);
       console.log(addedComment);
@@ -27,7 +25,7 @@ exports.addComment = async (req, res) => {
 
 exports.getComments = async (req, res) => {
   try{
-    const comment = await commentService.getComments(req.params.buzzID);
+    const comment = await commentService.getComments(req.params.buzzID, req.query.pageNo);
     res.status(201).send(comment);
   } catch(err) {
     res.status(400).send(err);

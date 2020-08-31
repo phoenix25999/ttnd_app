@@ -77,9 +77,31 @@
 .ImageButton{
     color: #808080;
     font-size: 20px;
+    outline: none;
 }
 
 .ImageButton:hover{
     color: #000;
     cursor: pointer;
+}
+
+.LoadMoreComments{
+    text-align: center;
+}
+
+.LoadMoreComments button{
+    border: none;
+    background: transparent;
+    outline: none;
+    font-weight: 700;
+}
+
+.LoadMoreComments button:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.LoadMoreComments p{
+    font-size: 15px;
+    color: #ff0019;
 }

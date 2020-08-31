@@ -15,6 +15,7 @@ export const fetchBuzzFailed = ( ) => {
 }
 
 export const fetchBuzz = ( category ) => {
+    console.log('initial buzz fetch');
     return dispatch => {
         axios.get(`http://localhost:5000/buzz?category=${category}`)
             .then(res=>{
@@ -26,6 +27,29 @@ export const fetchBuzz = ( category ) => {
                 }
                 dispatch(fetchBuzzSuccess(buzzArray))
             })
+    }
+}
+
+export const fetchMoreBuzzSuccess = ( buzzData ) => {
+    return {
+        type: actionTypes.FETCH_MORE_BUZZ_SUCCESS,
+        buzzData: buzzData
+    };
+}
+
+export const fetchMoreBuzz = ( pageNo ) => {
+    return dispatch => {
+        axios.get( `http://localhost:5000/buzz?pageNo=${pageNo}` )
+            .then(res=>{
+                let buzzArray = [];
+                for(let i in res.data){
+                    buzzArray.push({
+                        ...res.data[i]
+                    });
+                }
+                console.log(buzzArray);
+                dispatch(fetchMoreBuzzSuccess(buzzArray));
+            });
     }
 }
 

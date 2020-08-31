@@ -15,6 +15,10 @@ const commentSchema = new mongoose.Schema({
         type: String,
         enum: ['Comment', 'Reply']
       },
+      createdOn:{
+        type: Date,
+        default: Date.now
+      },
       parentComment: { // In case of Replies. ID of comment on which reply is at
         type: mongoose.Schema.Types.ObjectId
       },

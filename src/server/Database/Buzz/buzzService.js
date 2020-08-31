@@ -6,15 +6,28 @@ exports.addBuzz = async (newBuzz) => {
   return buzz;
 };
 
-exports.getAllBuzz = async ( searchedCategory ) => {
+exports.getAllBuzz = async ( condition ) => {
   let allBuzz = '';
-  searchedCategory?
-    allBuzz = Buzz.find({category: searchedCategory})
+  if(condition.category){
+    allBuzz = Buzz.find({category: condition.category})
                   .populate('createdBy','name email')
-  
-  :
+                  .sort({createdOn: -1});
+  }
+
+  else if(condition.pageNo){
     allBuzz = Buzz.find({})
-                  .populate('createdBy','name email');
+                  .skip(3*(condition.pageNo-1))
+                  .limit(3)
+                  .populate('createdBy','name email')
+                  .sort({createdOn: -1});
+  }
+
+  else{
+    allBuzz = Buzz.find({})
+                  .limit(3)
+                  .populate('createdBy','name email')
+                  .sort({createdOn: -1});
+  }
   
 
   return allBuzz;

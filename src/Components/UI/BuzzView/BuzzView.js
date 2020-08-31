@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Comments from '../../../Containers/Dashboard/Comments/Comments';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import * as actions from '../../../store/actions/index';
 import styles from './BuzzView.module.css';
 import EditBuzz from '../../../Containers/Dashboard/Buzz/EditBuzz/EditBuzz';
 import axios from 'axios';
+import Toaster from '../../../Utility/Toaster/Toaster';
 
 const BuzzView = (props) => {
 
@@ -17,18 +18,23 @@ const BuzzView = (props) => {
         buzz
     } = props;
 
+    const [showToaster, setShowToaster] = useState(false);
+
     useEffect(()=>{fetchComments(buzz._id)}, [buzz._id, fetchComments]);
 
     const deleteBuzz = ( buzzId ) => {
         axios.delete(`http://localhost:5000/buzz/${buzzId}`)
             .then(res=>{
                 props.fetchBuzz('');
+                setShowToaster(true);
+                setTimeout(()=>setShowToaster(false), 3000)
             })
             .catch(err=>alert(err.message));
     }
 
     return(
-        <div key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
+        <>
+        <div  key={buzz._id} style={{borderBottom: '1px solid #ccc', marginBottom:'50px'}}>
             <div className={styles.BuzzDetails}>
                 <div className={styles.Date}>
                     <p><em>{buzz.createdOn.slice(8,10)}/</em></p>
@@ -78,6 +84,8 @@ const BuzzView = (props) => {
                     buzzID={buzz._id}
                 />
         </div>
+        {showToaster?<Toaster message='Buzz deleted!' />:''}
+        </>
     )
 }
 
