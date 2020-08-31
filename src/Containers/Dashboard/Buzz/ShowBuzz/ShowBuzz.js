@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -32,6 +32,7 @@ const ShowBuzz = ( props ) => {
             axios.put('http://localhost:5000/buzz/like', likeInfo)
                 .then(res=>console.log(res));
             props.fetchBuzz('');
+    }
 
     const dislikeHandler = async (id, likedBy)=>{
 
