@@ -24,6 +24,29 @@ export const fetchComments = ( buzzID ) => {
     }
 }
 
+export const fetchMoreCommentsSuccess = ( commentsData, buzzID ) => {
+    return {
+        type: actionTypes.FETCH_MORE_COMMENTS_SUCCESS,
+        commentsData: commentsData,
+        buzzID: buzzID
+    };
+}
+
+export const fetchMoreComments = ( buzzID, pageNo ) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/comment/${buzzID}?pageNo=${pageNo}`)
+            .then(res=>{
+                let commentsArray = [];
+                for(let i in res.data){
+                    commentsArray.push({
+                        ...res.data[i]
+                    });
+                }
+                dispatch(fetchMoreCommentsSuccess(commentsArray, buzzID))
+            });
+    }
+}
+
 export const fetchRepliesSuccess = ( repliesData, commentID ) => {
     return {
         type: actionTypes.FETCH_REPLIES_SUCCESS,
@@ -31,6 +54,8 @@ export const fetchRepliesSuccess = ( repliesData, commentID ) => {
         commentID: commentID
     };
 }
+
+
 
 export const fetchReplies = ( commentID ) => {
     return dispatch => {
@@ -43,7 +68,7 @@ export const fetchReplies = ( commentID ) => {
                         ...res.data[i]
                     });
                 }
-                dispatch(fetchRepliesSuccess(repliesArray, commentID))
+                dispatch(fetchRepliesSuccess(repliesArray, commentID));
             });
     }
 }

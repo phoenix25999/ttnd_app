@@ -1,7 +1,7 @@
 export { fetchUser, fetchAllUsers, fetchAdmins } from './user';
 
-export { fetchBuzz, getBuzzCountByUser } from './buzz';
+export { fetchBuzz, fetchMoreBuzz,  getBuzzCountByUser } from './buzz';
 
 export { fetchComplaints, fetchComplaintsByUser, fetchAssignedComplaints } from './complaints';
 
-export { fetchComments, fetchReplies }  from './comments';
+export { fetchComments, fetchMoreComments, fetchReplies }  from './comments';

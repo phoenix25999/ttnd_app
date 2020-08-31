@@ -124,6 +124,7 @@ class NewBuzz extends Component{
           formElementIdentifier!=='category'? updatedBuzzForm[formElementIdentifier].value='':updatedBuzzForm[formElementIdentifier].value='Activity';
         }
         this.setState({buzzForm: updatedBuzzForm, imageName:''});
+        this.props.setPageNo(2);
         this.props.fetchBuzz('');
         this.setState({showToaster: true});
         setTimeout(()=>this.setState({showToaster: false}), 3000)
