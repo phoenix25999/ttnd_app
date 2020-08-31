@@ -6,15 +6,43 @@ exports.addComplaint = (newComplaint) => {
   return complaint;
 };
 
-exports.getAllComplaint = async () => {
-  const allComplaint = Complaint.find({})
-                                .populate('assignedTo', 'name');
+exports.getAllComplaint = async ( department, sortBy ) => {
+  let allComplaint = '';
+  if( department ){
+     allComplaint = await Complaint.find({department: department})
+                                    .populate('assignedTo', 'name');
+  }
+
+  else if(sortBy){
+    allComplaint = await Complaint.find({})
+                                  .populate('assignedTo', 'name')
+                                  .sort({createdOn: sortBy})
+  }
+
+  else{
+    allComplaint = Complaint.find({})
+                            .populate('assignedTo', 'name');
+  }
   return allComplaint;
 };
 
-exports.getComplaintByUser = async ( email ) => {
-  const userComplaint = Complaint.find({email: email})
-                                  .populate('assignedTo', 'name');
+exports.getComplaintByUser = async ( email, category, sortBy ) => {
+  let userComplaint = '';
+  if(category){
+     userComplaint = await Complaint.find({email: email, department: category})
+                                .populate('assignedTo', 'name');
+  }
+
+  else if(sortBy){
+    userComplaint = await Complaint.find({email: email})
+                                .populate('assignedTo', 'name')
+                                .sort({createdOn: sortBy})
+  }
+
+  else{
+    userComplaint = Complaint.find({email: email})
+                              .populate('assignedTo', 'name');
+  }
   return userComplaint;
 };
 

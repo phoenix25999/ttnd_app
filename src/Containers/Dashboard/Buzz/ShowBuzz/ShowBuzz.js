@@ -20,8 +20,6 @@ const ShowBuzz = ( props ) => {
         props.fetchBuzz('');
     }, []);
 
-
-
     const likeHandler = async (id, dislikedBy)=>{
             let likeInfo = {
                 id: id,
@@ -34,7 +32,6 @@ const ShowBuzz = ( props ) => {
             axios.put('http://localhost:5000/buzz/like', likeInfo)
                 .then(res=>console.log(res));
             props.fetchBuzz('');
-    }
 
     const dislikeHandler = async (id, likedBy)=>{
 

@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 
 const complaintSchema = new mongoose.Schema({
+    issueId: {
+        type: String,
+        required: true
+    },
     department: {
         type:String,
         required: true,
-        enum: ['Hardware', 'Infra', 'Others']
+        enum: ['Hardware', 'Infra', 'Other']
     },
     title: {
         type: String,
@@ -33,6 +37,10 @@ const complaintSchema = new mongoose.Schema({
     assignedTo:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now
     }
 })
 

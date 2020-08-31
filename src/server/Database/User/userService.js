@@ -19,7 +19,6 @@ exports.getUserRole = async (email) => {
 };
 
 exports.loginUser = (res, loginDetails) => {
-    console.log(loginDetails);
     const user = User.find({email: loginDetails.email}, {password: 1, _id: 0})
         .then(async existingPassword=>{
             if(existingPassword.length){

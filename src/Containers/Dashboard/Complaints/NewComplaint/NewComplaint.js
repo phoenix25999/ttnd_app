@@ -6,6 +6,7 @@ import Toaster from '../../../../Utility/Toaster/Toaster';
 import Input from '../../../../Components/UI/Input/Input';
 import { RiImageAddLine } from 'react-icons/ri';
 import axios from 'axios';
+import { isSuperAdmin } from '../../../../Utility/checkUserRole';
 
 class NewComplaint extends Component{
 
@@ -50,20 +51,6 @@ class NewComplaint extends Component{
         validation: {
             required: true,
             minLength: 2
-        },
-        valid: false,
-        touched: false
-      },
-      email: {
-        elementType: 'input',
-        elementConfig: {
-            type: 'email',
-            placeholder: 'Your Email'
-        },
-        value: '',
-        validation: {
-            required: true,
-            isEmail: true
         },
         valid: false,
         touched: false
@@ -158,7 +145,7 @@ class NewComplaint extends Component{
         complaintData.append('department',this.state.complaintForm.department.value);
         complaintData.append('title',this.state.complaintForm.title.value);
         complaintData.append('name',this.state.complaintForm.name.value);
-        complaintData.append('email',this.state.complaintForm.email.value);
+        complaintData.append('email',this.props.email);
         complaintData.append('concern',this.state.complaintForm.concern.value);
         for(let i in this.state.complaintForm.attachment.value){
           if(this.state.complaintForm.attachment.value.hasOwnProperty(i) && i!=='length'){
@@ -183,7 +170,10 @@ class NewComplaint extends Component{
           updatedComplaintForm[formElementIdentifier].value='';
         }
         this.setState({complaintForm: updatedComplaintForm});
-        this.props.fetchComplaintsByUser(this.props.email);
+        this.props.fetchComplaintsByUser(this.props.email, '', '');
+        if(isSuperAdmin(this.props.role)){
+          this.props.fetchAllComplaints('', '');
+        }
         this.setState({showToaster:true});
         setTimeout(()=>this.setState({showToaster: false}), 3000);
       });    
@@ -230,10 +220,8 @@ class NewComplaint extends Component{
 
               <Input elementType='input' 
                 label='Email ID' 
-                changed={(e)=>this.inputChangeHandler(e,'email')} 
-                value={this.state.complaintForm.email.value || ''}
-                invalid={!this.state.complaintForm.email.valid}
-                touched={this.state.complaintForm.email.touched}
+                value={this.props.email}
+                disabled
               />
             </div>
 
@@ -282,14 +270,16 @@ class NewComplaint extends Component{
 
 const mapStateToProps = ({user}) => {
   return{
-      email: user.userData.email
+      email: user.userData.email,
+      role: user.userData.role
 
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return{
-    fetchComplaintsByUser: (email) => dispatch( actions.fetchComplaintsByUser(email) )
+    fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) ),
+    fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints(department, sortBy) )
   };
 };
 

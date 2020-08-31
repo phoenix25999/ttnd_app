@@ -10,9 +10,9 @@ export const fetchComplaintsSuccess = ( complaintsData ) => {
 
 
 
-export const fetchComplaints = () => {
+export const fetchComplaints = ( department, sortBy ) => {
     return dispatch => {
-        axios.get('http://localhost:5000/complaint')
+        axios.get(`http://localhost:5000/complaint?department=${department}&sortBy=${sortBy}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
@@ -20,7 +20,7 @@ export const fetchComplaints = () => {
                         ...res.data[i]
                     })
                 }
-                dispatch( fetchComplaintsSuccess(complaintsArray) )
+                dispatch( fetchComplaintsSuccess(complaintsArray) );
             });
     }
 }
@@ -33,9 +33,9 @@ export const fetchComplaintsByUserSuccess = ( complaintsData ) => {
 };
 
 
-export const fetchComplaintsByUser = (email) => {
+export const fetchComplaintsByUser = (email, category, sortBy) => {
     return dispatch => {
-        axios.get(`http://localhost:5000/complaint/${email}`)
+        axios.get(`http://localhost:5000/complaint/${email}?category=${category}&sortBy=${sortBy}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
