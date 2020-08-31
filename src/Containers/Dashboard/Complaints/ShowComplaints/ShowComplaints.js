@@ -9,7 +9,7 @@ const ShowComplaints = ( props ) => {
 
     return(
         <>
-            <button className={styles.Button} onClick={()=>setShowComplaint(true)}>{props.complaint._id} </button>
+            <button className={styles.Button} onClick={()=>setShowComplaint(true)}>{props.complaint.issueId} </button>
             {showComplaint?
             <>
                 <Backdrop show={showComplaint} clicked={()=>setShowComplaint(false)} />

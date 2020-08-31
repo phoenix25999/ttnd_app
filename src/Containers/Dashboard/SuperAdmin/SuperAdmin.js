@@ -229,7 +229,7 @@ const SuperAdmin = ( props ) => {
                             </select>
                             {!userForm.role.valid&&userForm.role.touched?errorMesssage:''}
                         </div>
-                        <div>
+                       
                             <select 
                                 onChange={(e)=>inputChangeHandler(e, 'department')}
                                 value={userForm.department.value}
@@ -242,7 +242,7 @@ const SuperAdmin = ( props ) => {
                                 <option value='Others'>Others</option>
                             </select>
                             {!userForm.department.valid&&userForm.department.touched?errorMesssage:''}
-                        </div>      
+                             
                     </div>
                         <div className={styles.Gender}>
                         <label>Gender</label>

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const complaintSchema = new mongoose.Schema({
+    issueId: {
+        type: String,
+        required: true
+    },
     department: {
         type:String,
         required: true,

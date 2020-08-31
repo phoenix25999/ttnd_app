@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isSuperAdmin } from '../../../../Utility/checkUserRole';
-import { FaFilter, FaSort } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 import Assign from '../Assign/Assign';
-import FilterComplaints from '../FilterComplaints/FilterComplaints';
-import SortComplaints from '../SortComplaints/SortComplaints';
 import ShowComplaints from '../ShowComplaints/ShowComplaints';
+import Toaster from '../../../../Utility/Toaster/Toaster';
 
 class YourComplaints extends Component{
 
     state={
-        showSortingSection: false,
-        showFilterSection: false,
         showComplaintDetails: false,
-        fetchByUser: false
+        showToaster: false,
+        sortBy: ''
     }
 
 
@@ -44,6 +42,32 @@ class YourComplaints extends Component{
         return color;
     }
 
+    applySorting = ( fetchByUser, sortingCriteria ) => {
+        fetchByUser?
+        this.props.fetchComplaintsByUser(this.props.email, '', sortingCriteria)
+        :
+        this.props.fetchAllComplaints('', sortingCriteria);
+        this.setState({showToaster: true});
+        setTimeout(
+            ()=>{
+                this.setState({showToaster: false});
+            }
+        , 2000);
+    }
+
+    applyFilter = (event, fetchByUser) => {
+        fetchByUser?
+        this.props.fetchComplaintsByUser(this.props.email, event.target.value, '')
+        :
+        this.props.fetchAllComplaints( event.target.value, '' );
+        this.setState({showToaster: true});
+        setTimeout(
+            ()=>{
+                this.setState({showToaster: false});
+            }
+        , 2000);
+    }
+
     render(){
         let complaintsData = [];
         if(this.props.complaintsData){
@@ -55,6 +79,7 @@ class YourComplaints extends Component{
                     <td><ShowComplaints complaint={complaint} /></td>
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
+                    <td>{complaint.createdOn.slice(0,10)}</td>
                 </tr>
                 
             )
@@ -72,6 +97,7 @@ class YourComplaints extends Component{
                     <td>{complaint.assignedTo?complaint.assignedTo.name:'Not yet assigned'}</td>
                     <td className={statusClass}>{complaint.status}</td>
                     <td><Assign complaint={complaint}/></td>
+                    <td>{complaint.createdOn.slice(0,10)}</td>
                 </tr>
             )
         })
@@ -79,14 +105,17 @@ class YourComplaints extends Component{
 
         return(
             <>
-            {this.state.showFilterSection?<FilterComplaints fetchByUser={this.state.fetchByUser} show={this.state.showFilterSection} clicked={()=>this.setState({showFilterSection: false})} />:''}
-            {this.state.showSortingSection?<SortComplaints fetchByUser={this.state.fetchByUser} show={this.state.showSortingSection} clicked={()=>this.setState({showSortingSection: false})} />:''}
+            {this.state.showToaster?<Toaster message='Success!'/>:''}
             <div className={styles.YourComplaints}>
                 <div>
                     <h4>Your Complaints</h4>
                     <div>
-                        <button onClick={()=>this.setState({showSortingSection: true, fetchByUser: true})}><FaSort /></button>
-                        <button onClick={()=>this.setState({showFilterSection: true, fetchByUser: true})}><FaFilter /></button>
+                        <select onChange={(e)=>this.applyFilter(e,true)}>
+                            <option value=''>Department</option>
+                            <option value='Hardware' >Hardware</option>
+                            <option value='Infra'>Infra</option>
+                            <option value='Other'>Other</option>
+                        </select>
                     </div>
                 </div>
                 <table>
@@ -96,6 +125,13 @@ class YourComplaints extends Component{
                             <th>Issue ID</th>
                             <th>Assigned To</th>
                             <th>Status</th>
+                            <th className={styles.CreatedOn}>
+                                Created On
+                                <span> 
+                                <button title='New to Old' onClick={()=>this.applySorting(true, -1)}><FaArrowUp/></button> 
+                                <button title='Old to New' onClick={()=>this.applySorting(true, 1)}><FaArrowDown /></button>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,8 +145,12 @@ class YourComplaints extends Component{
                 <div>
                     <h4>All Complaints</h4>
                     <div>
-                        <button onClick={()=>this.setState({showSortingSection: true, fetchByUser: false})}><FaSort /></button>
-                        <button onClick={()=>this.setState({showFilterSection: true, fetchByUser: false})}><FaFilter /></button>
+                        <select onChange={(e)=>this.applyFilter(e,false)}>
+                            <option value=''>Department</option>
+                            <option value='Hardware' >Hardware</option>
+                            <option value='Infra'>Infra</option>
+                            <option value='Other'>Other</option>
+                        </select>
                     </div>
                 </div>
                 <table>
@@ -121,6 +161,13 @@ class YourComplaints extends Component{
                             <th>Assigned To</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th className={styles.CreatedOn}>
+                                Created On
+                                <span> 
+                                <button title='New to Old' onClick={()=>this.applySorting(false, -1)}><FaArrowUp/></button> 
+                                <button title='Old to New' onClick={()=>this.applySorting(false,1)}><FaArrowDown /></button>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

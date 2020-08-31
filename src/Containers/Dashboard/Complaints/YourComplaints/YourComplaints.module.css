@@ -13,21 +13,15 @@
     padding: 10px 16px;
 }
 
-.YourComplaints > div > div{
-    display: flex;
-    justify-content: space-between;
-    width: 7%;
-}
-
-.YourComplaints > div > div button{
-    background: transparent;
+.YourComplaints > div select{
+    background: none;
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 700;
 }
 
-.YourComplaints > div > div button:hover{
-    color: #ff0019;
+.YourComplaints > div select:hover{
     cursor: pointer;
 }
 
@@ -70,6 +64,21 @@
 
 .InProgress{
     color: #1d0866;
+}
+
+.CreatedOn button{
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0 1px;
+}
+.CreatedOn button:hover{
+    color: #ff0019;
+    cursor: pointer;
+}
+
+.CreatedOn span{
+    padding: 0 5px;
 }
 
 @media(max-width:600px){

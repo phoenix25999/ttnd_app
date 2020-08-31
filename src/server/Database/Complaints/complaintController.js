@@ -2,7 +2,18 @@ const complaintService = require('./complaintService');
 
 exports.addComplaint = async (req, res) => {
   let attachmentPath = req.files.map(image=>image.path);
+  let issueId = '';
+  if(req.body.department==='Hardware'){
+    issueId = `HW${Date.now()}`;
+  }
+  if(req.body.department==='Infra'){
+    issueId = `IN${Date.now()}`;
+  }
+  if(req.body.department==='Other'){
+    issueId = `OT${Date.now()}`;
+  }
   let newComplaint = {
+    issueId: issueId,
     department: req.body.department,
     title: req.body.title,
     name: req.body.name,
