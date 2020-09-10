@@ -34,8 +34,12 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.FETCH_ADMINS_SUCCESS:
             state = {
                 ...state,
-                adminsData: [...action.admins]
+                adminsData: {
+                    ...state.adminsData,
+                    [action.admins[0]&&action.admins[0].department]: action.admins
+                }
             }
+            console.log(state);
             return state;
         
         case actionTypes.FETCH_ALL_USERS_FAILED:

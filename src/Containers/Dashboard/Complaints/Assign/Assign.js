@@ -17,6 +17,8 @@ const Assign = ( props ) => {
 
     useEffect(()=>props.fetchAdmins(props.complaint.department), []);
 
+    let admins = props.admins[props.complaint.department];
+
     const updateComplaintAssignment = (event) => {
         event.preventDefault();
         let complaintAssignment = {
@@ -43,7 +45,7 @@ const Assign = ( props ) => {
                     <select onChange={(event)=>setAssignedAdmin(event.target.value)}>
                         <option value=''>Select whom to assign</option>
                         {
-                            props.admins.map(admin=>{
+                            admins.map(admin=>{
                                 return <option value={admin._id}>{admin.name}</option>
                             })
                         }

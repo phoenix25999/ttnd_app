@@ -20,6 +20,12 @@ const reducer = ( state = initialState, action ) => {
                 allComplaintsData: [...action.complaintsData]
             };
             return state;
+        case actionTypes.FETCH_MORE_COMPLAINTS_SUCCESS:
+            state={
+                ...state,
+                allComplaintsData: [...action.complaintsData]
+            }
+            return state;
         case actionTypes.FETCH_ASSIGNED_COMPLAINTS_SUCCESS:
             state={
                 ...state,

@@ -1,4 +1,5 @@
 const complaintService = require('./complaintService');
+const {sendMail} = require('../../middleware/nodeMailer');
 
 exports.addComplaint = async (req, res) => {
   let attachmentPath = req.files.map(image=>image.path);
@@ -23,6 +24,12 @@ exports.addComplaint = async (req, res) => {
   };
   try {
     const complaint = await complaintService.addComplaint(newComplaint);
+
+    let mailSubject = `[#${complaint[0].issueId}] ${complaint[0].title}`;
+
+    let mailBody = `Hello, We've escalated your complaint to our team, we will soon get in touch with you`;
+
+    sendMail(complaint[0].email, mailSubject, mailBody);
     res.send(complaint);
   } catch (err) {
     res.status(400).send(err);
@@ -31,7 +38,7 @@ exports.addComplaint = async (req, res) => {
 
 exports.getAllComplaint = async (req, res) => {
   try {
-    const allComplaint = await complaintService.getAllComplaint(req.query.department, req.query.sortBy);
+    const allComplaint = await complaintService.getAllComplaint(req.query.department, req.query.sortBy, req.query.pageNo);
     res.send(allComplaint);
   } catch(err) {
     res.status(400).send(err);
@@ -61,6 +68,10 @@ exports.getAssignedComplaints = async (req, res) => {
 exports.updateComplaint = async (req, res) => {
   try {
     const updatedInfo = await complaintService.updateStatus(req.params.id, req.body);
+    let mailSubject = `[#${updatedInfo.issueId}] ${updatedInfo.title}`;
+    let mailBody = `Hello, ${updatedInfo.assignedTo.name} has updated your complaint status to ${updatedInfo.status}`;
+
+    sendMail(updatedInfo.email, mailSubject, mailBody);
     res.send(updatedInfo);
   } catch (err) {
     res.status(400).send(err);

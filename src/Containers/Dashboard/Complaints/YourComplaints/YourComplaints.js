@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isSuperAdmin } from '../../../../Utility/checkUserRole';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 import Assign from '../Assign/Assign';
@@ -13,7 +13,8 @@ class YourComplaints extends Component{
     state={
         showComplaintDetails: false,
         showToaster: false,
-        sortBy: ''
+        sortBy: '',
+        pageNo: 1   
     }
 
 
@@ -66,6 +67,11 @@ class YourComplaints extends Component{
                 this.setState({showToaster: false});
             }
         , 2000);
+    }
+
+    loadMoreComplaints = (  ) => {
+        this.setState({pageNo: this.state.pageNo+1});
+        setTimeout(()=>this.props.fetchMoreComplaints('','', this.state.pageNo),0);
     }
 
     render(){
@@ -138,7 +144,10 @@ class YourComplaints extends Component{
                         {complaintsData}
                     </tbody>
                 </table>
+                
             </div>
+            <button onClick={()=>this.setState({pageNo: this.state.pageNo-1})}><FaArrowLeft /></button>
+            <button onClick={()=>this.loadMoreComplaints}><FaArrowRight /></button>
             {
                 isSuperAdmin(this.props.role)?
                 <div className={styles.YourComplaints}>
@@ -193,7 +202,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return{
         fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) ),
-        fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints( department, sortBy ) )
+        fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints( department, sortBy ) ),
+        fetchMoreComplaints: ( department, sortBy, pageNo ) => dispatch( actions.fetchMoreComplaints( department, sortBy, pageNo ) )
     };
 };
 

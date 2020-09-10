@@ -25,6 +25,28 @@ export const fetchComplaints = ( department, sortBy ) => {
     }
 }
 
+export const fetchMoreComplaintsSuccess = ( complaintsData ) => {
+    return{
+        type: actionTypes.FETCH_MORE_COMPLAINTS_SUCCESS,
+        complaintsData: complaintsData
+    }
+}
+
+export const fetchMoreComplaints = ( department, sortBy, pageNo ) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/complaint?department=${department}&sortBy=${sortBy}&pageNo=${pageNo}`)
+        .then(res=>{
+            let complaintsArray = [];
+            for(let i in res.data){
+                complaintsArray.push({
+                    ...res.data[i]
+                })
+            }
+            dispatch( fetchMoreComplaintsSuccess(complaintsArray) );
+        });
+    }
+}
+
 export const fetchComplaintsByUserSuccess = ( complaintsData ) => {
     return{
         type: actionTypes.FETCH_COMPLAINTS_BYUSER_SUCCESS,

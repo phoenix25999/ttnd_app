@@ -3,6 +3,7 @@ const cloudinary = require('cloudinary');
 const keys = require('./keys');
 const jwt = require('jsonwebtoken')
 const url = require('url');
+const { sendMail } = require('../../middleware/nodeMailer');
 
 exports.addUser = async ( req, res ) => {
 
@@ -26,6 +27,10 @@ exports.addUser = async ( req, res ) => {
 
   try{
     const user = await userService.addUser(newUser);
+    let mailSubject = `Welcome to TTND`;
+    let mailBody = `Hello, ${user.name} welcome to TTND. We're excited to see you here!`;
+
+    sendMail(user.email, mailSubject, mailBody);
     res.send(user);
   } catch(err){
     res.status(400).send(err);
@@ -108,6 +113,10 @@ exports.updateProfile = async (req, res) => {
   try{
     
     const profile = await userService.updateProfile(req.params.userID, updatedUserDetails);
+    let mailSubject = `Profile updated`;
+    let mailBody = `Hello, Your profile is successfully updated. If you didn't recognise this, please contact support.`;
+
+    sendMail(profile.email, mailSubject, mailBody);
     res.send(profile);
   } catch(err){
     res.status(400).send(err);
