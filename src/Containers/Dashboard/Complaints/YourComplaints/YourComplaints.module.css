@@ -2,7 +2,7 @@
     border-radius: 5px;
     box-shadow: 0 0 4px #ccc;
     background: #ccc;
-    margin-bottom: 50px;
+    margin-bottom: 10px;
     width: 100%;
 }
 
@@ -79,6 +79,24 @@
 
 .CreatedOn span{
     padding: 0 5px;
+}
+
+.Pagination{
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.Pagination button{
+    border: none;
+    background: none;
+    outline: none;
+    color: #616060;
+    margin: 0 10px;
+}
+
+.Pagination button:hover{
+    color: #000;
+    cursor: pointer;
 }
 
 @media(max-width:600px){

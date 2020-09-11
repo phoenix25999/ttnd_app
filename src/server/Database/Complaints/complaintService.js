@@ -28,7 +28,7 @@ exports.getAllComplaint = async ( department, sortBy, pageNo ) => {
   return allComplaint;
 };
 
-exports.getComplaintByUser = async ( email, category, sortBy ) => {
+exports.getComplaintByUser = async ( email, category, sortBy, pageNo ) => {
   let userComplaint = '';
   if(category){
      userComplaint = await Complaint.find({email: email, department: category})
@@ -43,6 +43,8 @@ exports.getComplaintByUser = async ( email, category, sortBy ) => {
 
   else{
     userComplaint = Complaint.find({email: email})
+                              .skip((pageNo-1)*10)
+                              .limit(10)
                               .populate('assignedTo', 'name');
   }
   return userComplaint;
