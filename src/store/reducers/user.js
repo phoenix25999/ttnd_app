@@ -34,7 +34,10 @@ const reducer = ( state = initialState, action ) => {
         case actionTypes.FETCH_ADMINS_SUCCESS:
             state = {
                 ...state,
-                adminsData: [...action.admins]
+                adminsData: {
+                    ...state.adminsData,
+                    [action.admins[0]&&action.admins[0].department]: action.admins
+                }
             }
             return state;
         

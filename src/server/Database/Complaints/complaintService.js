@@ -6,7 +6,7 @@ exports.addComplaint = (newComplaint) => {
   return complaint;
 };
 
-exports.getAllComplaint = async ( department, sortBy ) => {
+exports.getAllComplaint = async ( department, sortBy, pageNo ) => {
   let allComplaint = '';
   if( department ){
      allComplaint = await Complaint.find({department: department})
@@ -21,12 +21,14 @@ exports.getAllComplaint = async ( department, sortBy ) => {
 
   else{
     allComplaint = Complaint.find({})
+                            .skip((pageNo-1)*10)
+                            .limit(10)
                             .populate('assignedTo', 'name');
   }
   return allComplaint;
 };
 
-exports.getComplaintByUser = async ( email, category, sortBy ) => {
+exports.getComplaintByUser = async ( email, category, sortBy, pageNo ) => {
   let userComplaint = '';
   if(category){
      userComplaint = await Complaint.find({email: email, department: category})
@@ -41,6 +43,8 @@ exports.getComplaintByUser = async ( email, category, sortBy ) => {
 
   else{
     userComplaint = Complaint.find({email: email})
+                              .skip((pageNo-1)*10)
+                              .limit(10)
                               .populate('assignedTo', 'name');
   }
   return userComplaint;
@@ -52,6 +56,14 @@ exports.getAssignedComplaints = async ( adminId ) => {
 };
 
 exports.updateStatus = async (complaintID, updates) => {
-  const updatedInfo = Complaint.updateOne({_id: complaintID}, updates);
+  if(!updates.status){
+    updates={
+      ...updates,
+      status: 'In Progress'
+    };
+  }
+
+  const updatedInfo = Complaint.findOneAndUpdate({_id: complaintID}, updates)
+                                .populate('assignedTo', 'name');
   return updatedInfo;
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isSuperAdmin } from '../../../../Utility/checkUserRole';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import * as actions from '../../../../store/actions/index';
 import styles from './YourComplaints.module.css';
 import Assign from '../Assign/Assign';
@@ -13,7 +13,9 @@ class YourComplaints extends Component{
     state={
         showComplaintDetails: false,
         showToaster: false,
-        sortBy: ''
+        sortBy: '',
+        allComplaintsPageNo: 1,
+        byUserComplaintsPageNo: 1   
     }
 
 
@@ -66,6 +68,30 @@ class YourComplaints extends Component{
                 this.setState({showToaster: false});
             }
         , 2000);
+    }
+
+    loadPreviousComplaints = ( fetchingCriteria ) => {
+        
+        if(fetchingCriteria==='fetchAll'){
+            this.setState({allComplaintsPageNo: this.state.allComplaintsPageNo-1})
+            setTimeout(()=>this.props.fetchMoreComplaints('','', this.state.allComplaintsPageNo),0)
+        }
+        else{
+            this.setState({byUserComplaintsPageNo: this.state.byUserComplaintsPageNo-1})
+            setTimeout(()=>this.props.fetchMoreComplaintsByUser(this.props.email, '','', this.state.byUserComplaintsPageNo),0);
+        }
+
+    }
+
+    loadMoreComplaints = ( fetchingCriteria ) => {
+        if(fetchingCriteria==='fetchAll'){
+            this.setState({allComplaintsPageNo: this.state.allComplaintsPageNo+1})
+            setTimeout(()=>this.props.fetchMoreComplaints('','', this.state.allComplaintsPageNo),0)
+        }
+        else{
+            this.setState({byUserComplaintsPageNo: this.state.byUserComplaintsPageNo+1})
+            setTimeout(()=>this.props.fetchMoreComplaintsByUser(this.props.email, '','', this.state.byUserComplaintsPageNo),0);
+        }
     }
 
     render(){
@@ -138,7 +164,14 @@ class YourComplaints extends Component{
                         {complaintsData}
                     </tbody>
                 </table>
+                
             </div>
+            <div className={styles.Pagination}>
+                <button disabled={this.state.byUserComplaintsPageNo===1} onClick={()=>this.loadPreviousComplaints('fetchByUser')}><FaArrowLeft /></button>
+                {this.props.byUserComplaintsMessage?this.props.byUserComplaintsMessage:this.state.byUserComplaintsPageNo}
+                <button disabled={this.props.complaintsData.length<10} onClick={()=>this.loadMoreComplaints('fetchByUser')}><FaArrowRight /></button>
+            </div>
+            
             {
                 isSuperAdmin(this.props.role)?
                 <div className={styles.YourComplaints}>
@@ -176,6 +209,11 @@ class YourComplaints extends Component{
                 </table>
             </div>: ''
             }
+            <div className={styles.Pagination}>
+                <button disabled={this.state.allComplaintsPageNo===1} onClick={()=>this.loadPreviousComplaints('fetchAll')}><FaArrowLeft /></button>
+                {this.props.allComplaintsMessage?this.props.allComplaintsMessage:this.state.allComplaintsPageNo}
+                <button disabled={this.props.allComplaintsData.length<10} onClick={()=>this.loadMoreComplaints('fetchAll')}><FaArrowRight /></button>
+            </div>
             </>
         );
     };
@@ -186,14 +224,18 @@ const mapStateToProps = state => {
         role: state.user.userData.role,
         email: state.user.userData.email,
         complaintsData: state.complaints.complaintsData,
-        allComplaintsData: state.complaints.allComplaintsData
+        allComplaintsData: state.complaints.allComplaintsData,
+        allComplaintsMessage: state.complaints.allComplaintsMessage,
+        byUserComplaintsMessage: state.complaints.byUserComplaintsMessage
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return{
         fetchComplaintsByUser: (email, category, sortBy) => dispatch( actions.fetchComplaintsByUser(email, category, sortBy) ),
-        fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints( department, sortBy ) )
+        fetchAllComplaints: ( department, sortBy ) => dispatch( actions.fetchComplaints( department, sortBy ) ),
+        fetchMoreComplaints: ( department, sortBy, pageNo ) => dispatch( actions.fetchMoreComplaints( department, sortBy, pageNo ) ),
+        fetchMoreComplaintsByUser: ( email, department, sortBy, pageNo ) => dispatch( actions.fetchMoreComplaintsByUser( email, department, sortBy, pageNo ) )
     };
 };
 

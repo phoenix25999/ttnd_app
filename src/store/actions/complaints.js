@@ -10,9 +10,9 @@ export const fetchComplaintsSuccess = ( complaintsData ) => {
 
 
 
-export const fetchComplaints = ( department, sortBy ) => {
+export const fetchComplaints = ( department, sortBy, pageNo ) => {
     return dispatch => {
-        axios.get(`http://localhost:5000/complaint?department=${department}&sortBy=${sortBy}`)
+        axios.get(`http://localhost:5000/complaint?department=${department}&sortBy=${sortBy}&pageNo=${pageNo}`)
             .then(res=>{
                 let complaintsArray = [];
                 for(let i in res.data){
@@ -22,6 +22,28 @@ export const fetchComplaints = ( department, sortBy ) => {
                 }
                 dispatch( fetchComplaintsSuccess(complaintsArray) );
             });
+    }
+}
+
+export const fetchMoreComplaintsSuccess = ( complaintsData ) => {
+    return{
+        type: actionTypes.FETCH_MORE_COMPLAINTS_SUCCESS,
+        complaintsData: complaintsData
+    }
+}
+
+export const fetchMoreComplaints = ( department, sortBy, pageNo ) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/complaint?department=${department}&sortBy=${sortBy}&pageNo=${pageNo}`)
+        .then(res=>{
+            let complaintsArray = [];
+            for(let i in res.data){
+                complaintsArray.push({
+                    ...res.data[i]
+                })
+            }
+            dispatch( fetchMoreComplaintsSuccess(complaintsArray) );
+        });
     }
 }
 
@@ -48,6 +70,28 @@ export const fetchComplaintsByUser = (email, category, sortBy) => {
     };
 };
 
+export const fetchMoreComplaintsByUserSuccess = ( complaintsData ) => {
+    return{
+        type: actionTypes.FETCH_MORE_COMPLAINTS_BYUSER_SUCCESS,
+        complaintsData: complaintsData
+    };
+};
+
+export const fetchMoreComplaintsByUser = (email, category, sortBy, pageNo) => {
+    return dispatch => {
+        axios.get(`http://localhost:5000/complaint/${email}?category=${category}&sortBy=${sortBy}&pageNo=${pageNo}`)
+            .then(res=>{
+                let complaintsArray = [];
+                for(let i in res.data){
+                    complaintsArray.push({
+                        ...res.data[i]
+                    })
+                }
+                dispatch( fetchMoreComplaintsByUserSuccess(complaintsArray) )
+            });
+    };
+};
+
 export const fetchAssignedComplaintsSuccess = ( complaintsData ) => {
     return{
         type: actionTypes.FETCH_ASSIGNED_COMPLAINTS_SUCCESS,
@@ -65,7 +109,6 @@ export const fetchAssignedComplaints = ( admin ) => {
                         ...res.data[i]
                     })
                 }
-                console.log(res);
                 dispatch( fetchAssignedComplaintsSuccess(complaintsArray) )
             });
     }

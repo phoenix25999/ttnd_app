@@ -76,6 +76,7 @@ export const fetchAdminsSuccess = ( admins ) => {
 }
 
 export const fetchAdmins = ( department ) => {
+    console.log('here');
     return dispatch => {
         axios.get(`http://localhost:5000/admins/${department}`)
             .then(response=>{
