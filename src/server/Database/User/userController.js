@@ -141,3 +141,24 @@ exports.getAdmins = async (req, res) => {
     res.status(400).send(err);
   }
 }
+
+exports.checkUser = async (req, res) => {
+  try{
+    const user = await userService.checkUser(req.params.email);
+    if(user.error){
+      throw new Error(user.error);
+    }
+    res.send(user);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}
+
+exports.updatePassword = async (req, res) => {
+  try{
+    const updatedPasssword = await userService.updatePassword(req.body);
+    res.send(updatedPasssword);
+  } catch(err){
+    res.status(400).send(err);
+  }
+}

@@ -65,4 +65,28 @@ exports.deleteUser = async ( userID ) => {
 exports.getAdmins = async (department) => {
     const admins = User.find({department: department});
     return admins;
-  }
+}
+
+exports.checkUser = (email) => {
+
+    const user = User.find({email:email})
+        .then(existingUser=>{
+
+            if(existingUser.length){
+                return existingUser;
+            }
+
+            else{
+                return {error: "User doesn't exist"}
+            }
+        });
+    return user;
+}
+
+exports.updatePassword = ({email, password}) => {
+    const hashedPassword = passwordHash.generate(password);
+
+    const updatedPassword = User.updateOne({email: email}, {password: hashedPassword});
+    return updatedPassword; 
+
+}
