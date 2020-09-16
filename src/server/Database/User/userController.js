@@ -148,9 +148,29 @@ exports.checkUser = async (req, res) => {
     if(user.error){
       throw new Error(user.error);
     }
+    const tokenPayload = {
+      userName: user[0].name,
+      email: user[0].email
+    }
+    const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
+    const tokenData = {
+      token: token,
+      name: tokenPayload.userName,
+      email: tokenPayload.email
+    }
+    const redirectURL = url.format({
+      pathname: 'http://localhost:3000/changePassword',
+      query: tokenData
+    });
+    console.log(redirectURL);
+
+    let mailSubject = `Reset Password Request`;
+    let mailBody = `Hello, Use the below link to reset your password, if not requested by you contact support.
+                    ${redirectURL}`
+    sendMail(user[0].email, mailSubject, mailBody);
     res.send(user);
   } catch(err){
-    res.status(400).send(err);
+    res.status(400).json({message: err.message});
   }
 }
 

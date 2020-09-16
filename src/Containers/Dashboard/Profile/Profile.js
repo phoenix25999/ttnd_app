@@ -71,10 +71,37 @@ class Profile extends Component{
                 validation:{},
                 valid: true,
                 touched: false
-            }
+            },
         },
         formIsValid: false,
-        showToaster: false
+        showToaster: false,
+        passwordForm: {
+            old: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            },
+            new: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            },
+            repeated: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            }
+        },
+        passwordFormIsValid: false
     }
 
     componentDidMount(){
@@ -122,6 +149,31 @@ class Profile extends Component{
         this.setState({userForm: updatedUserForm, formIsValid: formIsValid});
     }
 
+    passwordHandler = (event, inputIdentifier) => {
+       
+        const updatedPasswordForm = {
+            ...this.state.passwordForm
+        };
+
+        const updatedFormElement = {
+            ...updatedPasswordForm[inputIdentifier]
+        }
+
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+
+        updatedPasswordForm[inputIdentifier] = updatedFormElement;
+
+        let formIsValid = true;
+
+        for( let inputIdentifier in updatedPasswordForm ){
+            formIsValid = updatedPasswordForm[inputIdentifier].valid && formIsValid;
+        }
+        
+        this.setState({passwordForm: updatedPasswordForm, passwordFormIsValid: formIsValid});
+    }
+
     onSubmitHandler = (event) => {
         event.preventDefault();
 
@@ -165,7 +217,7 @@ class Profile extends Component{
                         <p>About</p>
                         <p>{this.props.userData.about}</p>
                     </div>
-
+                    <div className={styles.Wrapper}>
                     <div className={styles.EditProfile}>
                         <h3>Update Profile</h3>
                         <form  method="post" encType="multipart/form-data" onSubmit={this.onSubmitHandler}>
@@ -238,8 +290,34 @@ class Profile extends Component{
                         </form>
                     </div>
                     {this.state.showToaster?<Toaster message='Changes saved successfully!' />:''}
+                    <div className={styles.EditProfile}>
+                        <h3>Update Password</h3>
+                        <form  method="post" encType="multipart/form-data" onSubmit={this.onSubmitHandler}>
+                            <div >
+                                <div>
+                                    <label>Old Password</label>
+                                    <input type='password' value={this.state.passwordForm.old.value} onChange={(e)=>this.inputChangeHandler(e, 'old')}/>
+                                    {!this.state.passwordForm.old.valid && this.state.passwordForm.old.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                                <div>
+                                    <label>New Password</label>
+                                    <input type='password' value={this.state.passwordForm.new.value} onChange={(e)=>this.inputChangeHandler(e, 'new')}/>
+                                    {!this.state.passwordForm.new.valid && this.state.passwordForm.new.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                                <div>
+                                    <label>Confirm New Password</label>
+                                    <input type='password' value={this.state.passwordForm.repeated.value} onChange={(e)=>this.inputChangeHandler(e, 'repeated')} />
+                                    {!this.state.passwordForm.repeated.valid && this.state.passwordForm.repeated.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                            </div>
+                        </form>
             </div>
-        </div>
+            </div>
+                    {this.state.showToaster?<Toaster message='Changes saved successfully!' />:''}
+            </div>
+
+            
+            </div>
         )
     }
 }
