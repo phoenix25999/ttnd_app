@@ -15,7 +15,8 @@ exports.addUser = async ( req, res ) => {
     password: req.body.password,
     role: req.body.role,
     gender: req.body.gender,
-    picture: profilePic
+    picture: profilePic,
+    strategy: 'LOCAL'
   }
 
   if(req.body.department){
@@ -39,7 +40,7 @@ exports.addUser = async ( req, res ) => {
 
 exports.loginUser = async (req, res) => {
   try{
-    const loggedinUser = await userService.loginUser(res, req.body);
+    const loggedinUser = await userService.loginUser(req.body);
     if(loggedinUser.error){
       throw new Error(loggedinUser.error);
     }
@@ -175,10 +176,14 @@ exports.checkUser = async (req, res) => {
 }
 
 exports.updatePassword = async (req, res) => {
+  
   try{
     const updatedPasssword = await userService.updatePassword(req.body);
+    if(updatedPasssword.error){
+      throw new Error(updatedPasssword.error);
+    }
     res.send(updatedPasssword);
   } catch(err){
-    res.status(400).send(err);
+    res.status(400).json({message: err.message});
   }
 }

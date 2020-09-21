@@ -2,7 +2,6 @@ const User = require('./userModel');
 const passwordHash = require('password-hash');
 
 exports.addUser = (newUser) => {
-
     const user = User.find({email:newUser.email})
         .then(existingUser=>{
 
@@ -18,7 +17,7 @@ exports.getUserRole = async (email) => {
     return userRole;
 };
 
-exports.loginUser = (res, loginDetails) => {
+exports.loginUser = (loginDetails) => {
     const user = User.find({email: loginDetails.email}, {password: 1, _id: 0})
         .then(async existingPassword=>{
             if(existingPassword.length){
@@ -27,7 +26,7 @@ exports.loginUser = (res, loginDetails) => {
                 }
 
                 else{
-                    return {error: 'Wrong credentials'}
+                    return {error: 'Wrong credentials'};
                 }
             }
             else{
@@ -83,10 +82,35 @@ exports.checkUser = (email) => {
     return user;
 }
 
-exports.updatePassword = ({email, password}) => {
-    const hashedPassword = passwordHash.generate(password);
+exports.updatePassword = async (userInfo) => {
 
-    const updatedPassword = User.updateOne({email: email}, {password: hashedPassword});
-    return updatedPassword; 
+    const hashedPassword = passwordHash.generate(userInfo.password);
+    
+    if(userInfo.oldPassword){
+        const verifyUser = User.find({email: userInfo.email}, {password: 1, _id: 0})
+        .then(async existingPassword=>{
+            
+            if(existingPassword.length){
+                if(passwordHash.verify(userInfo.oldPassword, existingPassword[0].password)){
+                    
+                    return User.updateOne({email: userInfo.email}, {password: hashedPassword},{password: 0});
+                }
+
+                else{
+                    console.log('here');
+                    return {error: 'Old password is not valid'};
+                }
+            }
+        })
+        .catch(err=>err);
+
+        return verifyUser;
+    }
+
+    else{
+        
+        const updatedPassword = User.updateOne({email: userInfo.email}, {password: hashedPassword});
+        return updatedPassword; 
+    }
 
 }
