@@ -112,6 +112,7 @@ const Login = ( ) => {
                     <p>{error}</p>
                     <button>Login</button>
                 </form>
+                <NavLink to='/recovery'>Forgot Password?</NavLink>
                 <NavLink to='/signup'>Don't have an account? Sign Up</NavLink>
             </div>
         </>

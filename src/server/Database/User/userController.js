@@ -15,7 +15,8 @@ exports.addUser = async ( req, res ) => {
     password: req.body.password,
     role: req.body.role,
     gender: req.body.gender,
-    picture: profilePic
+    picture: profilePic,
+    strategy: 'LOCAL'
   }
 
   if(req.body.department){
@@ -39,7 +40,7 @@ exports.addUser = async ( req, res ) => {
 
 exports.loginUser = async (req, res) => {
   try{
-    const loggedinUser = await userService.loginUser(res, req.body);
+    const loggedinUser = await userService.loginUser(req.body);
     if(loggedinUser.error){
       throw new Error(loggedinUser.error);
     }
@@ -139,5 +140,50 @@ exports.getAdmins = async (req, res) => {
     res.send(admins);
   } catch(err){
     res.status(400).send(err);
+  }
+}
+
+exports.checkUser = async (req, res) => {
+  try{
+    const user = await userService.checkUser(req.params.email);
+    if(user.error){
+      throw new Error(user.error);
+    }
+    const tokenPayload = {
+      userName: user[0].name,
+      email: user[0].email
+    }
+    const token = jwt.sign(tokenPayload, keys.JWT.TOKEN_SECRET, {expiresIn: '60m'} );
+    const tokenData = {
+      token: token,
+      name: tokenPayload.userName,
+      email: tokenPayload.email
+    }
+    const redirectURL = url.format({
+      pathname: 'http://localhost:3000/changePassword',
+      query: tokenData
+    });
+    console.log(redirectURL);
+
+    let mailSubject = `Reset Password Request`;
+    let mailBody = `Hello, Use the below link to reset your password, if not requested by you contact support.
+                    ${redirectURL}`
+    sendMail(user[0].email, mailSubject, mailBody);
+    res.send(user);
+  } catch(err){
+    res.status(400).json({message: err.message});
+  }
+}
+
+exports.updatePassword = async (req, res) => {
+  
+  try{
+    const updatedPasssword = await userService.updatePassword(req.body);
+    if(updatedPasssword.error){
+      throw new Error(updatedPasssword.error);
+    }
+    res.send(updatedPasssword);
+  } catch(err){
+    res.status(400).json({message: err.message});
   }
 }

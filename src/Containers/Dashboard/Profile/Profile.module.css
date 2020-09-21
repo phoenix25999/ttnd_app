@@ -38,11 +38,14 @@
     color: #5a5a5a;
 }
 
+.Wrapper{
+    width: 50%;
+}
 
 .EditProfile{
     text-align: left;
     background: #fff;
-    width: 50%;
+    /* width: 50%; */
     border: 1px solid #ccc;
     border-radius: 7px;
     box-shadow:  0 0 4px #ccc;

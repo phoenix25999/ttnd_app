@@ -71,10 +71,38 @@ class Profile extends Component{
                 validation:{},
                 valid: true,
                 touched: false
-            }
+            },
         },
         formIsValid: false,
-        showToaster: false
+        showToaster: false,
+        passwordForm: {
+            old: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            },
+            new: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            },
+            repeated: {
+                value: '',
+                validation:{
+                    isPassword: true
+                },
+                valid: false,
+                touched: false
+            }
+        },
+        passwordFormIsValid: false,
+        error: ''
     }
 
     componentDidMount(){
@@ -122,6 +150,31 @@ class Profile extends Component{
         this.setState({userForm: updatedUserForm, formIsValid: formIsValid});
     }
 
+    passwordHandler = (event, inputIdentifier) => {
+       
+        const updatedPasswordForm = {
+            ...this.state.passwordForm
+        };
+
+        const updatedFormElement = {
+            ...updatedPasswordForm[inputIdentifier]
+        }
+
+        updatedFormElement.value = event.target.value;
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
+        updatedFormElement.touched = true;
+
+        updatedPasswordForm[inputIdentifier] = updatedFormElement;
+
+        let formIsValid = true;
+
+        for( let inputIdentifier in updatedPasswordForm ){
+            formIsValid = updatedPasswordForm[inputIdentifier].valid && formIsValid;
+        }
+        
+        this.setState({passwordForm: updatedPasswordForm, passwordFormIsValid: formIsValid});
+    }
+
     onSubmitHandler = (event) => {
         event.preventDefault();
 
@@ -148,6 +201,39 @@ class Profile extends Component{
             .catch(error=>alert(error.message));
     }
 
+    updatePassword = ( event ) => {
+        event.preventDefault();
+
+        if(this.state.passwordForm.new.value!==this.state.passwordForm.repeated.value){
+            this.setState({error: 'Passwords do not match'});
+        }
+
+        if(!(this.state.passwordForm.new.value!==this.state.passwordForm.repeated.value)){
+
+                let userInfo = {
+                    email: this.props.userData.email,
+                    oldPassword: this.state.passwordForm.old.value,
+                    password: this.state.passwordForm.new.value
+                }
+
+                axios.patch(`http://localhost:5000/updatePassword`, userInfo )
+                    .then(res=>{
+                        const updatedPasswordForm = {
+                            ...this.state.passwordForm
+                          };
+                  
+                          for(let formElementIdentifier in updatedPasswordForm){
+                            updatedPasswordForm[formElementIdentifier].value='';
+                          }
+                        this.setState({passwordForm: updatedPasswordForm, showToaster: true, error: ''});
+                        setTimeout(()=>this.setState({showToaster: false}), 2000);
+                    })
+                    .catch(err=>{
+                        this.setState({error: err.response.data.message});
+                    });
+        }
+    }
+
     render(){
 
         let errorMessage = 'Please enter a valid data';
@@ -165,7 +251,7 @@ class Profile extends Component{
                         <p>About</p>
                         <p>{this.props.userData.about}</p>
                     </div>
-
+                    <div className={styles.Wrapper}>
                     <div className={styles.EditProfile}>
                         <h3>Update Profile</h3>
                         <form  method="post" encType="multipart/form-data" onSubmit={this.onSubmitHandler}>
@@ -215,17 +301,17 @@ class Profile extends Component{
                             <div className={styles.Gender}>
                                 <div>
                                     <input type="radio" value='male' id="male" name="gender" onChange={(e)=>this.inputChangeHandler(e, 'gender')} checked={this.state.userForm.gender.value==='male'?true:false} />
-                                    <label for="male">Male</label>
+                                    <label htmlFor="male">Male</label>
                                 </div>
 
                                 <div>
                                     <input type="radio" value='female' id="female" name="gender" onChange={(e)=>this.inputChangeHandler(e, 'gender')} checked={this.state.userForm.gender.value==='female'?true:false} />
-                                    <label for="female">Female</label>
+                                    <label htmlFor="female">Female</label>
                                 </div>
 
                                 <div>
                                     <input type="radio" value='other' id="other" name="gender"  onChange={(e)=>this.inputChangeHandler(e, 'gender')} checked={this.state.userForm.gender.value==='other'?true:false} />
-                                    <label for="other">Other</label>
+                                    <label htmlFor="other">Other</label>
                                 </div>
                             </div>
 
@@ -238,8 +324,36 @@ class Profile extends Component{
                         </form>
                     </div>
                     {this.state.showToaster?<Toaster message='Changes saved successfully!' />:''}
+                    {this.props.userData.strategy==='LOCAL'?<div className={styles.EditProfile}>
+                        <h3>Update Password</h3>
+                        <form  method="post" encType="multipart/form-data" onSubmit={this.updatePassword}>
+                            <div >
+                                <div>
+                                    <label>Old Password</label>
+                                    <input type='password' value={this.state.passwordForm.old.value} onChange={(e)=>this.passwordHandler(e, 'old')}/>
+                                    {!this.state.passwordForm.old.valid && this.state.passwordForm.old.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                                <div>
+                                    <label>New Password</label>
+                                    <input type='password' value={this.state.passwordForm.new.value} onChange={(e)=>this.passwordHandler(e, 'new')}/>
+                                    {!this.state.passwordForm.new.valid && this.state.passwordForm.new.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                                <div>
+                                    <label>Confirm New Password</label>
+                                    <input type='password' value={this.state.passwordForm.repeated.value} onChange={(e)=>this.passwordHandler(e, 'repeated')} />
+                                    {!this.state.passwordForm.repeated.valid && this.state.passwordForm.repeated.touched ? <p>{errorMessage}</p> : ''}
+                                </div>
+                                <p>{this.state.error}</p>
+                                <button disabled={!this.state.passwordFormIsValid}>Updatee</button>
+                            </div>
+                        </form>
+            </div>:''}
             </div>
-        </div>
+                    {this.state.showToaster?<Toaster message='Changes saved successfully!' />:''}
+            </div>
+
+            
+            </div>
         )
     }
 }

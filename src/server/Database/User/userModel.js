@@ -18,12 +18,18 @@ const userSchema = new mongoose.Schema({
     department: {
         type: String,
         enum: ['Hardware', 'Infra', 'Others']
+    },
+    strategy: {
+        type: String,
+        enum: ['GOOGLE', 'LOCAL']
     }
 });
 
 userSchema.pre('save', function(next){
+    if(this.password){
     const hashedPassword = passwordHash.generate(this.password);
     this.set({password: hashedPassword});
+    }
     next();
 })
 

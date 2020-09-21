@@ -16,6 +16,8 @@ router.get('/users/:userID', userController.getAllUsersDetails);
 router.delete('/user/:userID', userController.deleteUser);
 
 router.get('/admins/:department', userController.getAdmins);
+router.get('/recovery/:email', userController.checkUser);
+router.patch('/updatePassword', userController.updatePassword);
 
 
 module.exports = router;
